@@ -7,11 +7,28 @@ import {
 import { pagefindPlugin } from 'vitepress-plugin-pagefind'
 import { AnnouncementPlugin } from 'vitepress-plugin-announcement'
 import { withPwa } from '@vite-pwa/vitepress'
+import { RSSOptions, RssPlugin } from 'vitepress-plugin-rss'
 
 const SITE_URL = 'https://halolight.docs.h7ml.cn'
 const SITE_TITLE = 'HaloLight'
 const SITE_DESCRIPTION = 'HaloLight 多框架管理后台解决方案文档 - 一套设计规范，多框架实现的企业级 Admin Dashboard，支持 Next.js、Vue、Angular 等 12 种框架'
 const SITE_KEYWORDS = 'HaloLight,Admin,Dashboard,管理后台,Next.js,Vue,React,Angular,TypeScript,Tailwind CSS,shadcn/ui,企业级,多框架'
+
+// RSS 配置
+const rssOptions: RSSOptions = {
+  title: SITE_TITLE,
+  baseUrl: SITE_URL,
+  copyright: `Copyright © ${new Date().getFullYear()} h7ml & HaloLight`,
+  description: SITE_DESCRIPTION,
+  language: 'zh-CN',
+  author: {
+    name: 'h7ml',
+    email: 'h7ml@qq.com',
+    link: 'https://github.com/h7ml',
+  },
+  icon: true,
+  filename: 'feed.xml',
+}
 
 export default withPwa(defineConfig({
   title: SITE_TITLE,
@@ -89,6 +106,7 @@ export default withPwa(defineConfig({
   vite: {
     plugins: [
       groupIconVitePlugin(),
+      RssPlugin(rssOptions),
       pagefindPlugin({
         btnPlaceholder: '搜索文档',
         placeholder: '搜索文档',
@@ -239,10 +257,7 @@ export default withPwa(defineConfig({
       { icon: 'github', link: 'https://github.com/halolight' },
     ],
 
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2025 HaloLight',
-    },
+    // 使用自定义 Footer.vue 组件，不需要默认 footer
 
     outline: {
       label: '页面导航',
