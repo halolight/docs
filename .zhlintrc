@@ -1,0 +1,17 @@
+{
+  "preset": "default",
+  "rules": {
+    "halfwidth-punctuation": true,
+    "fullwidth-punctuation": true,
+    "unify-punctuation": true,
+    "space-bracket": true,
+    "space-punctuation": true,
+    "case-abbrs": true,
+    "space-full-width-content": {
+      "oneEnglishSpace": true
+    },
+    "space-letters": true,
+    "space-operators": false,
+    "case-traditional": false
+  }
+}
