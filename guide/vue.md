@@ -18,7 +18,7 @@ HaloLight Vue 版本基于 Vue 3.5 + Vite 7 构建，采用 Composition API + Ty
 | TanStack Query | 5.x | 服务端状态 |
 | VeeValidate | 4.x | 表单验证 |
 | Zod | 3.x | 数据验证 |
-| Tailwind CSS | 3.x | 原子化 CSS |
+| Tailwind CSS | 4.x | 原子化 CSS |
 | shadcn-vue | latest | UI 组件库 |
 | grid-layout-plus | 1.x | 拖拽布局 |
 | ECharts | 5.x | 图表可视化 |
@@ -112,9 +112,14 @@ cp .env.example .env.local
 ```
 
 ```env
-# .env.local
-VITE_API_BASE_URL=http://localhost:5173/api
-VITE_ENABLE_MOCK=true
+# .env.local 示例
+VITE_API_URL=/api
+VITE_USE_MOCK=true
+VITE_APP_TITLE=Admin Pro
+VITE_BRAND_NAME=Halolight
+VITE_DEMO_EMAIL=admin@example.com
+VITE_DEMO_PASSWORD=123456
+VITE_SHOW_DEMO_HINT=true
 ```
 
 ### 启动开发

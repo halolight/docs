@@ -13,9 +13,9 @@ HaloLight Next.js 版本基于 Next.js 14 App Router 构建，采用 React 18 + 
 | Next.js | 14.x | React 全栈框架 |
 | React | 18.x | UI 库 |
 | TypeScript | 5.x | 类型安全 |
-| Tailwind CSS | 3.x | 原子化 CSS |
+| Tailwind CSS | 4.x | 原子化 CSS |
 | shadcn/ui | latest | UI 组件库 |
-| Zustand | 4.x | 状态管理 |
+| Zustand | 5.x | 状态管理 |
 | TanStack Query | 5.x | 服务端状态 |
 | React Hook Form | 7.x | 表单处理 |
 | Zod | 3.x | 数据验证 |
@@ -107,9 +107,15 @@ cp .env.example .env.local
 ```
 
 ```env
-# .env.local
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
-NEXT_PUBLIC_ENABLE_MOCK=true
+# .env.local 示例
+NEXT_PUBLIC_API_URL=/api
+NEXT_PUBLIC_MOCK=false
+NEXT_PUBLIC_DEMO_EMAIL=admin@example.com
+NEXT_PUBLIC_DEMO_PASSWORD=123456
+NEXT_PUBLIC_SHOW_DEMO_HINT=false
+NEXT_PUBLIC_WS_URL=
+NEXT_PUBLIC_APP_TITLE=Admin Pro
+NEXT_PUBLIC_BRAND_NAME=Halolight
 ```
 
 ### 启动开发

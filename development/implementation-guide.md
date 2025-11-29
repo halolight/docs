@@ -2,6 +2,13 @@
 
 本指南帮助开发者为 HaloLight 创建新的框架版本实现。
 
+## 共用约束
+
+- **数据模拟**：使用 Mock.js 结合 `fetch` 拦截，行为与 `halolight/src/mock` 对齐 (响应格式、延时、错误码)
+- **认证流程**：登录/注册/忘记密码/重置密码参考 `halolight/src/app/(auth)` 的页面流与校验逻辑
+- **环境变量**：各框架复用同一变量命名 (如 `*_API_URL`、`*_USE_MOCK`、`*_DEMO_*`、`*_BRAND_NAME`)，保持文档一致
+- **CI/CD 与测试**：沿用通用工作流 (lint + type-check + test + build + security)，保留单元测试与覆盖率任务
+
 ## 实现清单
 
 ### 第一阶段：项目初始化
@@ -18,18 +25,15 @@
 - [ ] 创建目录结构
 - [ ] 实现 API 服务层
 - [ ] 配置 TanStack Query
-- [ ] 设置 Mock.js
+- [ ] 设置 Mock.js fetch 拦截 (复用 `halolight/src/mock` 数据结构)
 - [ ] 实现状态管理 Store
 
 ### 第三阶段：认证系统
 
-- [ ] 登录页面
-- [ ] 注册页面
-- [ ] 忘记密码页面
-- [ ] 重置密码页面
-- [ ] Auth Store
+- [ ] 登录/注册/忘记密码/重置密码页面 (参考 Next.js 版本交互)
+- [ ] Auth Store (含 Token 持久化)
 - [ ] 路由守卫
-- [ ] Token 管理
+- [ ] 权限检查 (页面级与按钮级)
 
 ### 第四阶段：布局组件
 
@@ -57,6 +61,7 @@
 - [ ] 多语言 (可选)
 - [ ] 响应式适配
 - [ ] 错误边界
+- [ ] CI/CD (lint、type-check、test、build、security) 与覆盖率报告
 
 ## 快速开始
 

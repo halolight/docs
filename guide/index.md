@@ -34,20 +34,25 @@ HaloLight 采用 “一套设计规范，多框架实现” 的理念，为开�
 
 ## 框架实现
 
+全部框架版本均已实现并部署 (预览地址见各自仓库 README)。当前作为规范基准的参考实现：
+
+- Next.js 14：[预览](https://halolight.h7ml.cn/) · [GitHub](https://github.com/halolight/halolight)
+- Vue 3.5：[预览](https://halolight-vue.h7ml.cn/) · [GitHub](https://github.com/halolight/halolight-vue)
+
 | 框架 | 状态 | 预览 | 仓库 |
 |------|------|------|------|
-| Next.js 14 | ✅ 已完成 | [预览](https://halolight.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight) |
-| Vue 3.5 | ✅ 已完成 | [预览](https://halolight-vue.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-vue) |
-| Angular 21 | 🚧 开发中 | - | [GitHub](https://github.com/halolight/halolight-angular) |
-| Nuxt 4 | 🚧 开发中 | - | [GitHub](https://github.com/halolight/halolight-nuxt) |
-| SvelteKit 2 | 🚧 开发中 | - | [GitHub](https://github.com/halolight/halolight-svelte) |
-| Astro 5 | 🚧 开发中 | - | [GitHub](https://github.com/halolight/halolight-astro) |
-| Solid.js | 🚧 开发中 | - | [GitHub](https://github.com/halolight/halolight-solid) |
-| Qwik | 🚧 开发中 | - | [GitHub](https://github.com/halolight/halolight-qwik) |
-| Remix | 🚧 开发中 | - | [GitHub](https://github.com/halolight/halolight-remix) |
-| Preact | 🚧 开发中 | - | [GitHub](https://github.com/halolight/halolight-preact) |
-| Lit | 🚧 开发中 | - | [GitHub](https://github.com/halolight/halolight-lit) |
-| Fresh (Deno) | 🚧 开发中 | - | [GitHub](https://github.com/halolight/halolight-fresh) |
+| Next.js 14 | ✅ 已部署 | [预览](https://halolight.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight) |
+| Vue 3.5 | ✅ 已部署 | [预览](https://halolight-vue.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-vue) |
+| Angular 21 | ✅ 已部署 | [预览](https://halolight-angular.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-angular) |
+| Nuxt 4 | ✅ 已部署 | [预览](https://halolight-nuxt.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-nuxt) |
+| SvelteKit 2 | ✅ 已部署 | [预览](https://halolight-svelte.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-svelte) |
+| Astro 5 | ✅ 已部署 | [预览](https://halolight-astro.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-astro) |
+| Solid.js | ✅ 已部署 | [预览](https://halolight-solid.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-solid) |
+| Qwik | ✅ 已部署 | [预览](https://halolight-qwik.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-qwik) |
+| Remix | ✅ 已部署 | [预览](https://halolight-remix.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-remix) |
+| Preact | ✅ 已部署 | [预览](https://halolight-preact.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-preact) |
+| Lit | ✅ 已部署 | [预览](https://halolight-lit.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-lit) |
+| Fresh (Deno) | ✅ 已部署 | [预览](https://halolight-fresh.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-fresh) |
 
 ## 技术栈
 

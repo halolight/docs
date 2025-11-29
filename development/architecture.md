@@ -241,3 +241,7 @@ components/
 # 2个以上组件使用 → 提取到 components/shared/
 # 3个以上地方使用 → 提取到 lib/ 或 utils/
 ```
+
+### 2。规范先行
+
+新增或调整功能时，先在 `halolight/docs` 明确接口、约束和目录，再同步到 `halolight` 与 `halolight-vue`，避免各实现分叉。
