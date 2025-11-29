@@ -185,7 +185,10 @@ export default withPwa(defineConfig({
       ],
     },
     workbox: {
-      globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,woff2}'],
+      // 排除 HTML 文件，避免缓存导致部署后不更新
+      globPatterns: ['**/*.{css,js,svg,png,ico,txt,woff2}'],
+      // HTML 使用 NetworkFirst 策略，优先获取最新版本
+      navigateFallback: undefined,
       runtimeCaching: [
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
