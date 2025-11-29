@@ -14,6 +14,9 @@ const SITE_TITLE = 'HaloLight'
 const SITE_DESCRIPTION = 'HaloLight 多框架管理后台解决方案文档 - 一套设计规范，多框架实现的企业级 Admin Dashboard，支持 Next.js、Vue、Angular 等 12 种框架'
 const SITE_KEYWORDS = 'HaloLight,Admin,Dashboard,管理后台,Next.js,Vue,React,Angular,TypeScript,Tailwind CSS,shadcn/ui,企业级,多框架'
 
+// 通过环境变量设置 base，默认为 '/'，GitHub Pages 部署时设置为 '/halolight/'
+const BASE_URL = process.env.VITEPRESS_BASE || '/'
+
 // RSS 配置
 const rssOptions: RSSOptions = {
   title: SITE_TITLE,
@@ -34,7 +37,7 @@ export default withPwa(defineConfig({
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   lang: 'zh-CN',
-  base: '/',
+  base: BASE_URL,
   lastUpdated: true,
   ignoreDeadLinks: true,
   cleanUrls: true,

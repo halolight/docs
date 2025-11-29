@@ -81,6 +81,8 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          VITEPRESS_BASE: /halolight/
 
       - name: Deploy to halolight/halolight gh-pages
         uses: peaceiris/actions-gh-pages@v4
