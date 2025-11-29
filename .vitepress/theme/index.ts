@@ -7,6 +7,7 @@ import { enhanceAppWithTabs } from 'vitepress-plugin-tabs/client'
 import NotFound from './NotFound.vue'
 import Footer from './Footer.vue'
 import Comment from './Comment.vue'
+import BackToTop from './BackToTop.vue'
 import './custom.css'
 
 export default {
@@ -16,6 +17,7 @@ export default {
       'not-found': () => h(NotFound),
       'layout-bottom': () => h(Footer),
       'doc-after': () => h(Comment),
+      'aside-outline-after': () => h(BackToTop),
     })
   },
   enhanceApp({ app }) {

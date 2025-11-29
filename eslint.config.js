@@ -22,6 +22,8 @@ export default [
         setTimeout: 'readonly',
         clearTimeout: 'readonly',
         console: 'readonly',
+        performance: 'readonly',
+        requestAnimationFrame: 'readonly',
       },
     },
     plugins: {

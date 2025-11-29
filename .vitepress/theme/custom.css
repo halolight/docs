@@ -1,5 +1,12 @@
 /* 自定义样式 */
 
+/* 中文排版优化 - 自动间距 */
+@supports (text-autospace: normal) {
+  :root {
+    text-autospace: normal;
+  }
+}
+
 /* 品牌色调整 */
 :root {
   --vp-c-brand-1: #5b8def;

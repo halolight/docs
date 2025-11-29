@@ -55,7 +55,11 @@
   "packageManager": "pnpm@9.15.0",
   "dependencies": {
     "@giscus/vue": "^3.1.1",
+    "@vite-pwa/vitepress": "^1.1.0",
+    "feed": "^5.1.0",
     "pagefind": "^1.4.0",
+    "sitemap": "^9.0.0",
+    "vite-plugin-pwa": "^1.2.0",
     "vitepress-plugin-announcement": "^0.1.5",
     "vitepress-plugin-pagefind": "^0.4.16"
   }
