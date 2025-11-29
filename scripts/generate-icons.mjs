@@ -1,6 +1,8 @@
 #!/usr/bin/env node
+/* eslint-env node */
+/* global console */
 import sharp from 'sharp'
-import { readFileSync, mkdirSync } from 'fs'
+import { readFileSync } from 'fs'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
