@@ -577,15 +577,112 @@ deno task start
 
 ## 测试
 
+项目使用 Deno 内置测试框架，测试文件位于 `tests/` 目录。
+
+### 测试结构
+
+```
+tests/
+├── setup.ts              # 测试环境设置
+│   ├── localStorage mock
+│   ├── sessionStorage mock
+│   ├── matchMedia mock
+│   └── 辅助函数（createMockUser, mockAuthenticatedState 等）
+└── lib/
+    ├── utils.test.ts     # 工具函数测试
+    ├── config.test.ts    # 配置测试
+    └── stores.test.ts    # 状态管理测试
+```
+
+### 运行测试
+
 ```bash
-# 运行测试
-deno test
+# 运行所有测试
+deno task test
 
-# 带覆盖率
-deno test --coverage=coverage
+# 监视模式
+deno task test:watch
 
-# 生成报告
-deno coverage coverage --lcov > coverage.lcov
+# 测试覆盖率
+deno task test:coverage
+
+# 覆盖率报告输出到 coverage/lcov.info
+```
+
+### 测试示例
+
+```ts
+// tests/lib/config.test.ts
+import { assertEquals, assertExists } from "$std/assert/mod.ts";
+import "../setup.ts";
+
+import { hasPermission } from "../../lib/config.ts";
+import type { Permission } from "../../lib/types.ts";
+
+Deno.test("hasPermission - 权限检查", async (t) => {
+  const userPermissions: Permission[] = ["dashboard:view", "users:view"];
+
+  await t.step("应该返回 true 当用户有权限时", () => {
+    const result = hasPermission(userPermissions, "dashboard:view");
+    assertEquals(result, true);
+  });
+
+  await t.step("应该支持通配符权限", () => {
+    const adminPermissions: Permission[] = ["*"];
+    const result = hasPermission(adminPermissions, "dashboard:view");
+    assertEquals(result, true);
+  });
+});
+```
+
+## CI/CD
+
+项目使用 GitHub Actions 进行持续集成，配置文件位于 `.github/workflows/ci.yml`。
+
+### 工作流任务
+
+| 任务 | 说明 | 触发条件 |
+|------|------|----------|
+| lint | 格式检查、代码检查、类型检查 | push/PR |
+| test | 运行测试并上传覆盖率 | push/PR |
+| build | 生产构建验证 | lint/test 通过后 |
+| security | Deno 安全审计 | push/PR |
+| dependency-review | 依赖安全审查 | PR only |
+
+### 本地 CI 命令
+
+```bash
+# 运行完整 CI 检查
+deno task ci
+
+# 等同于
+deno task fmt:check && deno task lint && deno task check && deno task test
+```
+
+### 代码质量配置
+
+```json
+// deno.json
+{
+  "lint": {
+    "rules": {
+      "tags": ["recommended"],
+      "exclude": [
+        "no-explicit-any",
+        "explicit-function-return-type",
+        "explicit-module-boundary-types",
+        "jsx-button-has-type",
+        "no-unused-vars"
+      ]
+    }
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "singleQuote": false,
+    "semiColons": true
+  }
+}
 ```
 
 ## 与其他版本对比
