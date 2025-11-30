@@ -1,6 +1,6 @@
 # Nuxt 版本
 
-HaloLight Nuxt 版本基于 Nuxt 4 构建，采用 Vue 3.5 + Composition API + TypeScript，开箱即用的全栈开发体验。
+Halolight Nuxt 版本基于 Nuxt 3 构建，采用 Vue 3.5 + Composition API + TypeScript，开箱即用的全栈开发体验。
 
 **在线预览**：[https://halolight-nuxt.h7ml.cn/](https://halolight-nuxt.h7ml.cn/)
 
@@ -10,16 +10,12 @@ HaloLight Nuxt 版本基于 Nuxt 4 构建，采用 Vue 3.5 + Composition API + T
 
 | 技术 | 版本 | 说明 |
 |------|------|------|
-| Nuxt | 4.x | Vue 全栈框架 |
+| Nuxt | 3.10 | Vue 全栈框架 |
 | Vue | 3.5+ | 渐进式框架 |
-| TypeScript | 5.x | 类型安全 |
-| Tailwind CSS | 4.x | 原子化 CSS |
-| Nuxt UI | 3.x | UI 组件库 |
-| Pinia | 3.x | 状态管理 |
-| VueUse | 12.x | 组合式工具库 |
-| Zod | 3.x | 数据验证 |
-| VueUse Gesture | latest | 手势交互 |
-| ECharts | 5.x | 图表可视化 |
+| TypeScript | 5.7 | 类型安全 |
+| Tailwind CSS | 3.x (CDN) | 原子化 CSS |
+| Pinia | 0.5 | 状态管理 |
+| VueUse | 10.x | 组合式工具库 |
 | Mock.js | 1.x | 数据模拟 |
 
 ## 核心特性
@@ -35,65 +31,55 @@ HaloLight Nuxt 版本基于 Nuxt 4 构建，采用 Vue 3.5 + Composition API + T
 
 ```
 halolight-nuxt/
-├── app/
-│   ├── pages/                     # 文件路由
-│   │   ├── index.vue             # 首页
-│   │   ├── auth/                 # 认证页面
-│   │   │   ├── login.vue
-│   │   │   ├── register.vue
-│   │   │   ├── forgot-password.vue
-│   │   │   └── reset-password.vue
-│   │   └── dashboard/            # 仪表盘页面
-│   │       ├── index.vue
-│   │       ├── users/
-│   │       ├── roles/
-│   │       ├── permissions/
-│   │       ├── settings/
-│   │       └── profile.vue
-│   ├── components/               # 自动导入组件
-│   │   ├── ui/                   # UI 组件
-│   │   ├── layout/               # 布局组件
-│   │   │   ├── AdminLayout.vue
-│   │   │   ├── AuthLayout.vue
-│   │   │   ├── Sidebar.vue
-│   │   │   └── Header.vue
-│   │   ├── dashboard/            # 仪表盘组件
-│   │   │   ├── DashboardGrid.vue
-│   │   │   ├── WidgetWrapper.vue
-│   │   │   ├── StatsWidget.vue
-│   │   │   └── ChartWidget.vue
-│   │   └── shared/               # 共享组件
-│   ├── composables/              # 组合式函数
-│   │   ├── useAuth.ts
-│   │   ├── usePermission.ts
-│   │   ├── useTheme.ts
-│   │   └── useDashboard.ts
-│   ├── layouts/                  # 布局
-│   │   ├── default.vue
-│   │   ├── auth.vue
-│   │   └── dashboard.vue
-│   └── middleware/               # 中间件
-│       ├── auth.ts
-│       └── permission.ts
-├── server/                       # 服务端
-│   ├── api/                      # API 路由
-│   │   ├── auth/
-│   │   │   ├── login.post.ts
-│   │   │   ├── register.post.ts
-│   │   │   └── me.get.ts
-│   │   └── users/
-│   ├── middleware/               # 服务端中间件
-│   └── utils/                    # 服务端工具
-├── stores/                       # Pinia stores
+├── nuxt.config.ts              # Nuxt 配置
+├── app.vue                     # 应用根组件
+├── pages/                      # 文件路由
+│   ├── index.vue              # 首页
+│   ├── login.vue              # 登录
+│   ├── register.vue           # 注册
+│   ├── forgot-password.vue    # 忘记密码
+│   ├── reset-password.vue     # 重置密码
+│   ├── dashboard/             # 仪表盘
+│   │   └── index.vue
+│   ├── users/                 # 用户管理
+│   │   └── index.vue
+│   ├── messages/              # 消息中心
+│   │   └── index.vue
+│   ├── analytics/             # 数据分析
+│   │   └── index.vue
+│   ├── profile/               # 个人中心
+│   │   └── index.vue
+│   └── settings/              # 系统设置
+│       └── index.vue
+├── components/                 # 自动导入组件
+│   └── common/                # 通用组件
+│       ├── AppHeader.vue
+│       ├── AppSidebar.vue
+│       ├── AppFooter.vue
+│       ├── AppTabs.vue
+│       ├── CommandMenu.vue
+│       └── ToastContainer.vue
+├── composables/                # 组合式函数
+│   ├── useTheme.ts
+│   └── useToast.ts
+├── layouts/                    # 布局
+│   ├── default.vue            # 管理后台布局
+│   └── auth.vue               # 认证页面布局
+├── middleware/                 # 中间件
+│   └── auth.global.ts
+├── stores/                     # Pinia stores
 │   ├── auth.ts
 │   ├── ui-settings.ts
 │   ├── dashboard.ts
+│   ├── layout.ts
 │   └── tabs.ts
-├── types/                        # 类型定义
-├── public/                       # 静态资源
-├── nuxt.config.ts               # Nuxt 配置
-├── tailwind.config.ts           # Tailwind 配置
-└── package.json
+├── utils/                      # 工具函数
+│   ├── index.ts
+│   └── mock.ts
+├── assets/css/                 # 样式文件
+│   ├── main.css
+│   └── tailwind.css
+└── public/                     # 静态资源
 ```
 
 ## 快速开始
@@ -109,14 +95,14 @@ pnpm install
 ### 环境变量
 
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
 ```env
 # .env 示例
-NUXT_PUBLIC_API_URL=/api
-NUXT_PUBLIC_USE_MOCK=true
-NUXT_PUBLIC_DEMO_EMAIL=admin@example.com
+NUXT_PUBLIC_API_BASE=/api
+NUXT_PUBLIC_MOCK=true
+NUXT_PUBLIC_DEMO_EMAIL=admin@halolight.h7ml.cn
 NUXT_PUBLIC_DEMO_PASSWORD=123456
 NUXT_PUBLIC_SHOW_DEMO_HINT=true
 NUXT_PUBLIC_APP_TITLE=Admin Pro
@@ -138,165 +124,70 @@ pnpm build
 pnpm preview
 ```
 
+## 演示账号
+
+- 邮箱：`admin@halolight.h7ml.cn`
+- 密码：`123456`
+
 ## 核心功能
 
 ### 状态管理 (Pinia)
 
 ```ts
 // stores/auth.ts
-import { defineStore } from 'pinia'
-
-interface AuthState {
-  user: User | null
-  token: string | null
-}
-
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
-  const token = ref<string | null>(null)
+  const token = ref('')
+  const loading = ref(false)
+  const error = ref('')
 
   const isAuthenticated = computed(() => !!token.value && !!user.value)
-  const permissions = computed(() => user.value?.permissions ?? [])
 
   async function login(credentials: LoginCredentials) {
-    const { data } = await useFetch('/api/auth/login', {
-      method: 'POST',
-      body: credentials,
-    })
-
-    if (data.value) {
-      user.value = data.value.user
-      token.value = data.value.token
+    loading.value = true
+    error.value = ''
+    try {
+      // 登录逻辑
+      const result = await mockLogin(credentials)
+      user.value = result.user
+      token.value = result.token
+    } catch (e) {
+      error.value = e.message
+      throw e
+    } finally {
+      loading.value = false
     }
   }
 
   function logout() {
     user.value = null
-    token.value = null
-    navigateTo('/auth/login')
+    token.value = ''
+    navigateTo('/login')
   }
 
-  function hasPermission(permission: string): boolean {
-    return permissions.value.some(p =>
-      p === '*' || p === permission ||
-      (p.endsWith(':*') && permission.startsWith(p.slice(0, -1)))
-    )
-  }
-
-  return {
-    user,
-    token,
-    isAuthenticated,
-    permissions,
-    login,
-    logout,
-    hasPermission,
-  }
-}, {
-  persist: true,
+  return { user, token, loading, error, isAuthenticated, login, logout }
 })
 ```
 
 ### 认证中间件
 
 ```ts
-// middleware/auth.ts
+// middleware/auth.global.ts
 export default defineNuxtRouteMiddleware((to) => {
   const authStore = useAuthStore()
+
+  // 公开页面列表
+  const publicPages = ['/login', '/register', '/forgot-password', '/reset-password']
+
+  if (publicPages.includes(to.path)) {
+    return
+  }
 
   if (!authStore.isAuthenticated) {
     return navigateTo({
-      path: '/auth/login',
+      path: '/login',
       query: { redirect: to.fullPath },
     })
-  }
-})
-```
-
-### 权限中间件
-
-```ts
-// middleware/permission.ts
-export default defineNuxtRouteMiddleware((to) => {
-  const authStore = useAuthStore()
-  const permission = to.meta.permission as string | undefined
-
-  if (permission && !authStore.hasPermission(permission)) {
-    return navigateTo('/403')
-  }
-})
-```
-
-### 权限组合式函数
-
-```ts
-// composables/usePermission.ts
-export function usePermission() {
-  const authStore = useAuthStore()
-
-  const hasPermission = (permission: string) => {
-    return authStore.hasPermission(permission)
-  }
-
-  const hasAnyPermission = (permissions: string[]) => {
-    return permissions.some(p => authStore.hasPermission(p))
-  }
-
-  const hasAllPermissions = (permissions: string[]) => {
-    return permissions.every(p => authStore.hasPermission(p))
-  }
-
-  return {
-    hasPermission,
-    hasAnyPermission,
-    hasAllPermissions,
-  }
-}
-```
-
-### 权限指令
-
-```ts
-// plugins/permission.ts
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.directive('permission', {
-    mounted(el, binding) {
-      const authStore = useAuthStore()
-      if (!authStore.hasPermission(binding.value)) {
-        el.parentNode?.removeChild(el)
-      }
-    },
-  })
-})
-```
-
-```vue
-<!-- 使用 -->
-<button v-permission="'users:delete'">删除</button>
-```
-
-### 服务端 API
-
-```ts
-// server/api/auth/login.post.ts
-export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
-  const { email, password } = body
-
-  // 验证逻辑
-  if (!email || !password) {
-    throw createError({
-      statusCode: 400,
-      message: '邮箱和密码不能为空',
-    })
-  }
-
-  // 认证逻辑...
-
-  return {
-    success: true,
-    user: { id: 1, name: '管理员', email },
-    token: 'mock_token',
   }
 })
 ```
@@ -319,31 +210,36 @@ const { data: stats } = await useAsyncData('dashboard-stats', () =>
 
 ## 页面路由
 
-| 路径 | 页面 | 权限 |
+| 路径 | 页面 | 布局 |
 |------|------|------|
-| `/` | 首页 | 公开 |
-| `/auth/login` | 登录 | 公开 |
-| `/auth/register` | 注册 | 公开 |
-| `/auth/forgot-password` | 忘记密码 | 公开 |
-| `/auth/reset-password` | 重置密码 | 公开 |
-| `/dashboard` | 仪表盘 | `dashboard:view` |
-| `/dashboard/users` | 用户列表 | `users:list` |
-| `/dashboard/users/create` | 创建用户 | `users:create` |
-| `/dashboard/users/[id]` | 用户详情 | `users:view` |
-| `/dashboard/roles` | 角色管理 | `roles:list` |
-| `/dashboard/permissions` | 权限管理 | `permissions:list` |
-| `/dashboard/settings` | 系统设置 | `settings:view` |
-| `/dashboard/profile` | 个人中心 | 登录即可 |
+| `/` | 首页 | - |
+| `/login` | 登录 | auth |
+| `/register` | 注册 | auth |
+| `/forgot-password` | 忘记密码 | auth |
+| `/reset-password` | 重置密码 | auth |
+| `/dashboard` | 仪表盘 | default |
+| `/users` | 用户管理 | default |
+| `/messages` | 消息中心 | default |
+| `/analytics` | 数据分析 | default |
+| `/profile` | 个人中心 | default |
+| `/settings` | 系统设置 | default |
 
 ### 路由配置
 
 ```vue
-<!-- pages/dashboard/users/index.vue -->
+<!-- pages/login.vue -->
 <script setup lang="ts">
 definePageMeta({
-  layout: 'dashboard',
-  middleware: ['auth', 'permission'],
-  permission: 'users:list',
+  layout: 'auth',
+})
+</script>
+```
+
+```vue
+<!-- pages/dashboard/index.vue -->
+<script setup lang="ts">
+definePageMeta({
+  layout: 'default',
 })
 </script>
 ```
@@ -355,34 +251,34 @@ definePageMeta({
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  compatibilityDate: '2025-11-30',
+  devtools: { enabled: false },
 
   modules: [
-    '@nuxt/ui',
     '@pinia/nuxt',
     '@vueuse/nuxt',
-    '@pinia-plugin-persistedstate/nuxt',
   ],
 
-  ui: {
-    global: true,
-  },
+  css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
     public: {
-      apiUrl: '/api',
-      useMock: true,
+      apiBase: '/api',
+      mock: true,
+      demoEmail: 'admin@halolight.h7ml.cn',
+      demoPassword: '123456',
+      showDemoHint: true,
       appTitle: 'Admin Pro',
       brandName: 'Halolight',
     },
   },
 
-  css: ['~/assets/css/main.css'],
-
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
+  app: {
+    head: {
+      title: 'Admin Pro',
+      script: [
+        { src: 'https://cdn.tailwindcss.com' },
+      ],
     },
   },
 })
@@ -427,24 +323,14 @@ export default defineNuxtConfig({
 })
 ```
 
-## 测试
-
-```bash
-# 运行测试
-pnpm test
-
-# 生成覆盖率报告
-pnpm test --coverage
-```
-
 ## 与其他版本对比
 
 | 功能 | Nuxt 版本 | Vue 版本 | Next.js 版本 |
 |------|----------|----------|--------------|
 | 状态管理 | Pinia | Pinia | Zustand |
-| 数据获取 | useFetch | TanStack Query | TanStack Query |
-| 表单验证 | VeeValidate + Zod | VeeValidate + Zod | React Hook Form + Zod |
+| 数据获取 | useFetch | Axios | TanStack Query |
+| 表单验证 | 原生 | VeeValidate + Zod | React Hook Form + Zod |
 | 服务端 | Nitro 内置 | 独立后端 | API Routes |
-| 组件库 | Nuxt UI | shadcn-vue | shadcn/ui |
+| 样式 | Tailwind CDN | Tailwind | Tailwind |
 | 路由 | 文件路由 | Vue Router | App Router |
 | SSR | 内置支持 | 需配置 | 内置支持 |
