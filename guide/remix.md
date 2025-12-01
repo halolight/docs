@@ -1,6 +1,6 @@
 # Remix 版本
 
-HaloLight Remix 版本基于 Remix 3 构建，采用 React Router 7 + TypeScript，Web 标准优先的全栈开发体验。
+HaloLight Remix 版本基于 React Router 7 构建 (原 Remix 团队已合并至 React Router)，采用 TypeScript + Web 标准优先的全栈开发体验。
 
 **在线预览**：[https://halolight-remix.h7ml.cn/](https://halolight-remix.h7ml.cn/)
 
@@ -10,16 +10,16 @@ HaloLight Remix 版本基于 Remix 3 构建，采用 React Router 7 + TypeScript
 
 | 技术 | 版本 | 说明 |
 |------|------|------|
-| Remix | 3.x | React 全栈框架 |
+| React Router | 7.x | 全栈路由框架 (原 Remix) |
 | React | 19.x | UI 框架 |
-| TypeScript | 5.x | 类型安全 |
-| Tailwind CSS | 4.x | 原子化 CSS |
-| shadcn/ui | latest | UI 组件库 |
-| Conform | 1.x | 表单处理 |
-| Zod | 3.x | 数据验证 |
-| TanStack Query | 5.x | 客户端缓存 |
-| Recharts | 2.x | 图表可视化 |
-| Mock.js | 1.x | 数据模拟 |
+| TypeScript | 5.9 | 类型安全 |
+| Vite | 7.x | 构建工具 |
+| Tailwind CSS | 4.x | 原子化 CSS + OKLch |
+| Radix UI | latest | 无障碍 UI 原语 |
+| Zustand | 5.x | 轻量状态管理 |
+| Recharts | 3.x | 图表可视化 |
+| Vitest | 4.x | 单元测试 |
+| Cloudflare Pages | - | 边缘部署 |
 
 ## 核心特性
 
@@ -27,8 +27,9 @@ HaloLight Remix 版本基于 Remix 3 构建，采用 React Router 7 + TypeScript
 - **嵌套路由**：强大的嵌套布局和数据加载
 - **渐进增强**：无 JS 也能工作的表单
 - **Loader/Action**：优雅的服务端数据模式
-- **乐观更新**：内置的乐观 UI 支持
-- **错误边界**：细粒度的错误处理
+- **类型安全**：自动生成的路由类型
+- **主题系统**：11 种皮肤预设 + 深色模式
+- **多标签页**：标签栏 + 右键菜单管理
 
 ## 目录结构
 
@@ -36,48 +37,59 @@ HaloLight Remix 版本基于 Remix 3 构建，采用 React Router 7 + TypeScript
 halolight-remix/
 ├── app/
 │   ├── routes/                    # 文件路由
-│   │   ├── _index.tsx            # 首页
-│   │   ├── _auth.tsx             # 认证布局
-│   │   ├── _auth.login.tsx       # 登录
-│   │   ├── _auth.register.tsx    # 注册
-│   │   ├── _auth.forgot-password.tsx
-│   │   ├── _auth.reset-password.tsx
-│   │   ├── _dashboard.tsx        # 仪表盘布局
-│   │   ├── _dashboard._index.tsx # 仪表盘首页
-│   │   ├── _dashboard.users.tsx  # 用户列表
-│   │   ├── _dashboard.users.$id.tsx
-│   │   ├── _dashboard.users.create.tsx
-│   │   ├── _dashboard.roles.tsx
-│   │   ├── _dashboard.permissions.tsx
-│   │   ├── _dashboard.settings.tsx
-│   │   └── _dashboard.profile.tsx
+│   │   ├── _index.tsx            # 首页 (仪表盘)
+│   │   ├── login.tsx             # 登录
+│   │   ├── register.tsx          # 注册
+│   │   ├── forgot-password.tsx   # 忘记密码
+│   │   ├── reset-password.tsx    # 重置密码
+│   │   ├── users.tsx             # 用户管理
+│   │   ├── settings.tsx          # 系统设置
+│   │   ├── profile.tsx           # 个人中心
+│   │   ├── security.tsx          # 安全设置
+│   │   ├── analytics.tsx         # 数据分析
+│   │   ├── notifications.tsx     # 通知中心
+│   │   ├── documents.tsx         # 文档管理
+│   │   ├── calendar.tsx          # 日历
+│   │   └── +types/               # 自动生成类型
 │   ├── components/               # 组件库
-│   │   ├── ui/                   # shadcn/ui 组件
+│   │   ├── ui/                   # 基础 UI 组件
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── dialog.tsx
+│   │   │   ├── dropdown-menu.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── select.tsx
+│   │   │   ├── table.tsx
+│   │   │   └── ...
 │   │   ├── layout/               # 布局组件
-│   │   │   ├── AdminLayout.tsx
-│   │   │   ├── AuthLayout.tsx
-│   │   │   ├── Sidebar.tsx
-│   │   │   └── Header.tsx
-│   │   ├── dashboard/            # 仪表盘组件
-│   │   │   ├── DashboardGrid.tsx
-│   │   │   ├── WidgetWrapper.tsx
-│   │   │   └── StatsWidget.tsx
-│   │   └── shared/               # 共享组件
-│   │       └── PermissionGuard.tsx
-│   ├── lib/                      # 工具库
-│   │   ├── auth.server.ts        # 服务端认证
-│   │   ├── session.server.ts     # Session 管理
-│   │   ├── permission.ts         # 权限工具
-│   │   └── cn.ts
+│   │   │   ├── footer.tsx
+│   │   │   ├── tab-bar.tsx
+│   │   │   └── quick-settings.tsx
+│   │   ├── auth/                 # 认证组件
+│   │   │   └── auth-shell.tsx
+│   │   ├── admin-layout.tsx      # 后台布局
+│   │   └── theme-provider.tsx    # 主题提供者
 │   ├── hooks/                    # React Hooks
-│   │   ├── useAuth.ts
-│   │   └── usePermission.ts
-│   ├── types/                    # 类型定义
+│   │   └── use-chart-palette.ts
+│   ├── lib/                      # 工具库
+│   │   ├── utils.ts              # cn() 类名工具
+│   │   ├── meta.ts               # TDK 元信息
+│   │   └── project-info.ts       # 项目信息
+│   ├── stores/                   # Zustand 状态
+│   │   ├── tabs-store.ts         # 标签页状态
+│   │   └── ui-settings-store.ts  # UI 设置状态
 │   ├── root.tsx                  # 根组件
-│   └── entry.server.tsx          # 服务端入口
-├── public/                       # 静态资源
-├── vite.config.ts               # Vite 配置
-├── tailwind.config.ts           # Tailwind 配置
+│   ├── routes.ts                 # 路由配置
+│   └── app.css                   # 全局样式
+├── tests/                        # 测试文件
+│   ├── setup.ts
+│   ├── lib/
+│   ├── stores/
+│   └── components/
+├── .github/workflows/ci.yml      # CI 配置
+├── wrangler.json                 # Cloudflare 配置
+├── vitest.config.ts              # Vitest 配置
+├── eslint.config.js              # ESLint 配置
 └── package.json
 ```
 
@@ -89,24 +101,6 @@ halolight-remix/
 git clone https://github.com/halolight/halolight-remix.git
 cd halolight-remix
 pnpm install
-```
-
-### 环境变量
-
-```bash
-cp .env.example .env
-```
-
-```env
-# .env 示例
-API_URL=/api
-USE_MOCK=true
-SESSION_SECRET=your-secret-key
-DEMO_EMAIL=admin@example.com
-DEMO_PASSWORD=123456
-SHOW_DEMO_HINT=true
-APP_TITLE=Admin Pro
-BRAND_NAME=Halolight
 ```
 
 ### 启动开发
@@ -124,392 +118,310 @@ pnpm build
 pnpm start
 ```
 
-## 核心功能
+### 可用命令
 
-### Session 管理
-
-```ts
-// lib/session.server.ts
-import { createCookieSessionStorage, redirect } from '@remix-run/node'
-
-interface SessionData {
-  userId: number
-  token: string
-}
-
-interface SessionFlashData {
-  error: string
-}
-
-export const sessionStorage = createCookieSessionStorage<
-  SessionData,
-  SessionFlashData
->({
-  cookie: {
-    name: '__session',
-    httpOnly: true,
-    maxAge: 60 * 60 * 24 * 7, // 7 天
-    path: '/',
-    sameSite: 'lax',
-    secrets: [process.env.SESSION_SECRET!],
-    secure: process.env.NODE_ENV === 'production',
-  },
-})
-
-export async function getSession(request: Request) {
-  const cookie = request.headers.get('Cookie')
-  return sessionStorage.getSession(cookie)
-}
-
-export async function requireUser(request: Request) {
-  const session = await getSession(request)
-  const userId = session.get('userId')
-
-  if (!userId) {
-    const url = new URL(request.url)
-    throw redirect(`/login?redirect=${url.pathname}`)
-  }
-
-  return { userId, token: session.get('token') }
-}
-
-export async function createUserSession(
-  userId: number,
-  token: string,
-  redirectTo: string
-) {
-  const session = await sessionStorage.getSession()
-  session.set('userId', userId)
-  session.set('token', token)
-
-  return redirect(redirectTo, {
-    headers: {
-      'Set-Cookie': await sessionStorage.commitSession(session),
-    },
-  })
-}
-
-export async function destroySession(request: Request) {
-  const session = await getSession(request)
-
-  return redirect('/login', {
-    headers: {
-      'Set-Cookie': await sessionStorage.destroySession(session),
-    },
-  })
-}
+```bash
+pnpm dev          # 启动开发服务器
+pnpm build        # 生产构建
+pnpm start        # 启动生产服务器
+pnpm typecheck    # 类型检查
+pnpm lint         # ESLint 检查
+pnpm test         # 运行测试
+pnpm test:run     # 单次运行测试
+pnpm test:coverage # 测试覆盖率
+pnpm preview      # Cloudflare 本地预览
+pnpm deploy       # 部署到 Cloudflare
 ```
 
-### 认证 Loader
+## 核心概念
 
-```tsx
-// routes/_dashboard.tsx
-import { type LoaderFunctionArgs, json } from '@remix-run/node'
-import { Outlet, useLoaderData } from '@remix-run/react'
-import { requireUser } from '~/lib/session.server'
-import { getUser } from '~/lib/auth.server'
-import { AdminLayout } from '~/components/layout/AdminLayout'
+### 路由文件约定
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const { userId, token } = await requireUser(request)
-  const user = await getUser(userId, token)
+React Router 7 使用文件系统路由：
 
-  return json({ user })
-}
-
-export default function DashboardLayout() {
-  const { user } = useLoaderData<typeof loader>()
-
-  return (
-    <AdminLayout user={user}>
-      <Outlet />
-    </AdminLayout>
-  )
-}
+```
+_index.tsx        → /          (索引路由)
+about.tsx         → /about     (静态路由)
+users.tsx         → /users     (静态路由)
+users.$id.tsx     → /users/:id (动态路由)
+_layout.tsx       → 布局路由
+$.tsx             → 通配符路由
 ```
 
-### 数据加载 (Loader)
+### Loader (数据加载)
 
 ```tsx
-// routes/_dashboard.users.tsx
-import { type LoaderFunctionArgs, json } from '@remix-run/node'
-import { useLoaderData, useSearchParams } from '@remix-run/react'
-import { requireUser, requirePermission } from '~/lib/session.server'
+// app/routes/users.tsx
+import type { Route } from "./+types/users";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const { token } = await requireUser(request)
-  await requirePermission(request, 'users:list')
+export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const page = Number(url.searchParams.get("page")) || 1;
 
-  const url = new URL(request.url)
-  const page = Number(url.searchParams.get('page')) || 1
+  const response = await fetch(`/api/users?page=${page}`);
+  const users = await response.json();
 
-  const response = await fetch(`${process.env.API_URL}/users?page=${page}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  })
-
-  if (!response.ok) {
-    throw new Response('获取用户列表失败', { status: response.status })
-  }
-
-  const users = await response.json()
-  return json({ users })
+  return { users, page };
 }
 
-export default function UsersPage() {
-  const { users } = useLoaderData<typeof loader>()
-  const [searchParams, setSearchParams] = useSearchParams()
+export default function UsersPage({ loaderData }: Route.ComponentProps) {
+  const { users, page } = loaderData;
 
   return (
     <div>
       <h1>用户列表</h1>
-
       <ul>
-        {users.data.map((user) => (
+        {users.map((user) => (
           <li key={user.id}>{user.name}</li>
         ))}
       </ul>
-
-      <Pagination
-        current={users.page}
-        total={users.total}
-        onChange={(page) => setSearchParams({ page: String(page) })}
-      />
     </div>
-  )
+  );
 }
 ```
 
-### 表单处理 (Action)
+### Action (表单处理)
 
 ```tsx
-// routes/_auth.login.tsx
-import { type ActionFunctionArgs, json } from '@remix-run/node'
-import { Form, useActionData, useNavigation } from '@remix-run/react'
-import { parseWithZod } from '@conform-to/zod'
-import { useForm } from '@conform-to/react'
-import { z } from 'zod'
-import { createUserSession } from '~/lib/session.server'
+// app/routes/login.tsx
+import type { Route } from "./+types/login";
+import { Form, useActionData, useNavigation } from "react-router";
 
-const loginSchema = z.object({
-  email: z.string().email('请输入有效邮箱'),
-  password: z.string().min(6, '密码至少6位'),
-  redirectTo: z.string().optional(),
-})
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
 
-export async function action({ request }: ActionFunctionArgs) {
-  const formData = await request.formData()
-  const submission = parseWithZod(formData, { schema: loginSchema })
-
-  if (submission.status !== 'success') {
-    return json(submission.reply(), { status: 400 })
+  // 验证
+  if (!email || !password) {
+    return { error: "请填写完整信息" };
   }
 
-  const { email, password, redirectTo } = submission.value
+  // 登录逻辑
+  const response = await fetch("/api/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+    headers: { "Content-Type": "application/json" },
+  });
 
-  try {
-    const response = await fetch(`${process.env.API_URL}/auth/login`, {
-      method: 'POST',
-      body: JSON.stringify({ email, password }),
-      headers: { 'Content-Type': 'application/json' },
-    })
-
-    if (!response.ok) {
-      return json(
-        submission.reply({ formErrors: ['邮箱或密码错误'] }),
-        { status: 401 }
-      )
-    }
-
-    const { user, token } = await response.json()
-    return createUserSession(user.id, token, redirectTo || '/dashboard')
-  } catch (e) {
-    return json(
-      submission.reply({ formErrors: ['服务器错误'] }),
-      { status: 500 }
-    )
+  if (!response.ok) {
+    return { error: "邮箱或密码错误" };
   }
+
+  // 重定向到首页
+  return redirect("/");
 }
 
 export default function LoginPage() {
-  const lastResult = useActionData<typeof action>()
-  const navigation = useNavigation()
-  const isSubmitting = navigation.state === 'submitting'
-
-  const [form, fields] = useForm({
-    lastResult,
-    onValidate({ formData }) {
-      return parseWithZod(formData, { schema: loginSchema })
-    },
-  })
+  const actionData = useActionData<typeof action>();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
 
   return (
-    <Form method="post" {...form.props}>
-      {form.errors && (
-        <div className="text-destructive">{form.errors}</div>
+    <Form method="post">
+      {actionData?.error && (
+        <p className="text-destructive">{actionData.error}</p>
       )}
 
-      <div>
-        <input
-          type="email"
-          name={fields.email.name}
-          placeholder="邮箱"
-        />
-        {fields.email.errors && (
-          <span className="text-destructive">{fields.email.errors}</span>
-        )}
-      </div>
-
-      <div>
-        <input
-          type="password"
-          name={fields.password.name}
-          placeholder="密码"
-        />
-        {fields.password.errors && (
-          <span className="text-destructive">{fields.password.errors}</span>
-        )}
-      </div>
+      <input type="email" name="email" placeholder="邮箱" required />
+      <input type="password" name="password" placeholder="密码" required />
 
       <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? '登录中...' : '登录'}
+        {isSubmitting ? "登录中..." : "登录"}
       </button>
     </Form>
+  );
+}
+```
+
+### Meta (TDK 元信息)
+
+```tsx
+// app/routes/users.tsx
+import type { Route } from "./+types/users";
+import { generateMeta } from "~/lib/meta";
+
+export function meta(): Route.MetaDescriptors {
+  return generateMeta("/users");
+}
+```
+
+```ts
+// app/lib/meta.ts
+export const pageMetas: Record<string, PageMeta> = {
+  "/users": {
+    title: "用户管理",
+    description: "管理系统用户账户，包括创建、编辑和权限配置",
+    keywords: ["用户管理", "账户管理", "权限配置"],
+  },
+  // ...
+};
+
+export function generateMeta(path: string, overrides?: Partial<PageMeta>) {
+  const meta = pageMetas[path] || { title: "页面", description: "" };
+  // 返回完整的 meta 标签数组
+}
+```
+
+## 状态管理
+
+### Tabs Store (标签页)
+
+```tsx
+// app/stores/tabs-store.ts
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+interface TabsState {
+  tabs: Tab[];
+  activeTabId: string | null;
+  addTab: (tab: Omit<Tab, "id">) => string;
+  removeTab: (id: string) => void;
+  setActiveTab: (id: string) => void;
+  clearTabs: () => void;
+}
+
+export const useTabsStore = create<TabsState>()(
+  persist(
+    (set, get) => ({
+      tabs: [homeTab],
+      activeTabId: "home",
+      addTab: (tab) => { /* ... */ },
+      removeTab: (id) => { /* ... */ },
+      // ...
+    }),
+    { name: "tabs-storage" }
   )
-}
+);
 ```
 
-### 权限组件
+### UI Settings Store (皮肤/布局)
 
 ```tsx
-// components/shared/PermissionGuard.tsx
-import { type ReactNode } from 'react'
-import { useRouteLoaderData } from '@remix-run/react'
+// app/stores/ui-settings-store.ts
+export type SkinPreset =
+  | "default" | "blue" | "emerald" | "amber" | "violet"
+  | "rose" | "teal" | "slate" | "ocean" | "sunset" | "aurora";
 
-interface Props {
-  permission: string
-  children: ReactNode
-  fallback?: ReactNode
-}
-
-export function PermissionGuard({ permission, children, fallback }: Props) {
-  const data = useRouteLoaderData<{ user: User }>('routes/_dashboard')
-
-  const hasPermission = (perm: string) => {
-    const perms = data?.user?.permissions ?? []
-    return perms.some(p =>
-      p === '*' || p === perm ||
-      (p.endsWith(':*') && perm.startsWith(p.slice(0, -1)))
-    )
-  }
-
-  if (!hasPermission(permission)) {
-    return fallback ?? null
-  }
-
-  return children
-}
-```
-
-```tsx
-// 使用
-<PermissionGuard
-  permission="users:delete"
-  fallback={<span className="text-muted-foreground">无权限</span>}
->
-  <Button variant="destructive">删除</Button>
-</PermissionGuard>
-```
-
-### 乐观更新
-
-```tsx
-// routes/_dashboard.users.$id.tsx
-import { useFetcher } from '@remix-run/react'
-
-export function UserCard({ user }) {
-  const fetcher = useFetcher()
-
-  // 乐观更新：使用提交的数据而非服务器响应
-  const displayName = fetcher.formData
-    ? fetcher.formData.get('name')
-    : user.name
-
-  return (
-    <fetcher.Form method="post">
-      <input type="text" name="name" defaultValue={user.name} />
-      <button type="submit">保存</button>
-      <p>当前名称: {displayName}</p>
-    </fetcher.Form>
+export const useUiSettingsStore = create<UiSettingsState>()(
+  persist(
+    (set) => ({
+      skin: "default",
+      showFooter: true,
+      showTabBar: true,
+      setSkin: (skin) => set({ skin }),
+      setShowFooter: (visible) => set({ showFooter: visible }),
+      // ...
+    }),
+    { name: "ui-settings-storage" }
   )
-}
+);
 ```
 
-### 错误边界
+## 主题系统
 
-```tsx
-// routes/_dashboard.users.tsx
-import { isRouteErrorResponse, useRouteError } from '@remix-run/react'
+### 皮肤预设
 
-export function ErrorBoundary() {
-  const error = useRouteError()
+支持 11 种预设皮肤，通过 Quick Settings 面板切换：
 
-  if (isRouteErrorResponse(error)) {
-    if (error.status === 403) {
-      return <div>无权限访问此页面</div>
-    }
-    if (error.status === 404) {
-      return <div>页面不存在</div>
-    }
-    return <div>{error.statusText}</div>
-  }
+| 皮肤 | 主色调 |
+|------|--------|
+| Default | 紫色 |
+| Blue | 蓝色 |
+| Emerald | 翠绿色 |
+| Amber | 琥珀色 |
+| Violet | 紫罗兰 |
+| Rose | 玫瑰色 |
+| Teal | 青色 |
+| Slate | 石板灰 |
+| Ocean | 海洋蓝 |
+| Sunset | 日落橙 |
+| Aurora | 极光色 |
 
-  return <div>发生错误，请稍后重试</div>
+### CSS 变量 (OKLch)
+
+```css
+/* app/app.css */
+:root {
+  --background: 100% 0 0;
+  --foreground: 14.9% 0.017 285.75;
+  --primary: 51.1% 0.262 276.97;
+  --primary-foreground: 100% 0 0;
+  /* ... */
+}
+
+[data-skin="ocean"] {
+  --primary: 54.3% 0.195 240.03;
+}
+
+.dark {
+  --background: 14.9% 0.017 285.75;
+  --foreground: 98.5% 0 0;
+  /* ... */
 }
 ```
 
 ## 页面路由
 
-| 路径 | 页面 | 权限 |
+| 路径 | 页面 | 说明 |
 |------|------|------|
-| `/` | 首页 | 公开 |
-| `/login` | 登录 | 公开 |
-| `/register` | 注册 | 公开 |
-| `/forgot-password` | 忘记密码 | 公开 |
-| `/reset-password` | 重置密码 | 公开 |
-| `/dashboard` | 仪表盘 | `dashboard:view` |
-| `/users` | 用户列表 | `users:list` |
-| `/users/create` | 创建用户 | `users:create` |
-| `/users/:id` | 用户详情 | `users:view` |
-| `/roles` | 角色管理 | `roles:list` |
-| `/permissions` | 权限管理 | `permissions:list` |
-| `/settings` | 系统设置 | `settings:view` |
-| `/profile` | 个人中心 | 登录即可 |
+| `/` | 仪表盘 | 数据概览 + 图表 |
+| `/login` | 登录 | 用户登录 |
+| `/register` | 注册 | 用户注册 |
+| `/forgot-password` | 忘记密码 | 发送重置邮件 |
+| `/reset-password` | 重置密码 | 设置新密码 |
+| `/users` | 用户管理 | 用户列表 CRUD |
+| `/settings` | 系统设置 | 应用配置 |
+| `/profile` | 个人中心 | 用户资料 |
+| `/security` | 安全设置 | 密码修改等 |
+| `/analytics` | 数据分析 | 图表展示 |
+| `/notifications` | 通知中心 | 消息列表 |
+| `/documents` | 文档管理 | 文件列表 |
+| `/calendar` | 日历 | 日程管理 |
 
-## 配置
+## 测试
 
-### Vite 配置
+### 运行测试
 
-```ts
-// vite.config.ts
-import { vitePlugin as remix } from '@remix-run/dev'
-import { defineConfig } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
+```bash
+pnpm test:run      # 单次运行
+pnpm test          # 监视模式
+pnpm test:coverage # 覆盖率报告
+```
 
-export default defineConfig({
-  plugins: [
-    remix({
-      future: {
-        v3_fetcherPersist: true,
-        v3_relativeSplatPath: true,
-        v3_throwAbortReason: true,
-      },
-    }),
-    tsconfigPaths(),
-  ],
-})
+### 测试示例
+
+```tsx
+// tests/stores/tabs-store.test.ts
+import { describe, it, expect, beforeEach } from "vitest";
+import { useTabsStore } from "~/stores/tabs-store";
+
+describe("useTabsStore", () => {
+  beforeEach(() => {
+    useTabsStore.getState().clearTabs();
+  });
+
+  it("应该添加新标签", () => {
+    const { addTab } = useTabsStore.getState();
+    addTab({ title: "用户管理", path: "/users" });
+
+    const { tabs } = useTabsStore.getState();
+    expect(tabs).toHaveLength(2);
+  });
+});
 ```
 
 ## 部署
+
+### Cloudflare Pages
+
+```bash
+pnpm deploy
+```
+
+需要配置 GitHub Secrets：
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
 
 ### Node.js 服务器
 
@@ -531,44 +443,31 @@ RUN pnpm build
 FROM node:20-alpine
 WORKDIR /app
 COPY --from=builder /app/build ./build
-COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json .
 RUN npm install --production
 EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-### Vercel
+## CI/CD
 
-```bash
-npx vercel
-```
+项目配置了完整的 GitHub Actions CI 流程：
 
-### Cloudflare Pages
-
-```bash
-# 使用 Cloudflare 适配器
-pnpm add -D @remix-run/cloudflare
-```
-
-## 测试
-
-```bash
-# 运行测试
-pnpm test
-
-# E2E 测试
-pnpm test:e2e
-```
+- **Lint & Type Check** - ESLint + TypeScript 检查
+- **Unit Tests** - Vitest 单元测试 + Codecov 覆盖率
+- **Build** - 生产构建验证
+- **Security Audit** - 依赖安全审计
+- **Dependency Review** - PR 依赖变更审查
 
 ## 与其他版本对比
 
 | 功能 | Remix 版本 | Vue 版本 | Next.js 版本 |
 |------|-----------|----------|--------------|
-| 状态管理 | Loader/Action | Pinia | Zustand |
-| 数据获取 | Loader | TanStack Query | TanStack Query |
-| 表单验证 | Conform + Zod | VeeValidate + Zod | React Hook Form + Zod |
-| 服务端 | 内置 | 独立后端 | API Routes |
-| 组件库 | shadcn/ui | shadcn-vue | shadcn/ui |
+| 状态管理 | Zustand | Pinia | Zustand |
+| 数据获取 | Loader/Action | TanStack Query | TanStack Query |
+| 表单处理 | 渐进增强 Form | VeeValidate | React Hook Form |
+| 服务端 | 内置 SSR | Nuxt | App Router |
+| 组件库 | Radix UI | shadcn-vue | shadcn/ui |
 | 路由 | 文件路由 | Vue Router | App Router |
-| 表单处理 | 渐进增强 | 客户端 | 客户端 |
+| 主题 | OKLch CSS 变量 | OKLch CSS 变量 | OKLch CSS 变量 |
+| 测试 | Vitest | Vitest | Vitest |

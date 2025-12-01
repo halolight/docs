@@ -24,6 +24,7 @@ Halolight Nuxt 版本基于 Nuxt 3 构建，采用 Vue 3.5 + Composition API + T
 - **自动导入**：组件、composables、API 自动导入
 - **文件路由**：基于文件系统的自动路由
 - **SSR/SSG**：服务端渲染与静态生成可选
+- **命令面板**：`⌘/Ctrl + K` 快速导航
 - **热更新**：开发体验极佳的 HMR
 - **模块生态**：丰富的 Nuxt 模块扩展
 
@@ -39,6 +40,8 @@ halolight-nuxt/
 │   ├── register.vue           # 注册
 │   ├── forgot-password.vue    # 忘记密码
 │   ├── reset-password.vue     # 重置密码
+│   ├── terms.vue              # 服务条款
+│   ├── privacy.vue            # 隐私政策
 │   ├── dashboard/             # 仪表盘
 │   │   └── index.vue
 │   ├── users/                 # 用户管理
@@ -61,12 +64,15 @@ halolight-nuxt/
 │       └── ToastContainer.vue
 ├── composables/                # 组合式函数
 │   ├── useTheme.ts
-│   └── useToast.ts
+│   ├── useToast.ts
+│   └── useCommandMenu.ts
 ├── layouts/                    # 布局
 │   ├── default.vue            # 管理后台布局
 │   └── auth.vue               # 认证页面布局
 ├── middleware/                 # 中间件
 │   └── auth.global.ts
+├── plugins/                    # 插件
+│   └── pinia-persist.client.ts
 ├── stores/                     # Pinia stores
 │   ├── auth.ts
 │   ├── ui-settings.ts
@@ -79,6 +85,12 @@ halolight-nuxt/
 ├── assets/css/                 # 样式文件
 │   ├── main.css
 │   └── tailwind.css
+├── tests/                      # 测试文件
+│   └── unit/
+├── .github/                    # GitHub Actions
+│   └── workflows/
+│       ├── ci.yml
+│       └── deploy.yml
 └── public/                     # 静态资源
 ```
 
@@ -122,6 +134,22 @@ pnpm dev
 ```bash
 pnpm build
 pnpm preview
+```
+
+### 代码检查与测试
+
+```bash
+# 类型检查
+pnpm typecheck
+
+# 代码检查
+pnpm lint
+pnpm lint:fix
+
+# 运行测试
+pnpm test
+pnpm test:run
+pnpm test:coverage
 ```
 
 ## 演示账号
@@ -217,6 +245,8 @@ const { data: stats } = await useAsyncData('dashboard-stats', () =>
 | `/register` | 注册 | auth |
 | `/forgot-password` | 忘记密码 | auth |
 | `/reset-password` | 重置密码 | auth |
+| `/terms` | 服务条款 | auth |
+| `/privacy` | 隐私政策 | auth |
 | `/dashboard` | 仪表盘 | default |
 | `/users` | 用户管理 | default |
 | `/messages` | 消息中心 | default |
