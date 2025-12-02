@@ -26,20 +26,44 @@ HaloLight 是一套多框架实现的企业级管理后台解决方案。参考�
 
 其余框架 (Angular、Nuxt、SvelteKit、Astro、Solid、Qwik、Remix、Preact、Lit、Fresh) 均已实现并部署，预览地址见各仓库 README。
 
-| 框架 | 状态 | 预览 | 仓库 |
-|------|------|------|------|
-| Next.js 14 | ✅ 已部署 | [预览](https://halolight.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight) |
-| Vue 3.5 | ✅ 已部署 | [预览](https://halolight-vue.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-vue) |
-| Angular 21 | ✅ 已部署 | [预览](https://halolight-angular.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-angular) |
-| Nuxt 4 | ✅ 已部署 | [预览](https://halolight-nuxt.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-nuxt) |
-| SvelteKit 2 | ✅ 已部署 | [预览](https://halolight-svelte.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-svelte) |
-| Astro 5 | ✅ 已部署 | [预览](https://halolight-astro.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-astro) |
-| Solid.js | ✅ 已部署 | [预览](https://halolight-solid.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-solid) |
-| Qwik | ✅ 已部署 | [预览](https://halolight-qwik.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-qwik) |
-| Remix | ✅ 已部署 | [预览](https://halolight-remix.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-remix) |
-| Preact | ✅ 已部署 | [预览](https://halolight-preact.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-preact) |
-| Lit | ✅ 已部署 | [预览](https://halolight-lit.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-lit) |
-| Fresh (Deno) | ✅ 已部署 | [预览](https://halolight-fresh.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-fresh) |
+### 框架版本
+
+| 框架 | 状态 | 预览 | 仓库 | 文档 |
+|------|------|------|------|------|
+| 🟦 Next.js 14 | ✅ 已部署 | [预览](https://halolight.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight) | [指南](https://halolight.docs.h7ml.cn/guide/nextjs) |
+| 💚 Vue 3.5 | ✅ 已部署 | [预览](https://halolight-vue.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-vue) | [指南](https://halolight.docs.h7ml.cn/guide/vue) |
+| 🔺 Angular 21 | ✅ 已部署 | [预览](https://halolight-angular.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-angular) | [指南](https://halolight.docs.h7ml.cn/guide/angular) |
+| 🌿 Nuxt 4 | ✅ 已部署 | [预览](https://halolight-nuxt.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-nuxt) | [指南](https://halolight.docs.h7ml.cn/guide/nuxt) |
+| 🧡 SvelteKit 2 | ✅ 已部署 | [预览](https://halolight-svelte.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-svelte) | [指南](https://halolight.docs.h7ml.cn/guide/sveltekit) |
+| 🪐 Astro 5 | ✅ 已部署 | [预览](https://halolight-astro.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-astro) | [指南](https://halolight.docs.h7ml.cn/guide/astro) |
+| 💠 Solid.js | ✅ 已部署 | [预览](https://halolight-solid.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-solid) | [指南](https://halolight.docs.h7ml.cn/guide/solidjs) |
+| ⚡ Qwik | ✅ 已部署 | [预览](https://halolight-qwik.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-qwik) | [指南](https://halolight.docs.h7ml.cn/guide/qwik) |
+| 🎸 Remix | ✅ 已部署 | [预览](https://halolight-remix.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-remix) | [指南](https://halolight.docs.h7ml.cn/guide/remix) |
+| 🪶 Preact | ✅ 已部署 | [预览](https://halolight-preact.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-preact) | [指南](https://halolight.docs.h7ml.cn/guide/preact) |
+| 🔥 Lit | ✅ 已部署 | [预览](https://halolight-lit.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-lit) | [指南](https://halolight.docs.h7ml.cn/guide/lit) |
+| 🦖 Fresh (Deno) | 📦 已归档 | [预览](https://halolight-fresh.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-fresh) | [指南](https://halolight.docs.h7ml.cn/guide/fresh) |
+
+### 后端服务
+
+| 服务 | 状态 | 预览 | 仓库 | 文档 |
+|------|------|------|------|------|
+| 🦕 Deno + Hono | ✅ 已部署 | [预览](https://halolight-deno.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-deno) | [指南](https://halolight.docs.h7ml.cn/guide/deno) |
+| 🐹 Go API | ✅ 已部署 | [预览](https://halolight-api-go.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-api-go) | [指南](https://halolight.docs.h7ml.cn/guide/api-go) |
+| 🟩 Node.js API | ✅ 已部署 | [预览](https://halolight-api-node.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-api-node) | [指南](https://halolight.docs.h7ml.cn/guide/api-node) |
+| 🛠️ Admin 面板 | 🔒 私有 | [预览](https://halolight-admin.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-admin) | [指南](https://halolight.docs.h7ml.cn/guide/admin) |
+
+### 部署方案
+
+| 平台 | 状态 | 预览 | 仓库 | 文档 |
+|------|------|------|------|------|
+| ☁️ Cloudflare | ✅ 已部署 | [预览](https://halolight-cloudflare.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-cloudflare) | [指南](https://halolight.docs.h7ml.cn/guide/cloudflare) |
+| ▲ Vercel | ✅ 已部署 | [预览](https://halolight-vercel.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-vercel) | [指南](https://halolight.docs.h7ml.cn/guide/vercel) |
+| 🔷 Netlify | ✅ 已部署 | [预览](https://halolight-netlify.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-netlify) | [指南](https://halolight.docs.h7ml.cn/guide/netlify) |
+| 🐳 Docker | ✅ 已部署 | - | [GitHub](https://github.com/halolight/halolight-docker) | [指南](https://halolight.docs.h7ml.cn/guide/docker) |
+| 🚂 Railway | ✅ 已部署 | [预览](https://halolight-railway.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-railway) | [指南](https://halolight.docs.h7ml.cn/guide/railway) |
+| ✈️ Fly.io | ✅ 已部署 | [预览](https://halolight-fly.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-fly) | [指南](https://halolight.docs.h7ml.cn/guide/fly) |
+| ☁️ Azure | ✅ 已部署 | [预览](https://halolight-azure.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-azure) | [指南](https://halolight.docs.h7ml.cn/guide/azure) |
+| 🟠 AWS | ✅ 已部署 | [预览](https://halolight-aws.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-aws) | [指南](https://halolight.docs.h7ml.cn/guide/aws) |
 
 ## 核心特性
 
@@ -69,22 +93,51 @@ pnpm preview
 
 ```
 docs/
-├── .vitepress/           # VitePress 配置
-├── guide/                # 使用指南
-│   ├── index.md         # 简介
-│   └── getting-started.md
-├── development/          # 开发文档
-│   ├── index.md         # 开发概览
-│   ├── architecture.md  # 整体架构
-│   ├── components.md    # 组件规范
+├── .vitepress/              # VitePress 配置
+│   ├── config.ts           # 主配置
+│   ├── nav.ts              # 导航栏配置
+│   ├── sidebar.ts          # 侧边栏配置
+│   ├── head.ts             # HTML head 配置
+│   └── pwa.ts              # PWA 配置
+├── guide/                   # 使用指南
+│   ├── index.md            # 简介
+│   ├── getting-started.md  # 快速开始
+│   ├── nextjs.md           # 🟦 Next.js
+│   ├── vue.md              # 💚 Vue
+│   ├── angular.md          # 🔺 Angular
+│   ├── nuxt.md             # 🌿 Nuxt
+│   ├── sveltekit.md        # 🧡 SvelteKit
+│   ├── astro.md            # 🪐 Astro
+│   ├── solidjs.md          # 💠 Solid.js
+│   ├── qwik.md             # ⚡ Qwik
+│   ├── remix.md            # 🎸 Remix
+│   ├── preact.md           # 🪶 Preact
+│   ├── lit.md              # 🔥 Lit
+│   ├── fresh.md            # 🦖 Fresh (Deno)
+│   ├── deno.md             # 🦕 Deno + Hono
+│   ├── api-go.md           # 🐹 Go API
+│   ├── api-node.md         # 🟩 Node.js API
+│   ├── admin.md            # 🛠️ Admin 面板
+│   ├── cloudflare.md       # ☁️ Cloudflare
+│   ├── vercel.md           # ▲ Vercel
+│   ├── netlify.md          # 🔷 Netlify
+│   ├── docker.md           # 🐳 Docker
+│   ├── railway.md          # 🚂 Railway
+│   ├── fly.md              # ✈️ Fly.io
+│   ├── azure.md            # ☁️ Azure
+│   └── aws.md              # 🟠 AWS
+├── development/             # 开发文档
+│   ├── index.md            # 开发概览
+│   ├── architecture.md     # 整体架构
+│   ├── components.md       # 组件规范
 │   ├── state-management.md # 状态管理
-│   ├── api-patterns.md  # API 设计
-│   ├── authentication.md # 认证系统
-│   ├── dashboard.md     # 仪表盘
-│   ├── theming.md       # 主题系统
+│   ├── api-patterns.md     # API 设计
+│   ├── authentication.md   # 认证系统
+│   ├── dashboard.md        # 仪表盘
+│   ├── theming.md          # 主题系统
 │   └── implementation-guide.md # 实现指南
-├── public/               # 静态资源
-└── index.md              # 首页
+├── public/                  # 静态资源
+└── index.md                 # 首页
 ```
 
 ## License
