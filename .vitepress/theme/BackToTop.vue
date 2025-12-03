@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useData } from 'vitepress'
 
 interface Props {
   threshold?: number
@@ -11,6 +12,16 @@ const props = withDefaults(defineProps<Props>(), {
   threshold: 300,
   duration: 500,
   showProgress: true,
+})
+
+const { lang } = useData()
+
+// i18n
+const ariaLabel = computed(() => {
+  const isEn = lang.value === 'en-US'
+  return isEn
+    ? `Back to top (${scrollPercent.value}%)`
+    : `返回顶部 (${scrollPercent.value}%)`
 })
 
 const isVisible = ref(false)
@@ -73,16 +84,16 @@ onUnmounted(() => {
       v-if="isVisible"
       class="back-to-top-btn"
       :class="{ 'with-progress': showProgress }"
-      :aria-label="`返回顶部 (${scrollPercent}%)`"
+      :aria-label="ariaLabel"
       @click="scrollToTop"
     >
-      <!-- 进度环 -->
+      <!-- Progress Ring -->
       <svg
         v-if="showProgress"
         class="progress-ring"
         viewBox="0 0 100 100"
       >
-        <!-- 背景圆环 -->
+        <!-- Background Ring -->
         <circle
           cx="50"
           cy="50"
@@ -92,7 +103,7 @@ onUnmounted(() => {
           stroke-width="4"
           class="ring-bg"
         />
-        <!-- 进度圆环 -->
+        <!-- Progress Ring -->
         <circle
           cx="50"
           cy="50"
@@ -106,7 +117,7 @@ onUnmounted(() => {
         />
       </svg>
 
-      <!-- 内容 -->
+      <!-- Content -->
       <div class="btn-content">
         <span v-if="showProgress" class="percent">{{ scrollPercent }}%</span>
         <svg
@@ -201,7 +212,7 @@ onUnmounted(() => {
   color: var(--vp-c-brand-1);
 }
 
-/* 过渡动画 */
+/* Transition Animation */
 .back-to-top-enter-active,
 .back-to-top-leave-active {
   transition: all 0.3s ease;

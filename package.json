@@ -2,7 +2,7 @@
   "name": "halolight-docs",
   "version": "1.0.0",
   "private": true,
-  "description": "HaloLight 多框架管理后台解决方案文档",
+  "description": "HaloLight multi-framework admin dashboard documentation | HaloLight 多框架管理后台解决方案文档",
   "type": "module",
   "scripts": {
     "dev": "vitepress dev",
@@ -12,7 +12,8 @@
     "lint:fix": "eslint . --fix",
     "lint:zh": "zhlint \"**/*.md\"",
     "lint:zh:fix": "zhlint \"**/*.md\" --fix",
-    "generate:icons": "node scripts/generate-icons.mjs"
+    "generate:icons": "node scripts/generate-icons.mjs",
+    "type-check": "tsc --noEmit"
   },
   "homepage": "https://halolight.docs.h7ml.cn/",
   "repository": {
@@ -22,19 +23,42 @@
   "bugs": {
     "url": "https://github.com/halolight/docs/issues"
   },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/h7ml"
+  },
   "keywords": [
     "halolight",
     "admin",
     "dashboard",
     "docs",
+    "documentation",
     "vitepress",
     "vue",
     "react",
     "nextjs",
+    "angular",
+    "svelte",
+    "astro",
+    "solid",
+    "qwik",
     "multi-framework",
-    "enterprise"
+    "enterprise",
+    "i18n",
+    "bilingual"
   ],
-  "author": "h7ml <h7ml@qq.com>",
+  "author": {
+    "name": "h7ml",
+    "email": "h7ml@qq.com",
+    "url": "https://github.com/h7ml"
+  },
+  "contributors": [
+    {
+      "name": "h7ml",
+      "email": "h7ml@qq.com",
+      "url": "https://github.com/h7ml"
+    }
+  ],
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0",
@@ -43,6 +67,7 @@
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@iconify-json/simple-icons": "^1.2.20",
+    "@vercel/node": "^5.5.14",
     "eslint": "^9.17.0",
     "eslint-plugin-vue": "^9.32.0",
     "medium-zoom": "^1.1.0",
@@ -60,6 +85,7 @@
     "@giscus/vue": "^3.1.1",
     "@vite-pwa/vitepress": "^1.1.0",
     "feed": "^5.1.0",
+    "marked": "^17.0.1",
     "pagefind": "^1.4.0",
     "sitemap": "^9.0.0",
     "vite-plugin-pwa": "^1.2.0",

@@ -1,17 +1,43 @@
 <script setup lang="ts">
-import { useRouter } from 'vitepress'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter, useData } from 'vitepress'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 const router = useRouter()
+const { lang } = useData()
 const countdown = ref(10)
 let timer: ReturnType<typeof setInterval>
+
+// i18n translations
+const i18n = {
+  'zh-CN': {
+    title: '页面未找到',
+    description: '抱歉，您访问的页面不存在或已被移除。',
+    countdown: '秒后自动返回首页...',
+    home: '返回首页',
+    docs: '查看文档',
+  },
+  'en-US': {
+    title: 'Page Not Found',
+    description: 'Sorry, the page you visited does not exist or has been removed.',
+    countdown: 'seconds until redirect to home...',
+    home: 'Go Home',
+    docs: 'View Docs',
+  },
+}
+
+const t = computed(() => {
+  const locale = lang.value === 'en-US' ? 'en-US' : 'zh-CN'
+  return i18n[locale]
+})
+
+const isEnglish = computed(() => lang.value === 'en-US')
 
 onMounted(() => {
   timer = setInterval(() => {
     countdown.value--
     if (countdown.value <= 0) {
       clearInterval(timer)
-      router.go('/')
+      router.go(isEnglish.value ? '/en/' : '/')
     }
   }, 1000)
 })
@@ -22,12 +48,12 @@ onUnmounted(() => {
 
 function goHome() {
   if (timer) clearInterval(timer)
-  router.go('/')
+  router.go(isEnglish.value ? '/en/' : '/')
 }
 
 function goDocs() {
   if (timer) clearInterval(timer)
-  router.go('/guide/')
+  router.go(isEnglish.value ? '/en/guide/' : '/guide/')
 }
 </script>
 
@@ -35,16 +61,16 @@ function goDocs() {
   <div class="not-found">
     <div class="container">
       <p class="code">404</p>
-      <h1 class="title">页面未找到</h1>
+      <h1 class="title">{{ t.title }}</h1>
       <p class="description">
-        抱歉，您访问的页面不存在或已被移除。
+        {{ t.description }}
       </p>
       <p class="countdown">
-        {{ countdown }} 秒后自动返回首页...
+        {{ countdown }} {{ t.countdown }}
       </p>
       <div class="actions">
-        <button class="btn primary" @click="goHome">返回首页</button>
-        <button class="btn secondary" @click="goDocs">查看文档</button>
+        <button class="btn primary" @click="goHome">{{ t.home }}</button>
+        <button class="btn secondary" @click="goDocs">{{ t.docs }}</button>
       </div>
     </div>
   </div>

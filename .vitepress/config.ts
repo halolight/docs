@@ -2,25 +2,24 @@ import { defineConfig } from 'vitepress'
 import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs'
 import { groupIconMdPlugin, groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { pagefindPlugin } from 'vitepress-plugin-pagefind'
-import { AnnouncementPlugin } from 'vitepress-plugin-announcement'
 import { withPwa } from '@vite-pwa/vitepress'
 import { RSSOptions, RssPlugin } from 'vitepress-plugin-rss'
 
-// 拆分的配置模块
-import { nav } from './nav'
-import { sidebar } from './sidebar'
-import { head, SITE_URL, SITE_TITLE, SITE_DESCRIPTION } from './head'
+// Configuration modules
+import { zhNav, enNav } from './nav'
+import { zhSidebar, enSidebar } from './sidebar'
+import { head, zhHead, enHead, SITE_URL, SITE_TITLE, SITE_CONTENT } from './head'
 import { pwaOptions } from './pwa'
 
-// 通过环境变量设置 base，默认为 '/'，GitHub Pages 部署时设置为 '/halolight/'
+// Base URL from env, defaults to '/', set to '/halolight/' for GitHub Pages
 const BASE_URL = process.env.VITEPRESS_BASE || '/'
 
-// RSS 配置
+// RSS Configuration
 const rssOptions: RSSOptions = {
   title: SITE_TITLE,
   baseUrl: SITE_URL,
   copyright: `Copyright © ${new Date().getFullYear()} h7ml & HaloLight`,
-  description: SITE_DESCRIPTION,
+  description: SITE_CONTENT.zh.description,
   language: 'zh-CN',
   author: {
     name: 'h7ml',
@@ -33,14 +32,87 @@ const rssOptions: RSSOptions = {
 
 export default withPwa(defineConfig({
   title: SITE_TITLE,
-  description: SITE_DESCRIPTION,
-  lang: 'zh-CN',
+  description: SITE_CONTENT.zh.description,
   base: BASE_URL,
   lastUpdated: true,
   ignoreDeadLinks: true,
   cleanUrls: true,
 
-  // Sitemap 配置
+  // i18n Configuration
+  locales: {
+    root: {
+      label: '简体中文',
+      lang: 'zh-CN',
+      title: SITE_TITLE,
+      description: SITE_CONTENT.zh.description,
+      head: zhHead,
+      themeConfig: {
+        nav: zhNav,
+        sidebar: zhSidebar,
+        outline: {
+          label: '页面导航',
+          level: [2, 3],
+        },
+        docFooter: {
+          prev: '上一篇',
+          next: '下一篇',
+        },
+        lastUpdated: {
+          text: '最后更新于',
+          formatOptions: {
+            dateStyle: 'short',
+            timeStyle: 'short',
+          },
+        },
+        editLink: {
+          pattern: 'https://github.com/halolight/docs/edit/main/:path',
+          text: '在 GitHub 上编辑此页',
+        },
+        returnToTopLabel: '返回顶部',
+        sidebarMenuLabel: '菜单',
+        darkModeSwitchLabel: '主题',
+        lightModeSwitchTitle: '切换到浅色模式',
+        darkModeSwitchTitle: '切换到深色模式',
+      },
+    },
+    en: {
+      label: 'English',
+      lang: 'en-US',
+      title: 'HaloLight',
+      description: SITE_CONTENT.en.description,
+      head: enHead,
+      themeConfig: {
+        nav: enNav,
+        sidebar: enSidebar,
+        outline: {
+          label: 'On this page',
+          level: [2, 3],
+        },
+        docFooter: {
+          prev: 'Previous',
+          next: 'Next',
+        },
+        lastUpdated: {
+          text: 'Last updated',
+          formatOptions: {
+            dateStyle: 'short',
+            timeStyle: 'short',
+          },
+        },
+        editLink: {
+          pattern: 'https://github.com/halolight/docs/edit/main/:path',
+          text: 'Edit this page on GitHub',
+        },
+        returnToTopLabel: 'Back to top',
+        sidebarMenuLabel: 'Menu',
+        darkModeSwitchLabel: 'Theme',
+        lightModeSwitchTitle: 'Switch to light mode',
+        darkModeSwitchTitle: 'Switch to dark mode',
+      },
+    },
+  },
+
+  // Sitemap Configuration
   sitemap: {
     hostname: SITE_URL,
     lastmodDateOnly: false,
@@ -72,70 +144,17 @@ export default withPwa(defineConfig({
             .trim()
         },
       }),
-      AnnouncementPlugin({
-        title: '欢迎',
-        body: [
-          { type: 'text', content: 'HaloLight 多框架管理后台文档已上线!' },
-          { type: 'text', content: '支持 12+ 框架版本，欢迎体验。' },
-        ],
-        footer: [
-          {
-            type: 'button',
-            content: '在线预览',
-            link: 'https://halolight.h7ml.cn/',
-          },
-          {
-            type: 'button',
-            content: 'GitHub',
-            link: 'https://github.com/halolight',
-            props: { type: 'default' },
-          },
-        ],
-        duration: -1,
-        mobileMinify: true,
-      }),
     ],
   },
 
-  // PWA 配置
+  // PWA Configuration
   pwa: pwaOptions,
 
   themeConfig: {
     logo: '/logo.svg',
-    nav,
-    sidebar,
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/halolight' },
     ],
-
-    outline: {
-      label: '页面导航',
-      level: [2, 3],
-    },
-
-    docFooter: {
-      prev: '上一篇',
-      next: '下一篇',
-    },
-
-    lastUpdated: {
-      text: '最后更新于',
-      formatOptions: {
-        dateStyle: 'short',
-        timeStyle: 'short',
-      },
-    },
-
-    editLink: {
-      pattern: 'https://github.com/halolight/docs/edit/main/:path',
-      text: '在 GitHub 上编辑此页',
-    },
-
-    returnToTopLabel: '返回顶部',
-    sidebarMenuLabel: '菜单',
-    darkModeSwitchLabel: '主题',
-    lightModeSwitchTitle: '切换到浅色模式',
-    darkModeSwitchTitle: '切换到深色模式',
   },
 }))

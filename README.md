@@ -1,5 +1,7 @@
 # HaloLight Docs
 
+**[English](./README.en.md)** | 简体中文
+
 [![Deploy](https://github.com/halolight/docs/actions/workflows/deploy.yml/badge.svg)](https://github.com/halolight/docs/actions/workflows/deploy.yml)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![VitePress](https://img.shields.io/badge/VitePress-1.6.4-646cff.svg?logo=vite)](https://vitepress.dev/)
@@ -7,7 +9,7 @@
 [![pnpm](https://img.shields.io/badge/pnpm-9.15.0-f69220.svg?logo=pnpm)](https://pnpm.io/)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fhalolight.docs.h7ml.cn&label=docs)](https://halolight.docs.h7ml.cn/)
 
-HaloLight 多框架管理后台项目文档站点，基于 [VitePress](https://vitepress.dev/) 构建。
+HaloLight 多框架管理后台项目文档站点，基于 [VitePress](https://vitepress.dev/) 构建，支持中英文双语。
 
 ## 项目关系
 
@@ -140,6 +142,25 @@ docs/
 └── index.md                 # 首页
 ```
 
+## 技术栈
+
+- [VitePress](https://vitepress.dev/) - 静态站点生成器
+- [Vue 3](https://vuejs.org/) - 渐进式 JavaScript 框架
+- [TypeScript](https://www.typescriptlang.org/) - 类型安全
+- [Pagefind](https://pagefind.app/) - 全文搜索
+- [Giscus](https://giscus.app/) - 评论系统
+- [PWA](https://web.dev/progressive-web-apps/) - 渐进式 Web 应用
+
+## 贡献指南
+
+欢迎提交 Issue 和 Pull Request！
+
+1. Fork 本仓库
+2. 创建功能分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'feat: add amazing feature'`)
+4. 推送分支 (`git push origin feature/amazing-feature`)
+5. 创建 Pull Request
+
 ## License
 
-MIT
+[MIT](./LICENSE) © 2025 [h7ml](https://github.com/h7ml) & [HaloLight](https://github.com/halolight)

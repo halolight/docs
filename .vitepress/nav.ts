@@ -32,11 +32,11 @@ const backendPreviews: DefaultTheme.NavItemWithLink[] = [
   { text: '🦕 Deno API', link: 'https://halolight-deno.h7ml.cn/' },
   { text: '🐹 Go API', link: 'https://halolight-api-go.h7ml.cn/' },
   { text: '🟩 Node.js API', link: 'https://halolight-api-node.h7ml.cn/' },
-  { text: '🛠️ Admin 面板', link: 'https://halolight-admin.h7ml.cn/' },
+  { text: '🛠️ Admin', link: 'https://halolight-admin.h7ml.cn/' },
 ]
 
-// 导航栏配置
-export const nav: DefaultTheme.NavItem[] = [
+// 中文导航栏配置
+export const zhNav: DefaultTheme.NavItem[] = [
   { text: '首页', link: '/' },
   { text: '指南', link: '/guide/' },
   { text: '开发', link: '/development/' },
@@ -64,6 +64,39 @@ export const nav: DefaultTheme.NavItem[] = [
       { text: '📚 文档仓库', link: 'https://github.com/halolight/docs' },
       { text: '🟦 Next.js 仓库', link: 'https://github.com/halolight/halolight' },
       { text: '💚 Vue 仓库', link: 'https://github.com/halolight/halolight-vue' },
+    ],
+  },
+]
+
+// 英文导航栏配置
+export const enNav: DefaultTheme.NavItem[] = [
+  { text: 'Home', link: '/en/' },
+  { text: 'Guide', link: '/en/guide/' },
+  { text: 'Development', link: '/en/development/' },
+  {
+    text: 'Preview',
+    items: [
+      {
+        text: 'Framework Versions',
+        items: frameworkPreviews,
+      },
+      {
+        text: 'Deployment Options',
+        items: deployPreviews,
+      },
+      {
+        text: 'Backend Services',
+        items: backendPreviews,
+      },
+    ],
+  },
+  {
+    text: 'GitHub',
+    items: [
+      { text: '🏠 Organization', link: 'https://github.com/halolight' },
+      { text: '📚 Docs Repo', link: 'https://github.com/halolight/docs' },
+      { text: '🟦 Next.js Repo', link: 'https://github.com/halolight/halolight' },
+      { text: '💚 Vue Repo', link: 'https://github.com/halolight/halolight-vue' },
     ],
   },
 ]

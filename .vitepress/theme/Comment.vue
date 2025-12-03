@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import Giscus from '@giscus/vue'
 import { useData } from 'vitepress'
+import { computed } from 'vue'
 
-const { isDark } = useData()
+const { isDark, lang } = useData()
+
+// Map VitePress lang to Giscus lang
+const giscusLang = computed(() => {
+  return lang.value === 'en-US' ? 'en' : 'zh-CN'
+})
 </script>
 
 <template>
@@ -18,7 +24,7 @@ const { isDark } = useData()
       emit-metadata="0"
       input-position="top"
       :theme="isDark ? 'dark' : 'light'"
-      lang="zh-CN"
+      :lang="giscusLang"
       loading="lazy"
     />
   </div>
