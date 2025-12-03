@@ -3,6 +3,7 @@ import type { DefaultTheme } from 'vitepress'
 // 框架版本预览链接
 const frameworkPreviews: DefaultTheme.NavItemWithLink[] = [
   { text: '🟦 Next.js', link: 'https://halolight.h7ml.cn/' },
+  { text: '⚛️ React', link: 'https://halolight-react.h7ml.cn/' },
   { text: '💚 Vue', link: 'https://halolight-vue.h7ml.cn/' },
   { text: '🔺 Angular', link: 'https://halolight-angular.h7ml.cn/' },
   { text: '🌿 Nuxt', link: 'https://halolight-nuxt.h7ml.cn/' },

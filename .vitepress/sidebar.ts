@@ -15,6 +15,7 @@ const zhGuideSidebar: DefaultTheme.SidebarItem[] = [
     collapsed: true,
     items: [
       { text: '🟦 Next.js', link: '/guide/nextjs' },
+      { text: '⚛️ React', link: '/guide/react' },
       { text: '💚 Vue', link: '/guide/vue' },
       { text: '🔺 Angular', link: '/guide/angular' },
       { text: '🌿 Nuxt', link: '/guide/nuxt' },
@@ -93,6 +94,7 @@ const enGuideSidebar: DefaultTheme.SidebarItem[] = [
     collapsed: true,
     items: [
       { text: '🟦 Next.js', link: '/en/guide/nextjs' },
+      { text: '⚛️ React', link: '/en/guide/react' },
       { text: '💚 Vue', link: '/en/guide/vue' },
       { text: '🔺 Angular', link: '/en/guide/angular' },
       { text: '🌿 Nuxt', link: '/en/guide/nuxt' },
