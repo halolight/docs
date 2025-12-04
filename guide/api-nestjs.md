@@ -1687,7 +1687,7 @@ async create(@Body() dto: CreateUserDto) { ... }
 
 ### 5。Swagger 文档
 
-自动生成交互式 API 文档，访问 `/api/docs`：
+自动生成交互式 API 文档，访问 `/docs`：
 
 - 完整的 API 端点列表
 - 请求/响应 Schema
@@ -1777,9 +1777,9 @@ export class MyModuleController {
 ## 相关链接
 
 - [在线预览](http://halolight-api-nestjs.h7ml.cn)
-- [API 文档](http://halolight-api-nestjs.h7ml.cn/api/docs)
+- [API 文档](http://halolight-api-nestjs.h7ml.cn/docs)
 - [GitHub 仓库](https://github.com/halolight/halolight-api-nestjs)
-- [NestJS 官方文档](https://docs.nestjs.com)
+- [NestJS 官方文档](https:/docs.nestjs.com)
 - [Prisma 官方文档](https://www.prisma.io/docs)
 - [问题反馈](https://github.com/halolight/halolight-api-nestjs/issues)
 

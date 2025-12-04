@@ -1687,7 +1687,7 @@ Unified error response format:
 
 ### 5. Swagger Documentation
 
-Auto-generated interactive API documentation, accessible at `/api/docs`:
+Auto-generated interactive API documentation, accessible at `/docs`:
 
 - Complete API endpoint list
 - Request/Response schemas
@@ -1777,9 +1777,9 @@ export class MyModuleController {
 ## Related Links
 
 - [Live Preview](http://halolight-api-nestjs.h7ml.cn)
-- [API Documentation](http://halolight-api-nestjs.h7ml.cn/api/docs)
+- [API Documentation](http://halolight-api-nestjs.h7ml.cn/docs)
 - [GitHub Repository](https://github.com/halolight/halolight-api-nestjs)
-- [NestJS Official Docs](https://docs.nestjs.com)
+- [NestJS Official Docs](https:/docs.nestjs.com)
 - [Prisma Official Docs](https://www.prisma.io/docs)
 - [Issue Tracker](https://github.com/halolight/halolight-api-nestjs/issues)
 
