@@ -174,7 +174,7 @@ pnpm start
 
 ## 核心功能
 
-### 1. 可配置仪表盘
+### 1。可配置仪表盘
 
 支持 9 种小部件类型，可自由拖拽、调整大小、添加删除：
 
@@ -198,7 +198,7 @@ const { isEditing, setIsEditing, addWidget, removeWidget, resetToDefault } = use
 // lg: 12列, md: 8列, sm: 4列, xs: 2列, mobile: 1列
 ```
 
-### 2. 多账户认证系统
+### 2。多账户认证系统
 
 ```tsx
 // stores/auth-store.ts
@@ -224,7 +224,7 @@ Cookies.set("token", response.token, {
 })
 ```
 
-### 3. 多标签导航
+### 3。多标签导航
 
 ```tsx
 // stores/tabs-store.ts
@@ -244,7 +244,7 @@ interface Tab {
 - 关闭所有
 ```
 
-### 4. 页面状态缓存 (Keep-Alive)
+### 4。页面状态缓存 (Keep-Alive)
 
 ```tsx
 // hooks/use-keep-alive.tsx
@@ -259,11 +259,11 @@ const [values, saveValues, clearCache] = useFormCache('filter-form', initialValu
 const [state, setState] = useStateCache('my-key', initialValue)
 ```
 
-### 5. 命令面板 (⌘K)
+### 5。命令面板 (⌘K)
 
 支持键盘快速导航、主题切换、账户切换、退出登录等操作。
 
-### 6. 界面设置面板
+### 6。界面设置面板
 
 ```tsx
 // 主题模式
@@ -279,7 +279,7 @@ setMobileHeaderFixed(boolean)   // 移动端固定头部
 setMobileTabBarFixed(boolean)   // 移动端固定标签栏
 ```
 
-### 7. 实时通知 (WebSocket)
+### 7。实时通知 (WebSocket)
 
 ```tsx
 // providers/websocket-provider.tsx
@@ -291,7 +291,7 @@ useRealtimeNotifications((notification) => {
 })
 ```
 
-### 8. 权限系统
+### 8。权限系统
 
 ```tsx
 // 路由权限配置
@@ -336,12 +336,12 @@ if (hasPermission("users:delete")) {
 
 基于 shadcn/ui，已集成 28 个组件：
 
-- **表单**：Button, Input, InputClear, Textarea, Select, Checkbox, Switch, Label
-- **数据展示**：Table, Card, Badge, Avatar, Skeleton
-- **反馈**：Dialog, Sheet, AlertDialog, Tooltip, Popover
-- **导航**：Tabs, DropdownMenu, ContextMenu, Command, ScrollArea
+- **表单**：Button，Input，InputClear，Textarea，Select，Checkbox，Switch，Label
+- **数据展示**：Table，Card，Badge，Avatar，Skeleton
+- **反馈**：Dialog，Sheet，AlertDialog，Tooltip，Popover
+- **导航**：Tabs，DropdownMenu，ContextMenu，Command，ScrollArea
 - **布局**：Separator
-- **增强**：BackToTop, CookieConsent, CommandInputClear, InputClearForm
+- **增强**：BackToTop，CookieConsent，CommandInputClear，InputClearForm
 
 ## 页面路由
 
@@ -434,9 +434,9 @@ response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocatio
 
 ### 认证保护
 
-- Cookie 安全属性 (`secure`, `sameSite: strict`)
+- Cookie 安全属性 (`secure`，`sameSite: strict`)
 - 已登录用户不能访问登录页
-- 未登录用户重定向到登录页（带 redirect 参数）
+- 未登录用户重定向到登录页 (带 redirect 参数)
 
 ## 构建优化
 
