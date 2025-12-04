@@ -10,18 +10,20 @@ HaloLight Next.js version is built on Next.js 14 App Router with React 18 + Type
 
 | Technology | Version | Description |
 |------------|---------|-------------|
-| Next.js | 14.x | React full-stack framework |
+| Next.js | 14.x | React full-stack framework (App Router) |
 | React | 18.x | UI library |
 | TypeScript | 5.x | Type safety |
 | Tailwind CSS | 4.x | Atomic CSS |
-| shadcn/ui | latest | UI component library |
+| shadcn/ui | latest | UI component library (28 components) |
 | Zustand | 5.x | State management |
 | TanStack Query | 5.x | Server state |
 | React Hook Form | 7.x | Form handling |
-| Zod | 3.x | Data validation |
+| Zod | 4.x | Data validation |
 | react-grid-layout | 1.x | Drag-and-drop layout |
-| ECharts | 5.x | Chart visualization |
+| Recharts | 3.x | Chart visualization |
+| Framer Motion | 12.x | Animation effects |
 | Mock.js | 1.x | Data mocking |
+| next-pwa | 5.x | PWA support |
 
 ## Directory Structure
 
@@ -29,22 +31,37 @@ HaloLight Next.js version is built on Next.js 14 App Router with React 18 + Type
 halolight/
 ├── src/
 │   ├── app/                      # App Router pages
-│   │   ├── (admin)/             # Admin route group
-│   │   │   ├── dashboard/       # Dashboard
-│   │   │   ├── users/           # User management
-│   │   │   ├── roles/           # Role management
-│   │   │   ├── permissions/     # Permission management
-│   │   │   ├── settings/        # System settings
-│   │   │   └── profile/         # User profile
 │   │   ├── (auth)/              # Auth route group
-│   │   │   ├── login/
-│   │   │   ├── register/
-│   │   │   ├── forgot-password/
-│   │   │   └── reset-password/
+│   │   │   ├── login/           # Login
+│   │   │   ├── register/        # Register
+│   │   │   ├── forgot-password/ # Forgot password
+│   │   │   ├── reset-password/  # Reset password
+│   │   │   └── layout.tsx       # Auth layout
+│   │   ├── (dashboard)/         # Dashboard route group
+│   │   │   ├── page.tsx         # Dashboard home
+│   │   │   ├── accounts/        # Account management
+│   │   │   ├── analytics/       # Analytics
+│   │   │   ├── calendar/        # Calendar
+│   │   │   ├── docs/            # Documentation
+│   │   │   ├── documents/       # Document management
+│   │   │   ├── files/           # File management
+│   │   │   ├── messages/        # Message center
+│   │   │   ├── notifications/   # Notification center
+│   │   │   ├── profile/         # User profile
+│   │   │   ├── users/           # User management
+│   │   │   ├── settings/        # System settings
+│   │   │   │   └── teams/       # Team management
+│   │   │   │       └── roles/   # Role management
+│   │   │   └── layout.tsx       # Dashboard layout
+│   │   ├── (legal)/             # Legal route group
+│   │   │   ├── privacy/         # Privacy policy
+│   │   │   ├── terms/           # Terms of service
+│   │   │   └── layout.tsx       # Legal pages layout
 │   │   ├── layout.tsx           # Root layout
-│   │   └── page.tsx             # Home redirect
+│   │   ├── error.tsx            # Error page
+│   │   └── not-found.tsx        # 404 page
 │   ├── components/
-│   │   ├── ui/                  # shadcn/ui components (30+)
+│   │   ├── ui/                  # shadcn/ui components (28)
 │   │   ├── layout/              # Layout components
 │   │   │   ├── admin-layout.tsx
 │   │   │   ├── auth-layout.tsx
@@ -52,37 +69,60 @@ halolight/
 │   │   │   ├── header.tsx
 │   │   │   └── footer.tsx
 │   │   ├── dashboard/           # Dashboard components
-│   │   │   ├── dashboard-grid.tsx
-│   │   │   ├── widget-wrapper.tsx
-│   │   │   ├── stats-widget.tsx
-│   │   │   ├── chart-widget.tsx
+│   │   │   ├── configurable-dashboard.tsx
+│   │   │   ├── widget-*.tsx     # 9 widget types
 │   │   │   └── ...
 │   │   └── shared/              # Shared components
-│   ├── hooks/                   # React Hooks
-│   │   ├── use-users.ts
-│   │   ├── use-auth.ts
-│   │   └── ...
-│   ├── stores/                  # Zustand Stores
-│   │   ├── auth.ts
-│   │   ├── ui-settings.ts
-│   │   ├── dashboard.ts
-│   │   ├── navigation.ts
-│   │   └── tabs.ts
+│   ├── hooks/                   # React Hooks (15)
+│   │   ├── use-users.ts         # User management
+│   │   ├── use-teams.ts         # Team management
+│   │   ├── use-messages.ts      # Message management
+│   │   ├── use-notifications.ts # Notification management
+│   │   ├── use-calendar.ts      # Calendar data
+│   │   ├── use-documents.ts     # Document management
+│   │   ├── use-files.ts         # File management
+│   │   ├── use-dashboard.ts     # Dashboard state
+│   │   ├── use-dashboard-data.ts # Dashboard data
+│   │   ├── use-chart-palette.ts # Chart color palette
+│   │   ├── use-action-mutation.ts # Server Action
+│   │   ├── use-keep-alive.tsx   # Page keep-alive
+│   │   ├── use-tdk.ts           # TDK management
+│   │   ├── use-title.ts         # Page title
+│   │   └── index.ts             # Export file
+│   ├── stores/                  # Zustand Stores (6)
+│   │   ├── auth-store.ts        # Auth state
+│   │   ├── ui-settings-store.ts # UI settings
+│   │   ├── dashboard-store.ts   # Dashboard state
+│   │   ├── navigation-store.ts  # Navigation state
+│   │   ├── tabs-store.ts        # Tabs state
+│   │   └── error-store.ts       # Error state
+│   ├── actions/                 # Server Actions
 │   ├── services/                # API services
-│   │   ├── api.ts
-│   │   ├── auth.ts
-│   │   ├── users.ts
-│   │   └── ...
+│   ├── providers/               # React Providers (8)
+│   │   ├── app-providers.tsx    # App provider aggregation
+│   │   ├── auth-provider.tsx    # Auth provider
+│   │   ├── theme-provider.tsx   # Theme provider
+│   │   ├── query-provider.tsx   # TanStack Query provider
+│   │   ├── error-provider.tsx   # Error provider
+│   │   ├── permission-provider.tsx # Permission provider
+│   │   ├── websocket-provider.tsx # WebSocket provider
+│   │   └── keep-alive-provider.tsx # Page keep-alive provider
 │   ├── lib/                     # Utility library
-│   │   ├── utils.ts
-│   │   └── cn.ts
+│   ├── config/                  # Configuration
+│   │   ├── routes.ts            # Route configuration
+│   │   └── tdk.ts               # TDK configuration
 │   ├── types/                   # Type definitions
-│   │   ├── user.ts
-│   │   ├── auth.ts
-│   │   └── ...
-│   └── mocks/                   # Mock data
-│       ├── index.ts
-│       └── modules/
+│   ├── mock/                    # Mock data
+│   │   ├── index.ts             # Mock entry
+│   │   ├── user.ts              # User data
+│   │   ├── dashboard.ts         # Dashboard data
+│   │   ├── message.ts           # Message data
+│   │   ├── notification.ts      # Notification data
+│   │   ├── calendar.ts          # Calendar data
+│   │   ├── document.ts          # Document data
+│   │   ├── file.ts              # File data
+│   │   └── team.ts              # Team data
+│   └── middleware.ts            # Middleware
 ├── public/                      # Static assets
 ├── next.config.js
 ├── tailwind.config.js
@@ -137,16 +177,23 @@ pnpm start
 
 ### State Management (Zustand)
 
+The project includes 6 stores with `zustand/persist` for persistence:
+
 ```tsx
-// stores/auth.ts
+// stores/auth-store.ts - Authentication state management
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 interface AuthState {
   user: User | null
   token: string | null
+  accounts: Account[] // Multi-account support
   login: (credentials: LoginCredentials) => Promise<void>
   logout: () => void
+  register: (data: RegisterData) => Promise<void>
+  forgotPassword: (email: string) => Promise<void>
+  resetPassword: (data: ResetPasswordData) => Promise<void>
+  switchAccount: (accountId: string) => void // Switch account
   hasPermission: (permission: string) => boolean
 }
 
@@ -155,6 +202,7 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       user: null,
       token: null,
+      accounts: [],
 
       login: async (credentials) => {
         const response = await authService.login(credentials)
@@ -168,6 +216,14 @@ export const useAuthStore = create<AuthState>()(
         set({ user: null, token: null })
       },
 
+      switchAccount: (accountId) => {
+        const { accounts } = get()
+        const account = accounts.find(a => a.id === accountId)
+        if (account) {
+          set({ user: account.user, token: account.token })
+        }
+      },
+
       hasPermission: (permission) => {
         const permissions = get().user?.permissions || []
         return permissions.some(p =>
@@ -176,7 +232,7 @@ export const useAuthStore = create<AuthState>()(
         )
       },
     }),
-    { name: 'auth' }
+    { name: 'auth-storage' }
   )
 )
 ```
@@ -239,28 +295,42 @@ export function PermissionGuard({
 
 ### Draggable Dashboard
 
+Supports 9 widget types with drag-and-drop and resizing:
+
 ```tsx
-// components/dashboard/dashboard-grid.tsx
-import GridLayout, { Responsive, WidthProvider } from 'react-grid-layout'
+// stores/dashboard-store.ts
+export type WidgetType =
+  | "stats"         // Statistics
+  | "chart-line"    // Line chart
+  | "chart-bar"     // Bar chart
+  | "chart-pie"     // Pie chart
+  | "recent-users"  // Recent users
+  | "notifications" // Notifications list
+  | "tasks"         // Todo tasks
+  | "calendar"      // Today's schedule
+  | "quick-actions" // Quick actions
+
+// components/dashboard/configurable-dashboard.tsx
+import { Responsive, WidthProvider } from 'react-grid-layout'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
-export function DashboardGrid() {
-  const { layouts, updateLayout, isEditing } = useDashboardStore()
+export function ConfigurableDashboard() {
+  const { widgets, layouts, isEditing, setLayouts } = useDashboardStore()
 
   return (
     <ResponsiveGridLayout
-      layouts={layouts}
-      breakpoints={{ lg: 1200, md: 996, sm: 768 }}
-      cols={{ lg: 12, md: 8, sm: 4 }}
+      layouts={{ lg: layouts }}
+      breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480 }}
+      cols={{ lg: 12, md: 8, sm: 4, xs: 2 }}
       rowHeight={80}
       isDraggable={isEditing}
       isResizable={isEditing}
-      onLayoutChange={(_, allLayouts) => updateLayout(allLayouts)}
+      onLayoutChange={(layout) => setLayouts(layout)}
     >
       {widgets.map(widget => (
         <div key={widget.id}>
-          <WidgetWrapper widget={widget} />
+          <WidgetRenderer widget={widget} />
         </div>
       ))}
     </ResponsiveGridLayout>
@@ -278,35 +348,73 @@ export function DashboardGrid() {
 | `/forgot-password` | Forgot password | Public |
 | `/reset-password` | Reset password | Public |
 | `/dashboard` | Dashboard | `dashboard:view` |
-| `/users` | User list | `users:list` |
-| `/users/create` | Create user | `users:create` |
-| `/users/[id]` | User details | `users:view` |
-| `/users/[id]/edit` | Edit user | `users:update` |
-| `/roles` | Role management | `roles:list` |
-| `/permissions` | Permission management | `permissions:list` |
+| `/accounts` | Account management | `accounts:list` |
+| `/analytics` | Analytics | `analytics:view` |
+| `/calendar` | Calendar | `calendar:view` |
+| `/docs` | Documentation | `docs:view` |
+| `/documents` | Document management | `documents:list` |
+| `/files` | File management | `files:list` |
+| `/messages` | Message center | `messages:list` |
+| `/notifications` | Notification center | `notifications:list` |
+| `/users` | User management | `users:list` |
 | `/settings` | System settings | `settings:view` |
+| `/settings/teams` | Team management | `teams:list` |
+| `/settings/teams/roles` | Role management | `roles:list` |
 | `/profile` | User profile | Authenticated |
+| `/privacy` | Privacy policy | Public |
+| `/terms` | Terms of service | Public |
 
 ## UI Components
 
-Based on shadcn/ui, 30+ components integrated:
+Based on shadcn/ui, 28 components integrated:
 
-- **Forms**: Button, Input, Textarea, Select, Checkbox, Radio, Switch, Slider, DatePicker
-- **Data Display**: Table, Card, Badge, Avatar, Progress, Skeleton
-- **Feedback**: Dialog, Sheet, Alert, Toast, Tooltip, Popover
-- **Navigation**: Tabs, Breadcrumb, Pagination, DropdownMenu, Command
-- **Layout**: Accordion, Collapsible, ScrollArea, Separator
+- **Forms**: Button, Input, InputClear, Textarea, Select, Checkbox, Switch, Label
+- **Data Display**: Table, Card, Badge, Avatar, Skeleton
+- **Feedback**: Dialog, Sheet, AlertDialog, Tooltip, Popover
+- **Navigation**: Tabs, DropdownMenu, ContextMenu, Command, ScrollArea
+- **Layout**: Separator
+- **Enhanced**: BackToTop, CookieConsent, CommandInputClear, InputClearForm
 
-## Theme Configuration
+## Skin Presets
+
+Supports 11 skin presets, switchable via `useUiSettingsStore`:
+
+| Preset | Description |
+|--------|-------------|
+| `default` | Default theme |
+| `blue` | Blue theme |
+| `emerald` | Emerald green theme |
+| `amber` | Amber theme |
+| `violet` | Violet theme |
+| `rose` | Rose theme |
+| `teal` | Teal theme |
+| `slate` | Slate gray theme |
+| `ocean` | Ocean blue theme |
+| `sunset` | Sunset orange theme |
+| `aurora` | Aurora theme |
 
 ```tsx
-// Toggle theme
+// Switch skin
+const { skin, setSkin } = useUiSettingsStore()
+setSkin('rose') // Switch to rose theme
+
+// Toggle theme mode
 const { theme, setTheme } = useTheme()
 setTheme('dark') // 'light' | 'dark' | 'system'
+```
 
-// Change skin
-const { skin, setSkin } = useUISettingsStore()
-setSkin('rose') // 11 skin presets
+## UI Settings
+
+```tsx
+// stores/ui-settings-store.ts
+interface UiSettingsState {
+  skin: SkinPreset        // Skin preset
+  showFooter: boolean     // Show footer
+  showTabBar: boolean     // Show tab bar
+  mobileHeaderFixed: boolean   // Fixed header on mobile
+  mobileTabBarFixed: boolean   // Fixed tab bar on mobile
+  // ...
+}
 ```
 
 ## Deployment
@@ -330,6 +438,15 @@ EXPOSE 3000
 CMD ["pnpm", "start"]
 ```
 
+### Cloudflare Pages
+
+The project supports deployment to Cloudflare Pages, see [Cloudflare version](https://github.com/halolight/halolight-cloudflare).
+
+```bash
+pnpm cf:build
+pnpm cf:deploy
+```
+
 ### Static Export
 
 ```bash
@@ -340,4 +457,20 @@ module.exports = {
 
 pnpm build
 # Output to out/ directory
+```
+
+## PWA Support
+
+The project integrates `next-pwa` for offline access and desktop installation:
+
+```js
+// next.config.js
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+})
+
+module.exports = withPWA({
+  // Next.js configuration
+})
 ```
