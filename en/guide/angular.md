@@ -116,7 +116,7 @@ export const environment = {
   useMock: true,
   appTitle: 'Admin Pro',
   brandName: 'Halolight',
-  demoEmail: 'admin@example.com',
+  demoEmail: 'admin@halolight.h7ml.cn',
   demoPassword: '123456',
   showDemoHint: true,
 };

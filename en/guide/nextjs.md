@@ -149,7 +149,7 @@ cp .env.example .env.local
 # .env.local example
 NEXT_PUBLIC_API_URL=/api
 NEXT_PUBLIC_MOCK=true              # Enable Mock data
-NEXT_PUBLIC_DEMO_EMAIL=admin@example.com
+NEXT_PUBLIC_DEMO_EMAIL=admin@halolight.h7ml.cn
 NEXT_PUBLIC_DEMO_PASSWORD=123456
 NEXT_PUBLIC_SHOW_DEMO_HINT=false
 NEXT_PUBLIC_WS_URL=                # WebSocket URL

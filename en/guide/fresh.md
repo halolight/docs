@@ -121,7 +121,7 @@ cp .env.example .env
 # .env example
 API_URL=/api
 USE_MOCK=true
-DEMO_EMAIL=admin@example.com
+DEMO_EMAIL=admin@halolight.h7ml.cn
 DEMO_PASSWORD=123456
 SHOW_DEMO_HINT=true
 APP_TITLE=Admin Pro

@@ -106,7 +106,7 @@ cp .env.example .env
 # .env 示例
 VITE_API_URL=/api
 VITE_USE_MOCK=true
-VITE_DEMO_EMAIL=admin@example.com
+VITE_DEMO_EMAIL=admin@halolight.h7ml.cn
 VITE_DEMO_PASSWORD=123456
 VITE_SHOW_DEMO_HINT=true
 VITE_APP_TITLE=Admin Pro

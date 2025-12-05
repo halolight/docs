@@ -98,7 +98,7 @@ cp .env.example .env.local
 # .env.local 示例
 PUBLIC_API_URL=/api
 PUBLIC_MOCK=true
-PUBLIC_DEMO_EMAIL=admin@example.com
+PUBLIC_DEMO_EMAIL=admin@halolight.h7ml.cn
 PUBLIC_DEMO_PASSWORD=123456
 PUBLIC_SHOW_DEMO_HINT=true
 PUBLIC_APP_TITLE=Admin Pro

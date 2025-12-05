@@ -106,7 +106,7 @@ VITE_API_URL=/api
 VITE_MOCK=true
 VITE_APP_TITLE=Admin Pro
 VITE_BRAND_NAME=Halolight
-VITE_DEMO_EMAIL=admin@example.com
+VITE_DEMO_EMAIL=admin@halolight.h7ml.cn
 VITE_DEMO_PASSWORD=123456
 VITE_SHOW_DEMO_HINT=true
 ```
