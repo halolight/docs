@@ -33,6 +33,8 @@ const backendPreviews: DefaultTheme.NavItemWithLink[] = [
   { text: '🦕 Deno API', link: 'https://halolight-deno.h7ml.cn/' },
   { text: '🐹 Go API', link: 'https://halolight-api-go.h7ml.cn/' },
   { text: '🟩 Node.js API', link: 'https://halolight-api-node.h7ml.cn/' },
+  { text: '🏗️ NestJS API', link: 'https://halolight-api-nestjs.h7ml.cn/' },
+  { text: '☕ Java API', link: 'https://halolight-api-java.h7ml.cn/' },
   { text: '🛠️ Admin', link: 'https://halolight-admin.h7ml.cn/' },
 ]
 

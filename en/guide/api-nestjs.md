@@ -97,22 +97,22 @@ halolight-api-nestjs/
 
 ## API Modules
 
-The project includes **12 core business modules** providing **60+ RESTful API endpoints**:
+The project includes **12 core business modules** providing **90+ RESTful API endpoints**:
 
 | Module | Endpoints | Description |
 |--------|-----------|-------------|
-| **Auth** | 5 | User authentication (login, register, refresh token, current user, logout) |
-| **Users** | 5 | User management (CRUD, pagination, search, filtering) |
+| **Auth** | 7 | User authentication (login, register, refresh token, current user, logout, forgot/reset password) |
+| **Users** | 7 | User management (CRUD, pagination, search, filtering, status update, batch delete) |
 | **Roles** | 6 | Role management (CRUD + permission assignment) |
 | **Permissions** | 4 | Permission management (wildcard support: `users:*`, `*`) |
-| **Teams** | 5 | Team management |
-| **Documents** | 5 | Document management (tags, folders support) |
-| **Files** | 5 | File management |
-| **Folders** | 5 | Folder management (tree structure) |
-| **Calendar** | 5 | Calendar event management |
-| **Notifications** | 5 | Notification management |
-| **Messages** | 5 | Message conversations |
-| **Dashboard** | 5 | Dashboard statistics |
+| **Teams** | 7 | Team management (CRUD, member management) |
+| **Documents** | 11 | Document management (CRUD, sharing, moving, tagging, renaming, batch delete) |
+| **Files** | 14 | File management (upload, download, storage info, move/copy, favorite, batch delete, etc.) |
+| **Folders** | 5 | Folder management (CRUD, tree structure) |
+| **Calendar** | 9 | Calendar event management (CRUD, attendee management, reschedule, batch delete, etc.) |
+| **Notifications** | 5 | Notification management (list, unread count, mark read, batch read, delete) |
+| **Messages** | 5 | Message conversations (conversation list, send message, mark read, delete) |
+| **Dashboard** | 9 | Dashboard statistics (overview, visit/sales trends, product/order/activity stats, pie chart, tasks, etc.) |
 
 ### Authentication Endpoints
 
@@ -121,6 +121,8 @@ The project includes **12 core business modules** providing **60+ RESTful API en
 | POST | `/api/auth/login` | User login | Public |
 | POST | `/api/auth/register` | User registration | Public |
 | POST | `/api/auth/refresh` | Refresh token | Public |
+| POST | `/api/auth/forgot-password` | Send password reset email | Public |
+| POST | `/api/auth/reset-password` | Reset password | Public |
 | GET | `/api/auth/me` | Get current user | JWT Required |
 | POST | `/api/auth/logout` | User logout | JWT Required |
 
@@ -128,11 +130,102 @@ The project includes **12 core business modules** providing **60+ RESTful API en
 
 | Method | Path | Description | Permission |
 |--------|------|-------------|------------|
-| GET | `/api/users` | Get user list (pagination, search) | JWT Required |
+| GET | `/api/users` | Get user list (pagination, search, status/role filtering) | JWT Required |
 | GET | `/api/users/:id` | Get user details | JWT Required |
 | POST | `/api/users` | Create user | JWT Required |
 | PATCH | `/api/users/:id` | Update user | JWT Required |
+| PATCH | `/api/users/:id/status` | Update user status (ACTIVE/INACTIVE/SUSPENDED) | JWT Required |
+| POST | `/api/users/batch-delete` | Batch delete users | JWT Required |
 | DELETE | `/api/users/:id` | Delete user | JWT Required |
+
+### Complete Endpoint List
+
+> The table below lists all API endpoints for business modules, aligned with actual implementation and Swagger documentation.
+
+#### Document Management (Documents) - 11 Endpoints
+
+| Method | Path | Description | Permission |
+|--------|------|-------------|------------|
+| GET | `/api/documents` | Document list (pagination, search, filtering) | JWT Required |
+| GET | `/api/documents/:id` | Get document details | JWT Required |
+| POST | `/api/documents` | Create document | JWT Required |
+| PUT | `/api/documents/:id` | Update document content | JWT Required |
+| PATCH | `/api/documents/:id/rename` | Rename document | JWT Required |
+| POST | `/api/documents/:id/move` | Move to target folder | JWT Required |
+| POST | `/api/documents/:id/tags` | Update tags | JWT Required |
+| POST | `/api/documents/:id/share` | Share document with users | JWT Required |
+| POST | `/api/documents/:id/unshare` | Unshare document | JWT Required |
+| POST | `/api/documents/batch-delete` | Batch delete documents | JWT Required |
+| DELETE | `/api/documents/:id` | Delete document | JWT Required |
+
+#### File Management (Files) - 14 Endpoints
+
+| Method | Path | Description | Permission |
+|--------|------|-------------|------------|
+| POST | `/api/files/upload` | Upload file | JWT Required |
+| POST | `/api/files/folder` | Create folder | JWT Required |
+| GET | `/api/files` | File list (filter by folder/type) | JWT Required |
+| GET | `/api/files/storage` | Get storage quota and usage | JWT Required |
+| GET | `/api/files/storage-info` | Get storage info (alias) | JWT Required |
+| GET | `/api/files/:id` | Get file details | JWT Required |
+| GET | `/api/files/:id/download-url` | Generate file download link | JWT Required |
+| PATCH | `/api/files/:id/rename` | Rename file | JWT Required |
+| POST | `/api/files/:id/move` | Move file to other directory | JWT Required |
+| POST | `/api/files/:id/copy` | Copy file | JWT Required |
+| PATCH | `/api/files/:id/favorite` | Toggle favorite status | JWT Required |
+| POST | `/api/files/:id/share` | Share file | JWT Required |
+| POST | `/api/files/batch-delete` | Batch delete files | JWT Required |
+| DELETE | `/api/files/:id` | Delete file | JWT Required |
+
+#### Calendar Events (Calendar) - 9 Endpoints
+
+| Method | Path | Description | Permission |
+|--------|------|-------------|------------|
+| GET | `/api/calendar/events` | Event list (supports date range query) | JWT Required |
+| GET | `/api/calendar/events/:id` | Get event details | JWT Required |
+| POST | `/api/calendar/events` | Create calendar event | JWT Required |
+| PUT | `/api/calendar/events/:id` | Update event information | JWT Required |
+| PATCH | `/api/calendar/events/:id/reschedule` | Reschedule event time | JWT Required |
+| POST | `/api/calendar/events/:id/attendees` | Add attendees | JWT Required |
+| DELETE | `/api/calendar/events/:id/attendees/:attendeeId` | Remove attendee | JWT Required |
+| POST | `/api/calendar/events/batch-delete` | Batch delete events | JWT Required |
+| DELETE | `/api/calendar/events/:id` | Delete event | JWT Required |
+
+#### Notification Management (Notifications) - 5 Endpoints
+
+| Method | Path | Description | Permission |
+|--------|------|-------------|------------|
+| GET | `/api/notifications` | Notification list | JWT Required |
+| GET | `/api/notifications/unread-count` | Get unread notification count | JWT Required |
+| PUT | `/api/notifications/:id/read` | Mark single notification as read | JWT Required |
+| PUT | `/api/notifications/read-all` | Mark all as read | JWT Required |
+| DELETE | `/api/notifications/:id` | Delete notification | JWT Required |
+
+#### Team Management (Teams) - 7 Endpoints
+
+| Method | Path | Description | Permission |
+|--------|------|-------------|------------|
+| GET | `/api/teams` | Team list (pagination, search) | JWT Required |
+| GET | `/api/teams/:id` | Get team details and members | JWT Required |
+| POST | `/api/teams` | Create team | JWT Required |
+| PATCH | `/api/teams/:id` | Update team information | JWT Required |
+| POST | `/api/teams/:id/members` | Add member to team | JWT Required |
+| DELETE | `/api/teams/:id/members/:userId` | Remove member from team | JWT Required |
+| DELETE | `/api/teams/:id` | Delete team | JWT Required |
+
+#### Dashboard Statistics (Dashboard) - 9 Endpoints
+
+| Method | Path | Description | Permission |
+|--------|------|-------------|------------|
+| GET | `/api/dashboard/stats` | Get statistics (users, revenue, orders, etc.) | JWT Required |
+| GET | `/api/dashboard/visits` | Get visit trends (7-day data) | JWT Required |
+| GET | `/api/dashboard/sales` | Get sales trends (6-month data) | JWT Required |
+| GET | `/api/dashboard/products` | Get popular product rankings | JWT Required |
+| GET | `/api/dashboard/orders` | Get recent order list | JWT Required |
+| GET | `/api/dashboard/activities` | Get recent activity logs | JWT Required |
+| GET | `/api/dashboard/pie` | Get pie chart data (category statistics) | JWT Required |
+| GET | `/api/dashboard/tasks` | Get task list and statistics | JWT Required |
+| GET | `/api/dashboard/overview` | Get system overview (CPU, memory, disk, etc.) | JWT Required |
 
 ## Complete API Reference
 
@@ -348,9 +441,10 @@ curl -X POST http://localhost:3000/api/auth/logout \
 
 **Query Parameters**:
 - `page` (number, optional): Page number, default 1
-- `limit` (number, optional): Items per page, default 10
-- `search` (string, optional): Search keyword (searches name or email)
-- `status` (string, optional): User status filter (ACTIVE | INACTIVE | SUSPENDED)
+- `limit` (number, optional): Items per page, default 10, max 100
+- `search` (string, optional): Search keyword (searches name, username, or email)
+- `status` (string, optional): User status filter (all | ACTIVE | INACTIVE | SUSPENDED), pass `all` or omit for all
+- `role` (string, optional): Filter by role name (all | admin | user | ...), pass `all` or omit for all
 
 **Success Response** (200):
 ```json
@@ -359,11 +453,14 @@ curl -X POST http://localhost:3000/api/auth/logout \
     {
       "id": "clx1234567890",
       "email": "admin@halolight.h7ml.cn",
+      "username": "admin",
       "name": "Admin User",
       "avatar": "https://avatar.example.com/admin.jpg",
-      "phone": "+86 138****8888",
       "status": "ACTIVE",
-      "createdAt": "2024-01-01T00:00:00.000Z"
+      "department": "Development",
+      "position": "Senior Engineer",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-04T12:00:00.000Z"
     }
   ],
   "meta": {
@@ -381,8 +478,12 @@ curl -X POST http://localhost:3000/api/auth/logout \
 curl -X GET "http://localhost:3000/api/users?page=1&limit=10" \
   -H "Authorization: Bearer YOUR_TOKEN"
 
-# Search users
-curl -X GET "http://localhost:3000/api/users?search=admin&status=ACTIVE" \
+# Search users with status and role filtering
+curl -X GET "http://localhost:3000/api/users?search=admin&status=ACTIVE&role=admin" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+
+# Use all to skip filtering
+curl -X GET "http://localhost:3000/api/users?status=all&role=all" \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 

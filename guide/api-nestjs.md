@@ -97,22 +97,22 @@ halolight-api-nestjs/
 
 ## API 模块
 
-项目包含 **12 个核心业务模块**，提供 **60+ RESTful API 端点**：
+项目包含 **12 个核心业务模块**，提供 **90+ RESTful API 端点**：
 
 | 模块 | 端点数 | 描述 |
 |------|--------|------|
-| **Auth** | 5 | 用户认证（登录、注册、刷新 Token、获取当前用户、登出） |
-| **Users** | 5 | 用户管理（CRUD、分页、搜索、过滤） |
+| **Auth** | 7 | 用户认证（登录、注册、刷新 Token、获取当前用户、登出、找回/重置密码） |
+| **Users** | 7 | 用户管理（CRUD、分页、搜索、过滤、状态更新、批量删除） |
 | **Roles** | 6 | 角色管理（CRUD + 权限分配） |
 | **Permissions** | 4 | 权限管理（支持通配符权限：`users:*`, `*`） |
-| **Teams** | 5 | 团队管理 |
-| **Documents** | 5 | 文档管理（支持标签、文件夹） |
-| **Files** | 5 | 文件管理 |
-| **Folders** | 5 | 文件夹管理（树形结构） |
-| **Calendar** | 5 | 日历事件管理 |
-| **Notifications** | 5 | 通知管理 |
-| **Messages** | 5 | 消息会话 |
-| **Dashboard** | 5 | 仪表盘统计 |
+| **Teams** | 7 | 团队管理（CRUD、成员管理） |
+| **Documents** | 11 | 文档管理（CRUD、分享、移动、标签、重命名、批量删除） |
+| **Files** | 14 | 文件管理（上传、下载、存储信息、移动/复制、收藏、批量删除等） |
+| **Folders** | 5 | 文件夹管理（CRUD、树形结构） |
+| **Calendar** | 9 | 日历事件管理（CRUD、参会人管理、改期、批量删除等） |
+| **Notifications** | 5 | 通知管理（列表、未读统计、标记已读、批量已读、删除） |
+| **Messages** | 5 | 消息会话（对话列表、消息发送、已读标记、删除） |
+| **Dashboard** | 9 | 仪表盘统计（总览、访问/销售趋势、产品/订单/活动统计、饼图、任务等） |
 
 ### 认证相关端点
 
@@ -121,6 +121,8 @@ halolight-api-nestjs/
 | POST | `/api/auth/login` | 用户登录 | Public |
 | POST | `/api/auth/register` | 用户注册 | Public |
 | POST | `/api/auth/refresh` | 刷新令牌 | Public |
+| POST | `/api/auth/forgot-password` | 发送密码重置邮件 | Public |
+| POST | `/api/auth/reset-password` | 重置密码 | Public |
 | GET | `/api/auth/me` | 获取当前用户 | JWT Required |
 | POST | `/api/auth/logout` | 用户登出 | JWT Required |
 
@@ -128,13 +130,104 @@ halolight-api-nestjs/
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
-| GET | `/api/users` | 获取用户列表（分页、搜索） | JWT Required |
+| GET | `/api/users` | 获取用户列表（分页、搜索、状态/角色筛选） | JWT Required |
 | GET | `/api/users/:id` | 获取用户详情 | JWT Required |
 | POST | `/api/users` | 创建用户 | JWT Required |
 | PATCH | `/api/users/:id` | 更新用户 | JWT Required |
+| PATCH | `/api/users/:id/status` | 更新用户状态（ACTIVE/INACTIVE/SUSPENDED） | JWT Required |
+| POST | `/api/users/batch-delete` | 批量删除用户 | JWT Required |
 | DELETE | `/api/users/:id` | 删除用户 | JWT Required |
 
-## 完整 API 参考
+### 完整端点清单
+
+> 下表列出了所有业务模块的完整 API 端点，确保与实际实现和 Swagger 文档对齐。
+
+#### 文档管理（Documents）- 11 个端点
+
+| 方法 | 路径 | 描述 | 权限 |
+|------|------|------|------|
+| GET | `/api/documents` | 文档列表（分页、搜索、过滤） | JWT Required |
+| GET | `/api/documents/:id` | 获取文档详情 | JWT Required |
+| POST | `/api/documents` | 创建文档 | JWT Required |
+| PUT | `/api/documents/:id` | 更新文档内容 | JWT Required |
+| PATCH | `/api/documents/:id/rename` | 重命名文档 | JWT Required |
+| POST | `/api/documents/:id/move` | 移动到目标文件夹 | JWT Required |
+| POST | `/api/documents/:id/tags` | 更新标签 | JWT Required |
+| POST | `/api/documents/:id/share` | 分享文档给用户 | JWT Required |
+| POST | `/api/documents/:id/unshare` | 取消分享 | JWT Required |
+| POST | `/api/documents/batch-delete` | 批量删除文档 | JWT Required |
+| DELETE | `/api/documents/:id` | 删除文档 | JWT Required |
+
+#### 文件管理（Files）- 14 个端点
+
+| 方法 | 路径 | 描述 | 权限 |
+|------|------|------|------|
+| POST | `/api/files/upload` | 上传文件 | JWT Required |
+| POST | `/api/files/folder` | 创建文件夹 | JWT Required |
+| GET | `/api/files` | 文件列表（可按文件夹/类型筛选） | JWT Required |
+| GET | `/api/files/storage` | 获取存储配额和使用情况 | JWT Required |
+| GET | `/api/files/storage-info` | 获取存储信息（别名） | JWT Required |
+| GET | `/api/files/:id` | 获取文件详情 | JWT Required |
+| GET | `/api/files/:id/download-url` | 生成文件下载链接 | JWT Required |
+| PATCH | `/api/files/:id/rename` | 重命名文件 | JWT Required |
+| POST | `/api/files/:id/move` | 移动文件到其他目录 | JWT Required |
+| POST | `/api/files/:id/copy` | 复制文件 | JWT Required |
+| PATCH | `/api/files/:id/favorite` | 切换收藏状态 | JWT Required |
+| POST | `/api/files/:id/share` | 分享文件 | JWT Required |
+| POST | `/api/files/batch-delete` | 批量删除文件 | JWT Required |
+| DELETE | `/api/files/:id` | 删除文件 | JWT Required |
+
+#### 日历事件（Calendar）- 9 个端点
+
+| 方法 | 路径 | 描述 | 权限 |
+|------|------|------|------|
+| GET | `/api/calendar/events` | 事件列表（支持日期范围查询） | JWT Required |
+| GET | `/api/calendar/events/:id` | 获取事件详情 | JWT Required |
+| POST | `/api/calendar/events` | 创建日历事件 | JWT Required |
+| PUT | `/api/calendar/events/:id` | 更新事件信息 | JWT Required |
+| PATCH | `/api/calendar/events/:id/reschedule` | 重新安排事件时间 | JWT Required |
+| POST | `/api/calendar/events/:id/attendees` | 添加参会人 | JWT Required |
+| DELETE | `/api/calendar/events/:id/attendees/:attendeeId` | 移除参会人 | JWT Required |
+| POST | `/api/calendar/events/batch-delete` | 批量删除事件 | JWT Required |
+| DELETE | `/api/calendar/events/:id` | 删除事件 | JWT Required |
+
+#### 通知管理（Notifications）- 5 个端点
+
+| 方法 | 路径 | 描述 | 权限 |
+|------|------|------|------|
+| GET | `/api/notifications` | 通知列表 | JWT Required |
+| GET | `/api/notifications/unread-count` | 获取未读通知数量 | JWT Required |
+| PUT | `/api/notifications/:id/read` | 标记单条通知为已读 | JWT Required |
+| PUT | `/api/notifications/read-all` | 全部标记为已读 | JWT Required |
+| DELETE | `/api/notifications/:id` | 删除通知 | JWT Required |
+
+#### 团队管理（Teams）- 7 个端点
+
+| 方法 | 路径 | 描述 | 权限 |
+|------|------|------|------|
+| GET | `/api/teams` | 团队列表（分页、搜索） | JWT Required |
+| GET | `/api/teams/:id` | 获取团队详情和成员 | JWT Required |
+| POST | `/api/teams` | 创建团队 | JWT Required |
+| PATCH | `/api/teams/:id` | 更新团队信息 | JWT Required |
+| POST | `/api/teams/:id/members` | 添加成员到团队 | JWT Required |
+| DELETE | `/api/teams/:id/members/:userId` | 从团队移除成员 | JWT Required |
+| DELETE | `/api/teams/:id` | 删除团队 | JWT Required |
+
+#### 仪表盘统计（Dashboard）- 9 个端点
+
+| 方法 | 路径 | 描述 | 权限 |
+|------|------|------|------|
+| GET | `/api/dashboard/stats` | 获取统计数据（用户、收入、订单等） | JWT Required |
+| GET | `/api/dashboard/visits` | 获取访问趋势（7 天数据） | JWT Required |
+| GET | `/api/dashboard/sales` | 获取销售趋势（6 个月数据） | JWT Required |
+| GET | `/api/dashboard/products` | 获取热门产品排名 | JWT Required |
+| GET | `/api/dashboard/orders` | 获取最近订单列表 | JWT Required |
+| GET | `/api/dashboard/activities` | 获取最近活动日志 | JWT Required |
+| GET | `/api/dashboard/pie` | 获取饼图数据（分类统计） | JWT Required |
+| GET | `/api/dashboard/tasks` | 获取任务列表和统计 | JWT Required |
+| GET | `/api/dashboard/overview` | 获取系统概览（CPU、内存、磁盘等） | JWT Required |
+
+##完整 API 参考
 
 ### 1。认证模块 (Auth)
 
@@ -348,9 +441,10 @@ curl -X POST http://localhost:3000/api/auth/logout \
 
 **查询参数**：
 - `page` (number，可选)：页码，默认 1
-- `limit` (number，可选)：每页数量，默认 10
-- `search` (string，可选)：搜索关键词 (搜索姓名或邮箱)
-- `status` (string，可选)：用户状态过滤 (ACTIVE | INACTIVE | SUSPENDED)
+- `limit` (number，可选)：每页数量，默认 10，最大 100
+- `search` (string，可选)：搜索关键词 (搜索姓名、用户名或邮箱)
+- `status` (string，可选)：用户状态过滤 (all | ACTIVE | INACTIVE | SUSPENDED)，传 `all` 或不传表示全部
+- `role` (string，可选)：按角色名筛选 (all | admin | user | ...)，传 `all` 或不传表示全部
 
 **成功响应** (200)：
 ```json
@@ -359,11 +453,14 @@ curl -X POST http://localhost:3000/api/auth/logout \
     {
       "id": "clx1234567890",
       "email": "admin@halolight.h7ml.cn",
+      "username": "admin",
       "name": "Admin User",
       "avatar": "https://avatar.example.com/admin.jpg",
-      "phone": "+86 138****8888",
       "status": "ACTIVE",
-      "createdAt": "2024-01-01T00:00:00.000Z"
+      "department": "研发部",
+      "position": "高级工程师",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-12-04T12:00:00.000Z"
     }
   ],
   "meta": {
@@ -381,8 +478,12 @@ curl -X POST http://localhost:3000/api/auth/logout \
 curl -X GET "http://localhost:3000/api/users?page=1&limit=10" \
   -H "Authorization: Bearer YOUR_TOKEN"
 
-# 搜索用户
-curl -X GET "http://localhost:3000/api/users?search=admin&status=ACTIVE" \
+# 搜索用户（状态和角色筛选）
+curl -X GET "http://localhost:3000/api/users?search=admin&status=ACTIVE&role=admin" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+
+# 使用 all 跳过筛选
+curl -X GET "http://localhost:3000/api/users?status=all&role=all" \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
