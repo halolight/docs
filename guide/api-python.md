@@ -147,7 +147,7 @@ halolight-api-python/
 
 ### 完整端点清单
 
-#### 文档管理（Documents）- 11 个端点
+#### 文档管理 (Documents)- 11 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -163,7 +163,7 @@ halolight-api-python/
 | POST | `/api/documents/batch-delete` | 批量删除 | JWT Required |
 | DELETE | `/api/documents/{id}` | 删除文档 | JWT Required |
 
-#### 文件管理（Files）- 14 个端点
+#### 文件管理 (Files)- 14 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -181,7 +181,7 @@ halolight-api-python/
 | POST | `/api/files/batch-delete` | 批量删除 | JWT Required |
 | DELETE | `/api/files/{id}` | 删除文件 | JWT Required |
 
-#### 日历事件（Calendar）- 9 个端点
+#### 日历事件 (Calendar)- 9 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -197,7 +197,7 @@ halolight-api-python/
 
 ## 完整 API 参考
 
-### 1. 认证模块 (Auth)
+### 1。认证模块 (Auth)
 
 #### 1.1 用户登录
 
@@ -322,7 +322,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 }
 ```
 
-### 2. 用户管理模块 (Users)
+### 2。用户管理模块 (Users)
 
 #### 2.1 获取用户列表
 
@@ -380,7 +380,7 @@ Authorization: Bearer <access_token>
 1. 使用登录接口获取 `accessToken` 和 `refreshToken`
 2. 使用 `accessToken` 访问受保护的接口
 3. 当 `accessToken` 过期 (默认 7 天)，使用 `refreshToken` 调用刷新接口
-4. 获取新的 `accessToken` 和 `refreshToken`（令牌轮换）
+4. 获取新的 `accessToken` 和 `refreshToken` (令牌轮换)
 
 ### 认证示例 (完整流程)
 
@@ -575,7 +575,7 @@ alembic downgrade -1                         # 回滚一个版本
 
 ## 架构特点
 
-### 1. 分层架构
+### 1。分层架构
 
 遵循 FastAPI 分层架构：
 
@@ -604,7 +604,7 @@ class UserService:
         return users, total
 ```
 
-### 2. Pydantic 验证
+### 2。Pydantic 验证
 
 使用 Pydantic v2 进行自动验证：
 
@@ -625,7 +625,7 @@ class UserResponse(BaseModel):
     model_config = {"from_attributes": True}
 ```
 
-### 3. 依赖注入
+### 3。依赖注入
 
 FastAPI 的依赖注入系统：
 
@@ -650,7 +650,7 @@ def check_permission(required_permission: str):
     return permission_checker
 ```
 
-### 4. Swagger 文档
+### 4。Swagger 文档
 
 自动生成交互式 API 文档，访问 `/api/docs`：
 
@@ -663,9 +663,9 @@ def check_permission(required_permission: str):
 
 本项目与 NestJS/Java 版本共用同一 PostgreSQL 数据库：
 
-- 表名与 Prisma schema 一致（如 `users`、`roles`、`teams`）
+- 表名与 Prisma schema 一致 (如 `users`、`roles`、`teams`)
 - 主键使用 cuid 格式字符串
-- ENUM 类型复用 Prisma 创建的类型（`create_type=False`）
+- ENUM 类型复用 Prisma 创建的类型 (`create_type=False`)
 - 支持同时运行多个后端版本
 
 ## 相关链接

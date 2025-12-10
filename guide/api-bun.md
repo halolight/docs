@@ -1,11 +1,11 @@
 # Bun 后端 API
 
-HaloLight Bun 后端 API，基于 Bun + Hono + Drizzle ORM 构建的高性能后端服务，与 NestJS/Java 版本共用同一数据库（PostgreSQL/Neon）和接口规范。
+HaloLight Bun 后端 API，基于 Bun + Hono + Drizzle ORM 构建的高性能后端服务，与 NestJS/Java 版本共用同一数据库 (PostgreSQL/Neon) 和接口规范。
 
 ## 特性
 
 - ⚡ **Bun 1.1+** - 比 Node.js 快 4 倍的 JavaScript 运行时
-- 🔥 **Hono 4.x** - 超轻量级、高性能 Web 框架（~14KB）
+- 🔥 **Hono 4.x** - 超轻量级、高性能 Web 框架 (~14KB)
 - 🗄️ **Drizzle ORM** - TypeScript-first SQL ORM，零运行时开销
 - 🔐 **JWT 双令牌** - AccessToken + RefreshToken 认证机制
 - 🛡️ **RBAC 权限** - 基于角色的访问控制系统
@@ -209,15 +209,15 @@ halolight-api-bun/
 
 使用 Drizzle ORM 定义的 17 个核心实体：
 
-- **用户认证**: `users`, `refresh_tokens`
-- **RBAC 权限**: `roles`, `permissions`, `role_permissions`, `user_roles`
-- **团队协作**: `teams`, `team_members`
-- **文档管理**: `documents`, `document_shares`, `document_tags`, `tags`
-- **文件系统**: `files`, `folders`
-- **日历功能**: `calendar_events`, `event_attendees`, `event_reminders`
-- **消息系统**: `conversations`, `conversation_participants`, `messages`
-- **通知系统**: `notifications`
-- **审计日志**: `activity_logs`
+- **用户认证**：`users`，`refresh_tokens`
+- **RBAC 权限**：`roles`，`permissions`，`role_permissions`，`user_roles`
+- **团队协作**：`teams`，`team_members`
+- **文档管理**：`documents`，`document_shares`，`document_tags`，`tags`
+- **文件系统**：`files`，`folders`
+- **日历功能**：`calendar_events`，`event_attendees`，`event_reminders`
+- **消息系统**：`conversations`，`conversation_participants`，`messages`
+- **通知系统**：`notifications`
+- **审计日志**：`activity_logs`
 
 ## 认证机制
 
@@ -236,8 +236,8 @@ halolight-api-bun/
       │                              │
 ```
 
-- **AccessToken**: 短期令牌（15分钟），用于 API 请求认证
-- **RefreshToken**: 长期令牌（7天），用于刷新 AccessToken，支持 Token Rotation
+- **AccessToken**：短期令牌 (15分钟)，用于 API 请求认证
+- **RefreshToken**：长期令牌 (7天)，用于刷新 AccessToken，支持 Token Rotation
 
 ### 响应格式
 
@@ -334,8 +334,8 @@ API_URL=http://localhost:3002/api
 
 - **API**: http://localhost:3002/api
 - **Swagger UI**: http://localhost:3002/swagger
-- **首页**: http://localhost:3002
-- **API 信息**: http://localhost:3002/info
+- **首页**：http://localhost:3002
+- **API 信息**：http://localhost:3002/info
 
 ## 相关链接
 

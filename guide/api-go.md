@@ -7,7 +7,7 @@ HaloLight Go 后端 API，基于 Gin 1.10 + GORM 2 框架构建的高性能后�
 - **Gin 1.10** - 高性能 HTTP Web 框架，路由快速、内存占用小
 - **GORM 2** - 强大的 ORM 库，支持自动迁移、关联查询、软删除
 - **JWT 双令牌** - AccessToken + RefreshToken 认证机制，7 天 + 30 天有效期
-- **RBAC 权限** - 基于角色的访问控制，支持通配符权限（users:*, *）
+- **RBAC 权限** - 基于角色的访问控制，支持通配符权限 (users:*, *)
 - **ULID 主键** - 26 字符唯一 ID，时间排序、URL 安全
 - **请求验证** - Gin Binding 自动验证请求数据
 - **统一响应** - 标准化的 JSON 响应格式
@@ -191,7 +191,7 @@ halolight-api-go/
 
 HaloLight Go API 提供 **12 个核心业务模块**，共 **90+ RESTful API 端点**：
 
-### 1. 认证模块 (Auth) - 7 个端点
+### 1。认证模块 (Auth) - 7 个端点
 
 ```
 POST   /api/auth/register         # 用户注册
@@ -203,7 +203,7 @@ POST   /api/auth/forgot-password  # 忘记密码
 POST   /api/auth/reset-password   # 重置密码
 ```
 
-### 2. 用户模块 (Users) - 7 个端点
+### 2。用户模块 (Users) - 7 个端点
 
 ```
 GET    /api/users                 # 获取用户列表（分页、搜索）
@@ -215,7 +215,7 @@ POST   /api/users/batch-delete    # 批量删除用户
 DELETE /api/users/:id             # 删除用户
 ```
 
-### 3. 角色模块 (Roles) - 6 个端点
+### 3。角色模块 (Roles) - 6 个端点
 
 ```
 GET    /api/roles                 # 获取角色列表
@@ -226,7 +226,7 @@ POST   /api/roles/:id/permissions # 分配权限
 DELETE /api/roles/:id             # 删除角色
 ```
 
-### 4. 权限模块 (Permissions) - 4 个端点
+### 4。权限模块 (Permissions) - 4 个端点
 
 ```
 GET    /api/permissions           # 获取权限列表
@@ -235,7 +235,7 @@ POST   /api/permissions           # 创建权限
 DELETE /api/permissions/:id       # 删除权限
 ```
 
-### 5. 团队模块 (Teams) - 7 个端点
+### 5。团队模块 (Teams) - 7 个端点
 
 ```
 GET    /api/teams                 # 获取团队列表
@@ -247,7 +247,7 @@ POST   /api/teams/:id/members     # 添加成员
 DELETE /api/teams/:id/members/:userId # 移除成员
 ```
 
-### 6. 文档模块 (Documents) - 11 个端点
+### 6。文档模块 (Documents) - 11 个端点
 
 ```
 GET    /api/documents             # 获取文档列表（分页、搜索）
@@ -263,7 +263,7 @@ POST   /api/documents/batch-delete # 批量删除
 DELETE /api/documents/:id         # 删除文档
 ```
 
-### 7. 文件模块 (Files) - 14 个端点
+### 7。文件模块 (Files) - 14 个端点
 
 ```
 POST   /api/files/upload          # 上传文件
@@ -282,7 +282,7 @@ POST   /api/files/batch-delete    # 批量删除
 DELETE /api/files/:id             # 删除文件
 ```
 
-### 8. 文件夹模块 (Folders) - 5 个端点
+### 8。文件夹模块 (Folders) - 5 个端点
 
 ```
 GET    /api/folders               # 获取文件夹列表
@@ -292,7 +292,7 @@ POST   /api/folders               # 创建文件夹
 DELETE /api/folders/:id           # 删除文件夹
 ```
 
-### 9. 日历模块 (Calendar) - 9 个端点
+### 9。日历模块 (Calendar) - 9 个端点
 
 ```
 GET    /api/calendar/events       # 获取事件列表
@@ -306,7 +306,7 @@ POST   /api/calendar/events/batch-delete # 批量删除
 DELETE /api/calendar/events/:id   # 删除事件
 ```
 
-### 10. 通知模块 (Notifications) - 5 个端点
+### 10。通知模块 (Notifications) - 5 个端点
 
 ```
 GET    /api/notifications         # 获取通知列表
@@ -316,7 +316,7 @@ PUT    /api/notifications/read-all # 全部标记为已读
 DELETE /api/notifications/:id     # 删除通知
 ```
 
-### 11. 消息模块 (Messages) - 5 个端点
+### 11。消息模块 (Messages) - 5 个端点
 
 ```
 GET    /api/messages/conversations # 获取会话列表
@@ -326,7 +326,7 @@ PUT    /api/messages/:id/read     # 标记消息已读
 DELETE /api/messages/:id          # 删除消息
 ```
 
-### 12. 仪表盘模块 (Dashboard) - 9 个端点
+### 12。仪表盘模块 (Dashboard) - 9 个端点
 
 ```
 GET    /api/dashboard/stats       # 获取统计数据
@@ -358,7 +358,7 @@ GET    /api/dashboard/overview    # 获取总览数据
 
 ### 认证流程
 
-#### 1. 用户注册
+#### 1。用户注册
 
 ```bash
 POST /api/auth/register
@@ -388,7 +388,7 @@ Content-Type: application/json
 }
 ```
 
-#### 2. 用户登录
+#### 2。用户登录
 
 ```bash
 POST /api/auth/login
@@ -402,7 +402,7 @@ Content-Type: application/json
 # 响应（同注册）
 ```
 
-#### 3. 刷新令牌
+#### 3。刷新令牌
 
 ```bash
 POST /api/auth/refresh
@@ -419,7 +419,7 @@ Content-Type: application/json
 }
 ```
 
-#### 4. 获取当前用户
+#### 4。获取当前用户
 
 ```bash
 GET /api/auth/me
@@ -565,7 +565,7 @@ db.AutoMigrate(
 
 ## 环境变量
 
-### 完整配置 (.env)
+### 完整配置 (。env)
 
 ```bash
 # 应用配置
@@ -641,10 +641,10 @@ DB_SSLMODE=require           # Neon 需要 SSL
 
 ### Dockerfile 特点
 
-- **多阶段构建**: Builder + Runtime 分离
-- **小体积**: 最终镜像仅 20MB（使用 distroless/base-debian12）
-- **安全**: 使用非 root 用户运行
-- **优化**: CGO_ENABLED=0，静态编译
+- **多阶段构建**：Builder + Runtime 分离
+- **小体积**：最终镜像仅 20MB (使用 distroless/base-debian12)
+- **安全**：使用非 root 用户运行
+- **优化**：CGO_ENABLED=0，静态编译
 
 ### Docker Compose
 
@@ -721,11 +721,11 @@ go test -v ./...
 
 项目使用 GitHub Actions 进行自动化测试和构建：
 
-- ✅ **代码检查**: go vet, golangci-lint
-- ✅ **单元测试**: go test -race
-- ✅ **安全扫描**: gosec, govulncheck
-- ✅ **多平台构建**: Linux, macOS, Windows
-- ✅ **Docker 构建**: 自动推送镜像
+- ✅ **代码检查**：go vet，golangci-lint
+- ✅ **单元测试**：go test -race
+- ✅ **安全扫描**：gosec，govulncheck
+- ✅ **多平台构建**：Linux，macOS，Windows
+- ✅ **Docker 构建**：自动推送镜像
 
 ## 性能指标
 
@@ -739,7 +739,7 @@ go test -v ./...
 
 ## 常见问题
 
-### 1. JWT 密钥要求
+### 1。JWT 密钥要求
 
 ```bash
 # 生成安全的 JWT 密钥
@@ -749,7 +749,7 @@ openssl rand -base64 64
 JWT_SECRET=生成的密钥
 ```
 
-### 2. 数据库连接失败
+### 2。数据库连接失败
 
 ```bash
 # 检查 PostgreSQL 是否运行
@@ -762,7 +762,7 @@ docker-compose restart postgres
 docker-compose logs postgres
 ```
 
-### 3. 端口冲突
+### 3。端口冲突
 
 ```bash
 # 修改 .env 中的端口
@@ -773,9 +773,9 @@ ports:
   - "8081:8080"
 ```
 
-### 4. CORS 错误
+### 4。CORS 错误
 
-前端需要配置正确的 API 地址，CORS 中间件已配置为允许所有源（开发环境）。
+前端需要配置正确的 API 地址，CORS 中间件已配置为允许所有源 (开发环境)。
 
 生产环境建议修改 `internal/middleware/cors.go`：
 

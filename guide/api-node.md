@@ -17,13 +17,13 @@ HaloLight Node.js 后端 API 服务，基于 Express 5 + TypeScript + Prisma 构
 
 ## 在线演示
 
-- **API 地址**: https://halolight-api-node.h7ml.cn
-- **Swagger 文档**: https://halolight-api-node.h7ml.cn/docs
-- **备用地址**: https://api-node.halolight.h7ml.cn
+- **API 地址**：https://halolight-api-node.h7ml.cn
+- **Swagger 文档**：https://halolight-api-node.h7ml.cn/docs
+- **备用地址**：https://api-node.halolight.h7ml.cn
 
 ## 快速开始
 
-### Docker 部署（推荐）
+### Docker 部署 (推荐)
 
 ```bash
 # 克隆仓库
@@ -102,7 +102,7 @@ halolight-api-node/
 ### 认证系统
 
 - ✅ 用户登录/注册
-- ✅ JWT 双令牌机制（Access Token + Refresh Token）
+- ✅ JWT 双令牌机制 (Access Token + Refresh Token)
 - ✅ 令牌刷新
 - ✅ 忘记密码/重置密码
 - ✅ 用户登出
@@ -110,10 +110,10 @@ halolight-api-node/
 ### 权限系统
 
 - ✅ RBAC 权限控制
-- ✅ 角色管理（CRUD）
-- ✅ 权限管理（CRUD）
+- ✅ 角色管理 (CRUD)
+- ✅ 权限管理 (CRUD)
 - ✅ 用户角色分配
-- ✅ 权限通配符支持（`users:*`, `*`）
+- ✅ 权限通配符支持 (`users:*`，`*`)
 
 ### 业务模块
 
@@ -215,7 +215,7 @@ CORS_ORIGIN="http://localhost:3000"
 
 ## Docker 部署
 
-### 独立部署（自带数据库）
+### 独立部署 (自带数据库)
 
 ```bash
 # 启动所有服务
@@ -246,7 +246,7 @@ JWT_SECRET="same-secret-for-all-services"
 
 主要模型包括：
 
-- **User** - 用户（含角色关联）
+- **User** - 用户 (含角色关联)
 - **Role** - 角色
 - **Permission** - 权限
 - **RefreshToken** - 刷新令牌
@@ -300,17 +300,17 @@ pnpm db:seed          # 填充种子数据
 - ✅ 请求日志脱敏
 - ✅ 错误处理中间件
 - ✅ CORS 配置
-- ✅ 安全头部（Helmet）
+- ✅ 安全头部 (Helmet)
 - ✅ 健康检查端点
 
 ## 相关链接
 
 - **GitHub**: https://github.com/halolight/halolight-api-node
-- **API 文档**: https://halolight-api-node.h7ml.cn/docs
-- **健康检查**: https://halolight-api-node.h7ml.cn/health
-- **项目文档**: https://halolight.docs.h7ml.cn
-- **Express 文档**: https://expressjs.com/
-- **Prisma 文档**: https://www.prisma.io/docs
+- **API 文档**：https://halolight-api-node.h7ml.cn/docs
+- **健康检查**：https://halolight-api-node.h7ml.cn/health
+- **项目文档**：https://halolight.docs.h7ml.cn
+- **Express 文档**：https://expressjs.com/
+- **Prisma 文档**：https://www.prisma.io/docs
 
 ## 许可证
 

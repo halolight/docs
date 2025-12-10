@@ -146,7 +146,7 @@ halolight-api-java/
 
 > 下表列出了所有业务模块的完整 API 端点。
 
-#### 文档管理（Documents）- 10 个端点
+#### 文档管理 (Documents)- 10 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -161,7 +161,7 @@ halolight-api-java/
 | POST | `/api/documents/{id}/unshare` | 取消分享 | JWT Required |
 | DELETE | `/api/documents/{id}` | 删除文档 | JWT Required |
 
-#### 文件管理（Files）- 10 个端点
+#### 文件管理 (Files)- 10 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -176,7 +176,7 @@ halolight-api-java/
 | POST | `/api/files/{id}/share` | 分享文件 | JWT Required |
 | DELETE | `/api/files/{id}` | 删除文件 | JWT Required |
 
-#### 日历事件（Calendar）- 8 个端点
+#### 日历事件 (Calendar)- 8 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -189,7 +189,7 @@ halolight-api-java/
 | DELETE | `/api/calendar/events/{id}/attendees/{attendeeId}` | 移除参会人 | JWT Required |
 | DELETE | `/api/calendar/events/{id}` | 删除事件 | JWT Required |
 
-#### 通知管理（Notifications）- 5 个端点
+#### 通知管理 (Notifications)- 5 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -201,7 +201,7 @@ halolight-api-java/
 
 ## 完整 API 参考
 
-### 1. 认证模块 (Auth)
+### 1。认证模块 (Auth)
 
 #### 1.1 用户登录
 
@@ -356,7 +356,7 @@ curl -X GET http://localhost:8080/api/auth/me \
   -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9..."
 ```
 
-### 2. 用户管理模块 (Users)
+### 2。用户管理模块 (Users)
 
 #### 2.1 获取用户列表
 
@@ -426,7 +426,7 @@ curl -X GET http://localhost:8080/api/users/1 \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
-### 3. 角色管理模块 (Roles)
+### 3。角色管理模块 (Roles)
 
 #### 3.1 获取角色列表
 
@@ -496,7 +496,7 @@ curl -X POST http://localhost:8080/api/roles \
   }'
 ```
 
-### 4. 权限管理模块 (Permissions)
+### 4。权限管理模块 (Permissions)
 
 #### 4.1 获取权限列表
 
@@ -752,7 +752,7 @@ docker run -d \
 
 ## 架构特点
 
-### 1. 分层架构
+### 1。分层架构
 
 遵循 Spring Boot 分层架构：
 
@@ -781,7 +781,7 @@ public class UserService {
 }
 ```
 
-### 2. DTO 验证
+### 2。DTO 验证
 
 使用 Bean Validation 进行自动验证：
 
@@ -800,7 +800,7 @@ public class CreateUserRequest {
 }
 ```
 
-### 3. 全局异常处理
+### 3。全局异常处理
 
 统一的错误响应格式：
 
@@ -821,7 +821,7 @@ public class GlobalExceptionHandler {
 }
 ```
 
-### 4. Swagger 文档
+### 4。Swagger 文档
 
 自动生成交互式 API 文档，访问 `/api/swagger-ui`：
 

@@ -142,7 +142,7 @@ halolight-api-nestjs/
 
 > 下表列出了所有业务模块的完整 API 端点，确保与实际实现和 Swagger 文档对齐。
 
-#### 文档管理（Documents）- 11 个端点
+#### 文档管理 (Documents)- 11 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -158,7 +158,7 @@ halolight-api-nestjs/
 | POST | `/api/documents/batch-delete` | 批量删除文档 | JWT Required |
 | DELETE | `/api/documents/:id` | 删除文档 | JWT Required |
 
-#### 文件管理（Files）- 14 个端点
+#### 文件管理 (Files)- 14 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -177,7 +177,7 @@ halolight-api-nestjs/
 | POST | `/api/files/batch-delete` | 批量删除文件 | JWT Required |
 | DELETE | `/api/files/:id` | 删除文件 | JWT Required |
 
-#### 日历事件（Calendar）- 9 个端点
+#### 日历事件 (Calendar)- 9 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -191,7 +191,7 @@ halolight-api-nestjs/
 | POST | `/api/calendar/events/batch-delete` | 批量删除事件 | JWT Required |
 | DELETE | `/api/calendar/events/:id` | 删除事件 | JWT Required |
 
-#### 通知管理（Notifications）- 5 个端点
+#### 通知管理 (Notifications)- 5 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -201,7 +201,7 @@ halolight-api-nestjs/
 | PUT | `/api/notifications/read-all` | 全部标记为已读 | JWT Required |
 | DELETE | `/api/notifications/:id` | 删除通知 | JWT Required |
 
-#### 团队管理（Teams）- 7 个端点
+#### 团队管理 (Teams)- 7 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
@@ -213,7 +213,7 @@ halolight-api-nestjs/
 | DELETE | `/api/teams/:id/members/:userId` | 从团队移除成员 | JWT Required |
 | DELETE | `/api/teams/:id` | 删除团队 | JWT Required |
 
-#### 仪表盘统计（Dashboard）- 9 个端点
+#### 仪表盘统计 (Dashboard)- 9 个端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
