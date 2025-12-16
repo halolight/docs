@@ -45,6 +45,16 @@ const zhGuideSidebar: DefaultTheme.SidebarItem[] = [
     ],
   },
   {
+    text: '扩展功能',
+    collapsed: true,
+    items: [
+      { text: '🤖 AI 智能助理', link: '/guide/ai' },
+      { text: '🎨 Web Components', link: '/guide/ui' },
+      { text: '🔗 Web3 钱包集成', link: '/guide/web3' },
+      { text: '⏰ 签到定时任务', link: '/guide/action' },
+    ],
+  },
+  {
     text: '部署方案',
     collapsed: true,
     items: [
@@ -122,6 +132,16 @@ const enGuideSidebar: DefaultTheme.SidebarItem[] = [
       { text: '🍞 Bun + Hono', link: '/en/guide/api-bun' },
       { text: '🔗 tRPC BFF', link: '/en/guide/bff' },
       { text: '🛠️ Admin Panel', link: '/en/guide/admin' },
+    ],
+  },
+  {
+    text: 'Extensions',
+    collapsed: true,
+    items: [
+      { text: '🤖 AI Assistant', link: '/en/guide/ai' },
+      { text: '🎨 Web Components', link: '/en/guide/ui' },
+      { text: '🔗 Web3 Integration', link: '/en/guide/web3' },
+      { text: '⏰ Check-in Scheduler', link: '/en/guide/action' },
     ],
   },
   {
