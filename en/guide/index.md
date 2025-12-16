@@ -32,6 +32,12 @@ Based on shadcn/ui design system:
 - Complete form/table solutions
 - Highly customizable
 
+### Frontend-Backend Any Combination
+- **88 Combination Options**: 11 frontend frameworks × 8 backend APIs, choose freely based on team tech stack or business scenarios
+- **BFF/Gateway Decoupling**: Optional tRPC, GraphQL Gateway for aggregation, authentication & simplification
+- **Upgrade Without Lock-in**: Replace any frontend or backend while maintaining contract compatibility
+- **Independent Evolution**: Frontend can choose SSR/SSG/SPA, backend can choose monolith/microservices/serverless
+
 ## Framework Implementations
 
 All framework versions have been implemented and deployed (preview links available in respective repository READMEs). Current reference implementations:
@@ -53,6 +59,21 @@ All framework versions have been implemented and deployed (preview links availab
 | Preact | ✅ Deployed | [Preview](https://halolight-preact.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-preact) |
 | Lit | ✅ Deployed | [Preview](https://halolight-lit.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-lit) |
 | Fresh (Deno) | ✅ Deployed | [Preview](https://halolight-fresh.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-fresh) |
+
+> 💡 **Flexible Combinations**: Frontend mainline supports 11 frameworks, any frontend can combine with 8 backend APIs, forming 88+ combination options.
+
+## Backend API Implementations
+
+| Backend Tech | Status | Preview | Repository |
+|--------------|--------|---------|------------|
+| NestJS 11 | ✅ Deployed | [API Docs](http://halolight-api-nestjs.h7ml.cn/docs) | [GitHub](https://github.com/halolight/halolight-api-nestjs) |
+| Python FastAPI | ✅ Deployed | [API Docs](http://halolight-api-python.h7ml.cn/docs) | [GitHub](https://github.com/halolight/halolight-api-python) |
+| Java Spring Boot | ✅ Deployed | [API Docs](http://halolight-api-java.h7ml.cn/swagger-ui.html) | [GitHub](https://github.com/halolight/halolight-api-java) |
+| Go Fiber | ✅ Deployed | [API Docs](http://halolight-api-go.h7ml.cn/swagger) | [GitHub](https://github.com/halolight/halolight-api-go) |
+| Node.js Express | ✅ Deployed | - | [GitHub](https://github.com/halolight/halolight-api-node) |
+| PHP Laravel | ✅ Deployed | - | [GitHub](https://github.com/halolight/halolight-api-php) |
+| Bun + Hono | ✅ Deployed | - | [GitHub](https://github.com/halolight/halolight-api-bun) |
+| tRPC BFF | ✅ Deployed | - | [GitHub](https://github.com/halolight/halolight-bff) |
 
 ## Tech Stack
 

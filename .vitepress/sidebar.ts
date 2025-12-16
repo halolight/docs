@@ -8,6 +8,7 @@ const zhGuideSidebar: DefaultTheme.SidebarItem[] = [
     items: [
       { text: '简介', link: '/guide/' },
       { text: '快速开始', link: '/guide/getting-started' },
+      { text: '🔀 架构组合指南', link: '/guide/combinations' },
     ],
   },
   {
@@ -99,6 +100,7 @@ const enGuideSidebar: DefaultTheme.SidebarItem[] = [
     items: [
       { text: 'Introduction', link: '/en/guide/' },
       { text: 'Quick Start', link: '/en/guide/getting-started' },
+      { text: '🔀 Architecture Combinations', link: '/en/guide/combinations' },
     ],
   },
   {
