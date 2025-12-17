@@ -6,6 +6,17 @@ HaloLight Vue 版本基于 Vue 3.5 + Vite 7 构建，采用 Composition API + Ty
 
 **GitHub**：[https://github.com/halolight/halolight-vue](https://github.com/halolight/halolight-vue)
 
+## 特性
+
+- 🏗️ **Composition API** - Vue 3.5 组合式 API，逻辑复用更灵活
+- ⚡ **Vite 7 + Rolldown** - 极速热更新，Rust 驱动的构建工具
+- 🎨 **主题系统** - 11 种皮肤，明暗模式，View Transitions
+- 🔐 **认证系统** - 完整登录/注册/找回密码流程
+- 📊 **仪表盘** - 数据可视化与业务管理
+- 🛡️ **权限控制** - RBAC 细粒度权限管理
+- 📑 **多标签页** - 标签栏管理
+- ⌘ **命令面板** - 快捷键导航
+
 ## 技术栈
 
 | 技术 | 版本 | 说明 |
@@ -24,78 +35,44 @@ HaloLight Vue 版本基于 Vue 3.5 + Vite 7 构建，采用 Composition API + Ty
 | ECharts | 5.x | 图表可视化 |
 | Mock.js | 1.x | 数据模拟 |
 
+## 核心特性
+
+- **可配置仪表盘** - 9 种小部件，拖拽布局，响应式适配
+- **多标签导航** - 浏览器式标签，右键菜单，状态缓存
+- **权限系统** - RBAC 权限控制，路由守卫，权限组件
+- **主题系统** - 11 种皮肤，明暗模式，View Transitions
+- **多账户切换** - 快速切换账户，记住登录状态
+- **命令面板** - 键盘快捷键 (⌘K)，全局搜索
+- **实时通知** - WebSocket 推送，通知中心
+
 ## 目录结构
 
 ```
 halolight-vue/
 ├── src/
-│   ├── views/                   # 页面视图
-│   │   ├── admin/              # 管理后台页面
-│   │   │   ├── dashboard/      # 仪表盘
-│   │   │   ├── users/          # 用户管理
-│   │   │   ├── roles/          # 角色管理
-│   │   │   ├── permissions/    # 权限管理
-│   │   │   ├── settings/       # 系统设置
-│   │   │   └── profile/        # 个人中心
-│   │   └── auth/               # 认证页面
-│   │       ├── login/
-│   │       ├── register/
-│   │       ├── forgot-password/
-│   │       └── reset-password/
-│   ├── components/
-│   │   ├── ui/                 # shadcn-vue 组件 (20+)
-│   │   ├── layout/             # 布局组件
-│   │   │   ├── AdminLayout.vue
-│   │   │   ├── AuthLayout.vue
-│   │   │   ├── Sidebar.vue
-│   │   │   ├── Header.vue
-│   │   │   └── Footer.vue
-│   │   ├── dashboard/          # 仪表盘组件
-│   │   │   ├── DashboardGrid.vue
-│   │   │   ├── WidgetWrapper.vue
-│   │   │   ├── StatsWidget.vue
-│   │   │   ├── ChartWidget.vue
-│   │   │   └── ...
-│   │   └── shared/             # 共享组件
-│   ├── composables/            # 组合式函数
-│   │   ├── useUsers.ts
-│   │   ├── useAuth.ts
-│   │   ├── useTheme.ts
-│   │   └── ...
-│   ├── stores/                 # Pinia Stores
-│   │   ├── auth.ts
-│   │   ├── ui-settings.ts
-│   │   ├── dashboard.ts
-│   │   ├── navigation.ts
-│   │   └── tabs.ts
-│   ├── services/               # API 服务
-│   │   ├── api.ts
-│   │   ├── auth.ts
-│   │   ├── users.ts
-│   │   └── ...
-│   ├── router/                 # 路由配置
-│   │   ├── index.ts
-│   │   └── routes.ts
-│   ├── lib/                    # 工具库
-│   │   ├── utils.ts
-│   │   └── cn.ts
-│   ├── types/                  # 类型定义
-│   │   ├── user.ts
-│   │   ├── auth.ts
-│   │   └── ...
-│   ├── mocks/                  # Mock 数据
-│   │   ├── index.ts
-│   │   └── modules/
-│   ├── App.vue
-│   └── main.ts
-├── public/                     # 静态资源
+│   ├── views/               # 页面视图
+│   │   ├── (auth)/         # 认证页面
+│   │   └── (dashboard)/    # 仪表盘页面
+│   ├── components/         # 组件
+│   │   ├── ui/             # 基础 UI 组件
+│   │   ├── layout/         # 布局组件
+│   │   └── dashboard/      # 仪表盘组件
+│   ├── composables/        # 组合式函数
+│   ├── stores/             # Pinia 状态管理
+│   ├── lib/                # 工具库
+│   ├── mocks/              # Mock 数据
+│   └── types/              # 类型定义
+├── public/                 # 静态资源
 ├── vite.config.ts
-├── tailwind.config.js
-├── tsconfig.json
 └── package.json
 ```
 
 ## 快速开始
+
+### 环境要求
+
+- Node.js >= 18.0.0
+- pnpm >= 9.x
 
 ### 安装
 
@@ -112,14 +89,14 @@ cp .env.example .env.local
 ```
 
 ```env
-# .env.local 示例
+# .env.local
 VITE_API_URL=/api
 VITE_USE_MOCK=true
-VITE_APP_TITLE=Admin Pro
-VITE_BRAND_NAME=Halolight
 VITE_DEMO_EMAIL=admin@halolight.h7ml.cn
 VITE_DEMO_PASSWORD=123456
-VITE_SHOW_DEMO_HINT=true
+VITE_SHOW_DEMO_HINT=false
+VITE_APP_TITLE=Admin Pro
+VITE_BRAND_NAME=Halolight
 ```
 
 ### 启动开发
@@ -136,6 +113,13 @@ pnpm dev
 pnpm build
 pnpm preview
 ```
+
+## 演示账号
+
+| 角色 | 邮箱 | 密码 |
+|------|------|------|
+| 管理员 | admin@halolight.h7ml.cn | 123456 |
+| 普通用户 | user@halolight.h7ml.cn | 123456 |
 
 ## 核心功能
 
@@ -216,7 +200,34 @@ export function useCreateUser() {
 }
 ```
 
-### 权限指令
+### 权限控制
+
+```ts
+// composables/usePermission.ts
+import { useAuthStore } from '@/stores/auth'
+
+export function usePermission() {
+  const authStore = useAuthStore()
+
+  function hasPermission(permission: string): boolean {
+    return authStore.hasPermission(permission)
+  }
+
+  function hasAnyPermission(permissions: string[]): boolean {
+    return permissions.some(p => hasPermission(p))
+  }
+
+  function hasAllPermissions(permissions: string[]): boolean {
+    return permissions.every(p => hasPermission(p))
+  }
+
+  return {
+    hasPermission,
+    hasAnyPermission,
+    hasAllPermissions,
+  }
+}
+```
 
 ```ts
 // directives/permission.ts
@@ -236,33 +247,10 @@ app.directive('permission', vPermission)
 ```
 
 ```vue
-<!-- 使用 -->
+<!-- 使用权限指令 -->
 <button v-permission="'users:delete'">删除</button>
-```
 
-### 权限组件
-
-```vue
-<!-- components/PermissionGuard.vue -->
-<script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
-
-const props = defineProps<{
-  permission: string
-}>()
-
-const authStore = useAuthStore()
-const hasPermission = computed(() => authStore.hasPermission(props.permission))
-</script>
-
-<template>
-  <slot v-if="hasPermission" />
-  <slot v-else name="fallback" />
-</template>
-```
-
-```vue
-<!-- 使用 -->
+<!-- 使用权限组件 -->
 <PermissionGuard permission="users:delete">
   <DeleteButton />
   <template #fallback>
@@ -306,7 +294,51 @@ const { layout, isEditing } = storeToRefs(dashboardStore)
 </template>
 ```
 
-### 主题切换 (View Transitions)
+## 主题系统
+
+### 皮肤预设
+
+支持 11 种预设皮肤，通过快捷设置面板切换：
+
+| 皮肤 | 主色调 | CSS 变量 |
+|------|--------|----------|
+| Default | 紫色 | `--primary: 51.1% 0.262 276.97` |
+| Blue | 蓝色 | `--primary: 54.8% 0.243 264.05` |
+| Emerald | 翠绿 | `--primary: 64.6% 0.178 142.49` |
+| Orange | 橙色 | `--primary: 69.7% 0.196 49.27` |
+| Rose | 玫瑰 | `--primary: 63.4% 0.243 357.61` |
+| Amber | 琥珀 | `--primary: 79.1% 0.177 77.54` |
+| Cyan | 青色 | `--primary: 74.4% 0.167 197.13` |
+| Violet | 紫罗兰 | `--primary: 57.2% 0.267 285.75` |
+| Lime | 青柠 | `--primary: 78.8% 0.184 127.38` |
+| Pink | 粉色 | `--primary: 70.9% 0.254 347.58` |
+| Teal | 青蓝 | `--primary: 67.8% 0.157 181.02` |
+
+### CSS 变量 (OKLch)
+
+```css
+/* 示例变量定义 */
+:root {
+  --background: 100% 0 0;
+  --foreground: 14.9% 0.017 285.75;
+  --primary: 51.1% 0.262 276.97;
+  --primary-foreground: 100% 0 0;
+  --secondary: 97.3% 0.006 285.75;
+  --secondary-foreground: 17.9% 0.018 285.75;
+  --muted: 97.3% 0.006 285.75;
+  --muted-foreground: 49.5% 0.023 285.75;
+  --accent: 97.3% 0.006 285.75;
+  --accent-foreground: 17.9% 0.018 285.75;
+  --destructive: 59.9% 0.24 29.23;
+  --destructive-foreground: 98.3% 0.002 285.75;
+  --border: 91.9% 0.010 285.75;
+  --input: 91.9% 0.010 285.75;
+  --ring: 51.1% 0.262 276.97;
+  --radius: 0.5rem;
+}
+```
+
+### 主题切换
 
 ```ts
 // composables/useTheme.ts
@@ -382,49 +414,223 @@ export function useTheme() {
 | `/forgot-password` | 忘记密码 | 公开 |
 | `/reset-password` | 重置密码 | 公开 |
 | `/dashboard` | 仪表盘 | `dashboard:view` |
-| `/users` | 用户列表 | `users:list` |
-| `/users/create` | 创建用户 | `users:create` |
-| `/users/:id` | 用户详情 | `users:view` |
-| `/users/:id/edit` | 编辑用户 | `users:update` |
-| `/roles` | 角色管理 | `roles:list` |
-| `/permissions` | 权限管理 | `permissions:list` |
+| `/users` | 用户管理 | `users:view` |
+| `/analytics` | 数据分析 | `analytics:view` |
+| `/calendar` | 日程管理 | `calendar:view` |
+| `/documents` | 文档管理 | `documents:view` |
+| `/files` | 文件存储 | `files:view` |
+| `/messages` | 消息中心 | `messages:view` |
+| `/notifications` | 通知中心 | `notifications:view` |
 | `/settings` | 系统设置 | `settings:view` |
-| `/profile` | 个人中心 | 登录即可 |
+| `/profile` | 个人资料 | `settings:view` |
 
-### 路由守卫
+## 环境变量
+
+### 配置示例
+
+```env
+# .env.local
+VITE_API_URL=/api
+VITE_USE_MOCK=true
+VITE_DEMO_EMAIL=admin@halolight.h7ml.cn
+VITE_DEMO_PASSWORD=123456
+VITE_SHOW_DEMO_HINT=false
+VITE_APP_TITLE=Admin Pro
+VITE_BRAND_NAME=Halolight
+```
+
+### 变量说明
+
+| 变量名 | 说明 | 默认值 |
+|--------|------|--------|
+| `VITE_API_URL` | API 基础路径 | `/api` |
+| `VITE_USE_MOCK` | 是否使用 Mock 数据 | `true` |
+| `VITE_DEMO_EMAIL` | 演示账号邮箱 | `admin@halolight.h7ml.cn` |
+| `VITE_DEMO_PASSWORD` | 演示账号密码 | `123456` |
+| `VITE_SHOW_DEMO_HINT` | 是否显示演示提示 | `false` |
+| `VITE_APP_TITLE` | 应用标题 | `Admin Pro` |
+| `VITE_BRAND_NAME` | 品牌名称 | `Halolight` |
+
+### 使用方式
 
 ```ts
-// router/index.ts
-router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore()
+// 在代码中使用
+const apiUrl = import.meta.env.VITE_API_URL
+const useMock = import.meta.env.VITE_USE_MOCK === 'true'
+const appTitle = import.meta.env.VITE_APP_TITLE
+```
 
-  // 需要认证的页面
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next({ name: 'login', query: { redirect: to.fullPath } })
-    return
-  }
+## 常用命令
 
-  // 权限检查
-  if (to.meta.permission && !authStore.hasPermission(to.meta.permission)) {
-    next({ name: '403' })
-    return
-  }
+```bash
+pnpm dev            # 启动开发服务器
+pnpm build          # 生产构建
+pnpm preview        # 预览生产构建
+pnpm lint           # 代码检查
+pnpm lint:fix       # 自动修复
+pnpm type-check     # 类型检查
+pnpm test           # 运行测试
+pnpm test:coverage  # 测试覆盖率
+```
 
-  next()
+## 测试
+
+```bash
+pnpm test           # 运行测试（watch 模式）
+pnpm test:run       # 单次运行
+pnpm test:coverage  # 覆盖率报告
+pnpm test:ui        # Vitest UI 界面
+```
+
+### 测试示例
+
+```ts
+// tests/components/Button.spec.ts
+import { describe, it, expect } from 'vitest'
+import { mount } from '@vue/test-utils'
+import Button from '@/components/ui/Button.vue'
+
+describe('Button', () => {
+  it('renders properly', () => {
+    const wrapper = mount(Button, {
+      props: { variant: 'default' },
+      slots: { default: 'Click me' }
+    })
+    expect(wrapper.text()).toContain('Click me')
+  })
+
+  it('emits click event', async () => {
+    const wrapper = mount(Button)
+    await wrapper.trigger('click')
+    expect(wrapper.emitted()).toHaveProperty('click')
+  })
 })
 ```
 
-## UI 组件
+## 配置
 
-基于 shadcn-vue，已集成 20+ 组件：
+### Vite 配置
 
-- **表单**：Button，Input，Textarea，Select，Checkbox，RadioGroup，Switch，Slider，DatePicker
-- **数据展示**：Table，Card，Badge，Avatar，Progress，Skeleton
-- **反馈**：Dialog，Sheet，AlertDialog，Toast，Tooltip，Popover
-- **导航**：Tabs，Breadcrumb，Pagination，DropdownMenu，Command
-- **布局**：Accordion，Collapsible，ScrollArea，Separator
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
 
-## ECharts 集成
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    port: 5173,
+    open: true,
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vue-vendor': ['vue', 'vue-router', 'pinia'],
+          'ui-vendor': ['@tanstack/vue-query'],
+        },
+      },
+    },
+  },
+})
+```
+
+## 部署
+
+### Vercel (推荐)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/halolight/halolight-vue)
+
+### Docker
+
+```bash
+docker build -t halolight-vue .
+docker run -p 3000:3000 halolight-vue
+```
+
+### 其他平台
+
+- [Cloudflare Pages](/guide/cloudflare)
+- [Netlify](/guide/netlify)
+- [AWS Amplify](/guide/aws)
+- [Azure Static Web Apps](/guide/azure)
+
+## CI/CD
+
+项目配置了完整的 GitHub Actions CI 工作流：
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm type-check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:coverage
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm audit --audit-level=high
+```
+
+## 高级功能
+
+### ECharts 集成
 
 ```vue
 <script setup lang="ts">
@@ -444,7 +650,17 @@ const option = computed(() => ({
   textStyle: {
     color: actualTheme.value === 'dark' ? '#e5e5e5' : '#333',
   },
-  // ... chart options
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [{
+    data: [820, 932, 901, 934, 1290, 1330, 1320],
+    type: 'line'
+  }]
 }))
 </script>
 
@@ -453,58 +669,189 @@ const option = computed(() => ({
 </template>
 ```
 
-## 部署
+### 路由守卫
 
-### Vercel
+```ts
+// router/index.ts
+import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
-```bash
-vercel
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [...routes]
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+
+  // 需要认证的页面
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next({ name: 'login', query: { redirect: to.fullPath } })
+    return
+  }
+
+  // 权限检查
+  if (to.meta.permission && !authStore.hasPermission(to.meta.permission)) {
+    next({ name: '403' })
+    return
+  }
+
+  next()
+})
+
+export default router
 ```
 
-### Nginx
+## 性能优化
 
-```nginx
-server {
-    listen 80;
-    server_name example.com;
-    root /var/www/halolight-vue/dist;
-    index index.html;
+### 图片优化
 
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
+```vue
+<script setup lang="ts">
+const imageSrc = computed(() => {
+  const { width } = useWindowSize()
+  if (width.value < 768) return '/images/mobile.webp'
+  if (width.value < 1024) return '/images/tablet.webp'
+  return '/images/desktop.webp'
+})
+</script>
 
-    location /api {
-        proxy_pass http://backend:3000;
-    }
+<template>
+  <img
+    :src="imageSrc"
+    loading="lazy"
+    decoding="async"
+    alt="响应式图片"
+  >
+</template>
+```
+
+### 懒加载组件
+
+```ts
+// router/routes.ts
+const routes = [
+  {
+    path: '/dashboard',
+    component: () => import('@/views/Dashboard.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/users',
+    component: () => import('@/views/Users.vue'),
+    meta: { requiresAuth: true, permission: 'users:view' }
+  },
+]
+```
+
+### 预加载
+
+```vue
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+onMounted(() => {
+  // 预加载常用路由
+  router.resolve({ name: 'users' })
+  router.resolve({ name: 'settings' })
+})
+</script>
+```
+
+## 常见问题
+
+### Q：如何切换主题？
+
+A：使用 `useTheme` composable：
+
+```vue
+<script setup lang="ts">
+import { useTheme } from '@/composables/useTheme'
+
+const { theme, toggleTheme, skin } = useTheme()
+
+// 切换明暗主题
+function handleToggle(event: MouseEvent) {
+  toggleTheme(event)
 }
+
+// 切换皮肤
+function changeSkin(newSkin: SkinPreset) {
+  skin.value = newSkin
+}
+</script>
+
+<template>
+  <button @click="handleToggle">切换主题</button>
+  <select v-model="skin">
+    <option value="default">Default</option>
+    <option value="blue">Blue</option>
+    <option value="emerald">Emerald</option>
+  </select>
+</template>
 ```
 
-### Docker
+### Q：如何添加新的权限？
 
-```dockerfile
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
-COPY . .
-RUN pnpm build
+A：在认证响应中添加权限字符串：
 
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+```ts
+// types/auth.ts
+interface User {
+  id: string
+  name: string
+  email: string
+  permissions: string[] // ['users:*', 'posts:view', 'posts:create']
+}
+
+// 使用通配符
+// 'users:*' - 用户模块所有权限
+// '*' - 所有权限
+// 'users:view' - 特定权限
 ```
 
-## 与 Next.js 版本对比
+### Q：如何自定义仪表盘布局？
 
-| 功能 | Vue 版本 | Next.js 版本 |
-|------|----------|--------------|
-| 状态管理 | Pinia | Zustand |
-| 数据获取 | TanStack Query | TanStack Query |
-| 表单验证 | VeeValidate + Zod | React Hook Form + Zod |
-| 拖拽布局 | grid-layout-plus | react-grid-layout |
-| 组件库 | shadcn-vue | shadcn/ui |
-| 路由 | Vue Router | Next.js App Router |
-| SSR | 需要 Nuxt | 内置支持 |
+A：通过 Dashboard Store 管理布局：
+
+```ts
+// stores/dashboard.ts
+import { defineStore } from 'pinia'
+
+export const useDashboardStore = defineStore('dashboard', () => {
+  const layout = ref([
+    { i: 'widget-1', x: 0, y: 0, w: 6, h: 4 },
+    { i: 'widget-2', x: 6, y: 0, w: 6, h: 4 },
+  ])
+
+  function saveLayout(newLayout: Layout[]) {
+    layout.value = newLayout
+    // 保存到服务器
+  }
+
+  return { layout, saveLayout }
+})
+```
+
+## 与其他版本对比
+
+| 特性 | Vue | Next.js | Angular |
+|------|-----|---------|---------|
+| SSR/SSG | ❌ (需要 Nuxt) | ✅ | ✅ (需要 Angular Universal) |
+| 状态管理 | Pinia | Zustand | RxJS/Signals |
+| 路由 | Vue Router | App Router | Angular Router |
+| 构建工具 | Vite | Next.js | Angular CLI |
+| 学习曲线 | 中 | 中 | 高 |
+| 生态系统 | 丰富 | 丰富 | 企业级 |
+
+## 相关链接
+
+- [在线预览](https://halolight-vue.h7ml.cn)
+- [GitHub 仓库](https://github.com/halolight/halolight-vue)
+- [Vue 官方文档](https://vuejs.org)
+- [Vite 官方文档](https://vitejs.dev)
+- [Pinia 官方文档](https://pinia.vuejs.org)
+- [HaloLight 文档](https://docs.halolight.h7ml.cn)

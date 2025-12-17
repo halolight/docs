@@ -81,5 +81,5 @@ export async function GET(request: NextRequest) {
 ## Related Links
 
 - [GitHub Repository](https://github.com/halolight/halolight-vercel)
-- [Live Preview](https://halolight-vercel.vercel.app)
+- [Live Preview](https://halolight-vercel.h7ml.cn)
 - [Vercel Documentation](https://vercel.com/docs)

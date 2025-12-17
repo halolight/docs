@@ -2,7 +2,7 @@
 
 HaloLight Action is a modern check-in scheduler platform built with Next.js 14 App Router and Supabase, supporting multi-platform automatic check-ins, task scheduling, execution tracking, and push notifications.
 
-**Live Preview**: [https://halolight-action.vercel.app](https://halolight-action.vercel.app)
+**Live Preview**: [https://halolight-action.h7ml.cn](https://halolight-action.h7ml.cn)
 
 **GitHub**: [https://github.com/halolight/halolight-action](https://github.com/halolight/halolight-action)
 

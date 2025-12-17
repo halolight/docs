@@ -6,6 +6,17 @@ HaloLight Vue version is built on Vue 3.5 + Vite 7, using Composition API + Type
 
 **GitHub**: [https://github.com/halolight/halolight-vue](https://github.com/halolight/halolight-vue)
 
+## Features
+
+- 🏗️ **Composition API** - Vue 3.5 Composition API for flexible logic reuse
+- ⚡ **Vite 7 + Rolldown** - Lightning-fast HMR, Rust-powered build tool
+- 🎨 **Theme System** - 11 skins, light/dark mode, View Transitions
+- 🔐 **Authentication** - Complete login/register/password recovery flow
+- 📊 **Dashboard** - Data visualization and business management
+- 🛡️ **Permission Control** - Fine-grained RBAC permission management
+- 📑 **Multi-Tab** - Tab bar management
+- ⌘ **Command Palette** - Keyboard shortcuts navigation
+
 ## Tech Stack
 
 | Technology | Version | Description |
@@ -24,78 +35,44 @@ HaloLight Vue version is built on Vue 3.5 + Vite 7, using Composition API + Type
 | ECharts | 5.x | Chart visualization |
 | Mock.js | 1.x | Data mocking |
 
+## Core Features
+
+- **Configurable Dashboard** - 9 widgets, drag-and-drop layout, responsive adaptation
+- **Multi-Tab Navigation** - Browser-style tabs, context menu, state caching
+- **Permission System** - RBAC permission control, route guards, permission components
+- **Theme System** - 11 skins, light/dark mode, View Transitions
+- **Multi-Account Switching** - Quick account switching, remember login state
+- **Command Palette** - Keyboard shortcuts (⌘K), global search
+- **Real-time Notifications** - WebSocket push, notification center
+
 ## Directory Structure
 
 ```
 halolight-vue/
 ├── src/
-│   ├── views/                   # Page views
-│   │   ├── admin/              # Admin pages
-│   │   │   ├── dashboard/      # Dashboard
-│   │   │   ├── users/          # User management
-│   │   │   ├── roles/          # Role management
-│   │   │   ├── permissions/    # Permission management
-│   │   │   ├── settings/       # System settings
-│   │   │   └── profile/        # User profile
-│   │   └── auth/               # Auth pages
-│   │       ├── login/
-│   │       ├── register/
-│   │       ├── forgot-password/
-│   │       └── reset-password/
-│   ├── components/
-│   │   ├── ui/                 # shadcn-vue components (20+)
-│   │   ├── layout/             # Layout components
-│   │   │   ├── AdminLayout.vue
-│   │   │   ├── AuthLayout.vue
-│   │   │   ├── Sidebar.vue
-│   │   │   ├── Header.vue
-│   │   │   └── Footer.vue
-│   │   ├── dashboard/          # Dashboard components
-│   │   │   ├── DashboardGrid.vue
-│   │   │   ├── WidgetWrapper.vue
-│   │   │   ├── StatsWidget.vue
-│   │   │   ├── ChartWidget.vue
-│   │   │   └── ...
-│   │   └── shared/             # Shared components
-│   ├── composables/            # Composable functions
-│   │   ├── useUsers.ts
-│   │   ├── useAuth.ts
-│   │   ├── useTheme.ts
-│   │   └── ...
-│   ├── stores/                 # Pinia Stores
-│   │   ├── auth.ts
-│   │   ├── ui-settings.ts
-│   │   ├── dashboard.ts
-│   │   ├── navigation.ts
-│   │   └── tabs.ts
-│   ├── services/               # API services
-│   │   ├── api.ts
-│   │   ├── auth.ts
-│   │   ├── users.ts
-│   │   └── ...
-│   ├── router/                 # Router configuration
-│   │   ├── index.ts
-│   │   └── routes.ts
-│   ├── lib/                    # Utility library
-│   │   ├── utils.ts
-│   │   └── cn.ts
-│   ├── types/                  # Type definitions
-│   │   ├── user.ts
-│   │   ├── auth.ts
-│   │   └── ...
-│   ├── mocks/                  # Mock data
-│   │   ├── index.ts
-│   │   └── modules/
-│   ├── App.vue
-│   └── main.ts
-├── public/                     # Static assets
+│   ├── views/               # Page views
+│   │   ├── (auth)/         # Auth pages
+│   │   └── (dashboard)/    # Dashboard pages
+│   ├── components/         # Components
+│   │   ├── ui/             # Base UI components
+│   │   ├── layout/         # Layout components
+│   │   └── dashboard/      # Dashboard components
+│   ├── composables/        # Composable functions
+│   ├── stores/             # Pinia state management
+│   ├── lib/                # Utility library
+│   ├── mocks/              # Mock data
+│   └── types/              # Type definitions
+├── public/                 # Static assets
 ├── vite.config.ts
-├── tailwind.config.js
-├── tsconfig.json
 └── package.json
 ```
 
 ## Quick Start
+
+### Environment Requirements
+
+- Node.js >= 18.0.0
+- pnpm >= 9.x
 
 ### Installation
 
@@ -112,14 +89,14 @@ cp .env.example .env.local
 ```
 
 ```env
-# .env.local example
+# .env.local
 VITE_API_URL=/api
 VITE_USE_MOCK=true
-VITE_APP_TITLE=Admin Pro
-VITE_BRAND_NAME=Halolight
 VITE_DEMO_EMAIL=admin@halolight.h7ml.cn
 VITE_DEMO_PASSWORD=123456
-VITE_SHOW_DEMO_HINT=true
+VITE_SHOW_DEMO_HINT=false
+VITE_APP_TITLE=Admin Pro
+VITE_BRAND_NAME=Halolight
 ```
 
 ### Start Development
@@ -137,7 +114,14 @@ pnpm build
 pnpm preview
 ```
 
-## Core Features
+## Demo Account
+
+| Role | Email | Password |
+|------|------|----------|
+| Admin | admin@halolight.h7ml.cn | 123456 |
+| User | user@halolight.h7ml.cn | 123456 |
+
+## Core Functionality
 
 ### State Management (Pinia)
 
@@ -216,7 +200,34 @@ export function useCreateUser() {
 }
 ```
 
-### Permission Directive
+### Permission Control
+
+```ts
+// composables/usePermission.ts
+import { useAuthStore } from '@/stores/auth'
+
+export function usePermission() {
+  const authStore = useAuthStore()
+
+  function hasPermission(permission: string): boolean {
+    return authStore.hasPermission(permission)
+  }
+
+  function hasAnyPermission(permissions: string[]): boolean {
+    return permissions.some(p => hasPermission(p))
+  }
+
+  function hasAllPermissions(permissions: string[]): boolean {
+    return permissions.every(p => hasPermission(p))
+  }
+
+  return {
+    hasPermission,
+    hasAnyPermission,
+    hasAllPermissions,
+  }
+}
+```
 
 ```ts
 // directives/permission.ts
@@ -236,33 +247,10 @@ app.directive('permission', vPermission)
 ```
 
 ```vue
-<!-- Usage -->
+<!-- Use permission directive -->
 <button v-permission="'users:delete'">Delete</button>
-```
 
-### Permission Component
-
-```vue
-<!-- components/PermissionGuard.vue -->
-<script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
-
-const props = defineProps<{
-  permission: string
-}>()
-
-const authStore = useAuthStore()
-const hasPermission = computed(() => authStore.hasPermission(props.permission))
-</script>
-
-<template>
-  <slot v-if="hasPermission" />
-  <slot v-else name="fallback" />
-</template>
-```
-
-```vue
-<!-- Usage -->
+<!-- Use permission component -->
 <PermissionGuard permission="users:delete">
   <DeleteButton />
   <template #fallback>
@@ -306,7 +294,51 @@ const { layout, isEditing } = storeToRefs(dashboardStore)
 </template>
 ```
 
-### Theme Toggle (View Transitions)
+## Theme System
+
+### Skin Presets
+
+Supports 11 preset skins, switchable via quick settings panel:
+
+| Skin | Primary Color | CSS Variable |
+|------|---------------|--------------|
+| Default | Purple | `--primary: 51.1% 0.262 276.97` |
+| Blue | Blue | `--primary: 54.8% 0.243 264.05` |
+| Emerald | Emerald | `--primary: 64.6% 0.178 142.49` |
+| Orange | Orange | `--primary: 69.7% 0.196 49.27` |
+| Rose | Rose | `--primary: 63.4% 0.243 357.61` |
+| Amber | Amber | `--primary: 79.1% 0.177 77.54` |
+| Cyan | Cyan | `--primary: 74.4% 0.167 197.13` |
+| Violet | Violet | `--primary: 57.2% 0.267 285.75` |
+| Lime | Lime | `--primary: 78.8% 0.184 127.38` |
+| Pink | Pink | `--primary: 70.9% 0.254 347.58` |
+| Teal | Teal | `--primary: 67.8% 0.157 181.02` |
+
+### CSS Variables (OKLch)
+
+```css
+/* Example variable definitions */
+:root {
+  --background: 100% 0 0;
+  --foreground: 14.9% 0.017 285.75;
+  --primary: 51.1% 0.262 276.97;
+  --primary-foreground: 100% 0 0;
+  --secondary: 97.3% 0.006 285.75;
+  --secondary-foreground: 17.9% 0.018 285.75;
+  --muted: 97.3% 0.006 285.75;
+  --muted-foreground: 49.5% 0.023 285.75;
+  --accent: 97.3% 0.006 285.75;
+  --accent-foreground: 17.9% 0.018 285.75;
+  --destructive: 59.9% 0.24 29.23;
+  --destructive-foreground: 98.3% 0.002 285.75;
+  --border: 91.9% 0.010 285.75;
+  --input: 91.9% 0.010 285.75;
+  --ring: 51.1% 0.262 276.97;
+  --radius: 0.5rem;
+}
+```
+
+### Theme Toggle
 
 ```ts
 // composables/useTheme.ts
@@ -382,49 +414,223 @@ export function useTheme() {
 | `/forgot-password` | Forgot password | Public |
 | `/reset-password` | Reset password | Public |
 | `/dashboard` | Dashboard | `dashboard:view` |
-| `/users` | User list | `users:list` |
-| `/users/create` | Create user | `users:create` |
-| `/users/:id` | User details | `users:view` |
-| `/users/:id/edit` | Edit user | `users:update` |
-| `/roles` | Role management | `roles:list` |
-| `/permissions` | Permission management | `permissions:list` |
+| `/users` | User management | `users:view` |
+| `/analytics` | Analytics | `analytics:view` |
+| `/calendar` | Calendar | `calendar:view` |
+| `/documents` | Documents | `documents:view` |
+| `/files` | File storage | `files:view` |
+| `/messages` | Messages | `messages:view` |
+| `/notifications` | Notifications | `notifications:view` |
 | `/settings` | System settings | `settings:view` |
-| `/profile` | User profile | Authenticated |
+| `/profile` | User profile | `settings:view` |
 
-### Route Guards
+## Environment Variables
+
+### Configuration Example
+
+```env
+# .env.local
+VITE_API_URL=/api
+VITE_USE_MOCK=true
+VITE_DEMO_EMAIL=admin@halolight.h7ml.cn
+VITE_DEMO_PASSWORD=123456
+VITE_SHOW_DEMO_HINT=false
+VITE_APP_TITLE=Admin Pro
+VITE_BRAND_NAME=Halolight
+```
+
+### Variable Description
+
+| Variable Name | Description | Default Value |
+|---------------|-------------|---------------|
+| `VITE_API_URL` | API base path | `/api` |
+| `VITE_USE_MOCK` | Whether to use Mock data | `true` |
+| `VITE_DEMO_EMAIL` | Demo account email | `admin@halolight.h7ml.cn` |
+| `VITE_DEMO_PASSWORD` | Demo account password | `123456` |
+| `VITE_SHOW_DEMO_HINT` | Whether to show demo hint | `false` |
+| `VITE_APP_TITLE` | Application title | `Admin Pro` |
+| `VITE_BRAND_NAME` | Brand name | `Halolight` |
+
+### Usage
 
 ```ts
-// router/index.ts
-router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore()
+// Use in code
+const apiUrl = import.meta.env.VITE_API_URL
+const useMock = import.meta.env.VITE_USE_MOCK === 'true'
+const appTitle = import.meta.env.VITE_APP_TITLE
+```
 
-  // Pages requiring authentication
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next({ name: 'login', query: { redirect: to.fullPath } })
-    return
-  }
+## Common Commands
 
-  // Permission check
-  if (to.meta.permission && !authStore.hasPermission(to.meta.permission)) {
-    next({ name: '403' })
-    return
-  }
+```bash
+pnpm dev            # Start development server
+pnpm build          # Production build
+pnpm preview        # Preview production build
+pnpm lint           # Code linting
+pnpm lint:fix       # Auto-fix
+pnpm type-check     # Type checking
+pnpm test           # Run tests
+pnpm test:coverage  # Test coverage
+```
 
-  next()
+## Testing
+
+```bash
+pnpm test           # Run tests (watch mode)
+pnpm test:run       # Run once
+pnpm test:coverage  # Coverage report
+pnpm test:ui        # Vitest UI
+```
+
+### Test Example
+
+```ts
+// tests/components/Button.spec.ts
+import { describe, it, expect } from 'vitest'
+import { mount } from '@vue/test-utils'
+import Button from '@/components/ui/Button.vue'
+
+describe('Button', () => {
+  it('renders properly', () => {
+    const wrapper = mount(Button, {
+      props: { variant: 'default' },
+      slots: { default: 'Click me' }
+    })
+    expect(wrapper.text()).toContain('Click me')
+  })
+
+  it('emits click event', async () => {
+    const wrapper = mount(Button)
+    await wrapper.trigger('click')
+    expect(wrapper.emitted()).toHaveProperty('click')
+  })
 })
 ```
 
-## UI Components
+## Configuration
 
-Based on shadcn-vue, 20+ components integrated:
+### Vite Configuration
 
-- **Forms**: Button, Input, Textarea, Select, Checkbox, RadioGroup, Switch, Slider, DatePicker
-- **Data Display**: Table, Card, Badge, Avatar, Progress, Skeleton
-- **Feedback**: Dialog, Sheet, AlertDialog, Toast, Tooltip, Popover
-- **Navigation**: Tabs, Breadcrumb, Pagination, DropdownMenu, Command
-- **Layout**: Accordion, Collapsible, ScrollArea, Separator
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
 
-## ECharts Integration
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    port: 5173,
+    open: true,
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vue-vendor': ['vue', 'vue-router', 'pinia'],
+          'ui-vendor': ['@tanstack/vue-query'],
+        },
+      },
+    },
+  },
+})
+```
+
+## Deployment
+
+### Vercel (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/halolight/halolight-vue)
+
+### Docker
+
+```bash
+docker build -t halolight-vue .
+docker run -p 3000:3000 halolight-vue
+```
+
+### Other Platforms
+
+- [Cloudflare Pages](/guide/cloudflare)
+- [Netlify](/guide/netlify)
+- [AWS Amplify](/guide/aws)
+- [Azure Static Web Apps](/guide/azure)
+
+## CI/CD
+
+The project is configured with a complete GitHub Actions CI workflow:
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm type-check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:coverage
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm audit --audit-level=high
+```
+
+## Advanced Features
+
+### ECharts Integration
 
 ```vue
 <script setup lang="ts">
@@ -444,7 +650,17 @@ const option = computed(() => ({
   textStyle: {
     color: actualTheme.value === 'dark' ? '#e5e5e5' : '#333',
   },
-  // ... chart options
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [{
+    data: [820, 932, 901, 934, 1290, 1330, 1320],
+    type: 'line'
+  }]
 }))
 </script>
 
@@ -453,58 +669,189 @@ const option = computed(() => ({
 </template>
 ```
 
-## Deployment
+### Route Guards
 
-### Vercel
+```ts
+// router/index.ts
+import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
-```bash
-vercel
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [...routes]
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+
+  // Pages requiring authentication
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next({ name: 'login', query: { redirect: to.fullPath } })
+    return
+  }
+
+  // Permission check
+  if (to.meta.permission && !authStore.hasPermission(to.meta.permission)) {
+    next({ name: '403' })
+    return
+  }
+
+  next()
+})
+
+export default router
 ```
 
-### Nginx
+## Performance Optimization
 
-```nginx
-server {
-    listen 80;
-    server_name example.com;
-    root /var/www/halolight-vue/dist;
-    index index.html;
+### Image Optimization
 
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
+```vue
+<script setup lang="ts">
+const imageSrc = computed(() => {
+  const { width } = useWindowSize()
+  if (width.value < 768) return '/images/mobile.webp'
+  if (width.value < 1024) return '/images/tablet.webp'
+  return '/images/desktop.webp'
+})
+</script>
 
-    location /api {
-        proxy_pass http://backend:3000;
-    }
+<template>
+  <img
+    :src="imageSrc"
+    loading="lazy"
+    decoding="async"
+    alt="Responsive image"
+  >
+</template>
+```
+
+### Lazy Load Components
+
+```ts
+// router/routes.ts
+const routes = [
+  {
+    path: '/dashboard',
+    component: () => import('@/views/Dashboard.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/users',
+    component: () => import('@/views/Users.vue'),
+    meta: { requiresAuth: true, permission: 'users:view' }
+  },
+]
+```
+
+### Preloading
+
+```vue
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+onMounted(() => {
+  // Preload commonly used routes
+  router.resolve({ name: 'users' })
+  router.resolve({ name: 'settings' })
+})
+</script>
+```
+
+## FAQ
+
+### Q: How to switch themes?
+
+A: Use the `useTheme` composable:
+
+```vue
+<script setup lang="ts">
+import { useTheme } from '@/composables/useTheme'
+
+const { theme, toggleTheme, skin } = useTheme()
+
+// Toggle light/dark theme
+function handleToggle(event: MouseEvent) {
+  toggleTheme(event)
 }
+
+// Change skin
+function changeSkin(newSkin: SkinPreset) {
+  skin.value = newSkin
+}
+</script>
+
+<template>
+  <button @click="handleToggle">Toggle Theme</button>
+  <select v-model="skin">
+    <option value="default">Default</option>
+    <option value="blue">Blue</option>
+    <option value="emerald">Emerald</option>
+  </select>
+</template>
 ```
 
-### Docker
+### Q: How to add new permissions?
 
-```dockerfile
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
-COPY . .
-RUN pnpm build
+A: Add permission strings in the authentication response:
 
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+```ts
+// types/auth.ts
+interface User {
+  id: string
+  name: string
+  email: string
+  permissions: string[] // ['users:*', 'posts:view', 'posts:create']
+}
+
+// Using wildcards
+// 'users:*' - All permissions for user module
+// '*' - All permissions
+// 'users:view' - Specific permission
 ```
 
-## Comparison with Next.js Version
+### Q: How to customize dashboard layout?
 
-| Feature | Vue Version | Next.js Version |
-|---------|-------------|-----------------|
-| State Management | Pinia | Zustand |
-| Data Fetching | TanStack Query | TanStack Query |
-| Form Validation | VeeValidate + Zod | React Hook Form + Zod |
-| Drag-and-Drop | grid-layout-plus | react-grid-layout |
-| UI Components | shadcn-vue | shadcn/ui |
-| Routing | Vue Router | Next.js App Router |
-| SSR | Requires Nuxt | Built-in support |
+A: Manage layout through Dashboard Store:
+
+```ts
+// stores/dashboard.ts
+import { defineStore } from 'pinia'
+
+export const useDashboardStore = defineStore('dashboard', () => {
+  const layout = ref([
+    { i: 'widget-1', x: 0, y: 0, w: 6, h: 4 },
+    { i: 'widget-2', x: 6, y: 0, w: 6, h: 4 },
+  ])
+
+  function saveLayout(newLayout: Layout[]) {
+    layout.value = newLayout
+    // Save to server
+  }
+
+  return { layout, saveLayout }
+})
+```
+
+## Comparison with Other Versions
+
+| Feature | Vue | Next.js | Angular |
+|---------|-----|---------|---------|
+| SSR/SSG | ❌ (Requires Nuxt) | ✅ | ✅ (Requires Angular Universal) |
+| State Management | Pinia | Zustand | RxJS/Signals |
+| Routing | Vue Router | App Router | Angular Router |
+| Build Tool | Vite | Next.js | Angular CLI |
+| Learning Curve | Medium | Medium | High |
+| Ecosystem | Rich | Rich | Enterprise |
+
+## Related Links
+
+- [Live Preview](https://halolight-vue.h7ml.cn)
+- [GitHub Repository](https://github.com/halolight/halolight-vue)
+- [Vue Official Docs](https://vuejs.org)
+- [Vite Official Docs](https://vitejs.dev)
+- [Pinia Official Docs](https://pinia.vuejs.org)
+- [HaloLight Documentation](https://docs.halolight.h7ml.cn)

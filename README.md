@@ -26,13 +26,14 @@ HaloLight 是一套多框架实现的企业级管理后台解决方案。参考�
 - Next.js 14 ✅ · [预览](https://halolight.h7ml.cn/) · [GitHub](https://github.com/halolight/halolight)
 - Vue 3.5 ✅ · [预览](https://halolight-vue.h7ml.cn/) · [GitHub](https://github.com/halolight/halolight-vue)
 
-其余框架 (Angular、Nuxt、SvelteKit、Astro、Solid、Qwik、Remix、Preact、Lit、Fresh) 均已实现并部署，预览地址见各仓库 README。
+所有 14 个前端框架、7 个后端 API、8 个部署方案均已实现并部署，预览地址见各仓库 README。
 
 ### 框架版本
 
 | 框架 | 状态 | 预览 | 仓库 | 文档 |
 |------|------|------|------|------|
 | 🟦 Next.js 14 | ✅ 已部署 | [预览](https://halolight.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight) | [指南](https://halolight.docs.h7ml.cn/guide/nextjs) |
+| ⚛️ React (Vite) | ✅ 已部署 | [预览](https://halolight-react.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-react) | [指南](https://halolight.docs.h7ml.cn/guide/react) |
 | 💚 Vue 3.5 | ✅ 已部署 | [预览](https://halolight-vue.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-vue) | [指南](https://halolight.docs.h7ml.cn/guide/vue) |
 | 🔺 Angular 21 | ✅ 已部署 | [预览](https://halolight-angular.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-angular) | [指南](https://halolight.docs.h7ml.cn/guide/angular) |
 | 🌿 Nuxt 4 | ✅ 已部署 | [预览](https://halolight-nuxt.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-nuxt) | [指南](https://halolight.docs.h7ml.cn/guide/nuxt) |
@@ -43,16 +44,27 @@ HaloLight 是一套多框架实现的企业级管理后台解决方案。参考�
 | 🎸 Remix | ✅ 已部署 | [预览](https://halolight-remix.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-remix) | [指南](https://halolight.docs.h7ml.cn/guide/remix) |
 | 🪶 Preact | ✅ 已部署 | [预览](https://halolight-preact.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-preact) | [指南](https://halolight.docs.h7ml.cn/guide/preact) |
 | 🔥 Lit | ✅ 已部署 | [预览](https://halolight-lit.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-lit) | [指南](https://halolight.docs.h7ml.cn/guide/lit) |
-| 🦖 Fresh (Deno) | 📦 已归档 | [预览](https://halolight-fresh.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-fresh) | [指南](https://halolight.docs.h7ml.cn/guide/fresh) |
+| 🦖 Fresh (Deno) | ✅ 已部署 | [预览](https://halolight-fresh.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-fresh) | [指南](https://halolight.docs.h7ml.cn/guide/fresh) |
+| 🦕 Deno | ✅ 已部署 | [预览](https://halolight-deno.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-deno) | [指南](https://halolight.docs.h7ml.cn/guide/deno) |
 
-### 后端服务
+### 后端 API
 
-| 服务 | 状态 | 预览 | 仓库 | 文档 |
+| 后端技术 | 状态 | 预览 | 仓库 | 文档 |
+|----------|------|------|------|------|
+| 🦜 NestJS 11 | ✅ 已部署 | [API Docs](http://halolight-api-nestjs.h7ml.cn/docs) | [GitHub](https://github.com/halolight/halolight-api-nestjs) | [指南](https://halolight.docs.h7ml.cn/guide/api-nestjs) |
+| 🐍 Python FastAPI | ✅ 已部署 | [API Docs](http://halolight-api-python.h7ml.cn/docs) | [GitHub](https://github.com/halolight/halolight-api-python) | [指南](https://halolight.docs.h7ml.cn/guide/api-python) |
+| ☕ Java Spring Boot | ✅ 已部署 | [API Docs](http://halolight-api-java.h7ml.cn/swagger-ui.html) | [GitHub](https://github.com/halolight/halolight-api-java) | [指南](https://halolight.docs.h7ml.cn/guide/api-java) |
+| 🐹 Go Fiber | ✅ 已部署 | [API Docs](http://halolight-api-go.h7ml.cn/swagger) | [GitHub](https://github.com/halolight/halolight-api-go) | [指南](https://halolight.docs.h7ml.cn/guide/api-go) |
+| 🟩 Node.js Express | ✅ 已部署 | - | [GitHub](https://github.com/halolight/halolight-api-node) | [指南](https://halolight.docs.h7ml.cn/guide/api-node) |
+| 🐘 PHP Laravel | ✅ 已部署 | - | [GitHub](https://github.com/halolight/halolight-api-php) | [指南](https://halolight.docs.h7ml.cn/guide/api-php) |
+| 🍞 Bun + Hono | ✅ 已部署 | - | [GitHub](https://github.com/halolight/halolight-api-bun) | [指南](https://halolight.docs.h7ml.cn/guide/api-bun) |
+
+### 中间层 / 全栈
+
+| 项目 | 状态 | 说明 | 仓库 | 文档 |
 |------|------|------|------|------|
-| 🦕 Deno + Hono | ✅ 已部署 | [预览](https://halolight-deno.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-deno) | [指南](https://halolight.docs.h7ml.cn/guide/deno) |
-| 🐹 Go API | ✅ 已部署 | [预览](https://halolight-api-go.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-api-go) | [指南](https://halolight.docs.h7ml.cn/guide/api-go) |
-| 🟩 Node.js API | ✅ 已部署 | [预览](https://halolight-api-node.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-api-node) | [指南](https://halolight.docs.h7ml.cn/guide/api-node) |
-| 🛠️ Admin 面板 | 🔒 私有 | [预览](https://halolight-admin.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-admin) | [指南](https://halolight.docs.h7ml.cn/guide/admin) |
+| 🔗 tRPC BFF | ✅ 已部署 | 类型安全 API 网关 | [GitHub](https://github.com/halolight/halolight-bff) | [指南](https://halolight.docs.h7ml.cn/guide/bff) |
+| ⚡ Next.js Action | ✅ 已部署 | Server Actions 全栈方案 | [GitHub](https://github.com/halolight/halolight-action) | [指南](https://halolight.docs.h7ml.cn/guide/action) |
 
 ### 部署方案
 
@@ -66,6 +78,14 @@ HaloLight 是一套多框架实现的企业级管理后台解决方案。参考�
 | ✈️ Fly.io | ✅ 已部署 | [预览](https://halolight-fly.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-fly) | [指南](https://halolight.docs.h7ml.cn/guide/fly) |
 | ☁️ Azure | ✅ 已部署 | [预览](https://halolight-azure.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-azure) | [指南](https://halolight.docs.h7ml.cn/guide/azure) |
 | 🟠 AWS | ✅ 已部署 | [预览](https://halolight-aws.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-aws) | [指南](https://halolight.docs.h7ml.cn/guide/aws) |
+
+### 扩展项目
+
+| 项目 | 状态 | 说明 | 仓库 | 文档 |
+|------|------|------|------|------|
+| 🎨 UI 组件库 | ✅ 已部署 | Stencil Web Components | [GitHub](https://github.com/halolight/halolight-ui) | [指南](https://halolight.docs.h7ml.cn/guide/ui) |
+| 🤖 AI 助理 | 🚧 开发中 | RAG + 动作执行 | [GitHub](https://github.com/halolight/halolight-ai) | [指南](https://halolight.docs.h7ml.cn/guide/ai) |
+| ₿ Web3 集成 | 🚧 开发中 | 钱包登录 + 链上数据 | [GitHub](https://github.com/halolight/halolight-web3) | [指南](https://halolight.docs.h7ml.cn/guide/web3) |
 
 ## 核心特性
 

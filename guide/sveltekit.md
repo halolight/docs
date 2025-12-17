@@ -2,37 +2,43 @@
 
 HaloLight SvelteKit 版本基于 SvelteKit 2 构建，采用 Svelte 5 Runes + TypeScript，具备编译时优化和极致性能。
 
-**在线预览**：[https://halolight-svelte.h7ml.cn/](https://halolight-svelte.h7ml.cn/)
+**在线预览**：[https://halolight-svelte.h7ml.cn](https://halolight-svelte.h7ml.cn)
 
 **GitHub**：[https://github.com/halolight/halolight-svelte](https://github.com/halolight/halolight-svelte)
+
+## 特性
+
+- 🏗️ **Svelte 5 Runes** - 全新响应式系统 ($state/$derived/$effect)
+- ⚡ **编译时优化** - 无虚拟 DOM，极小运行时开销
+- 🎨 **主题系统** - 11 种皮肤，明暗模式，View Transitions
+- 🔐 **认证系统** - 完整登录/注册/找回密码流程
+- 📊 **仪表盘** - 数据可视化与业务管理
+- 🛡️ **权限控制** - RBAC 细粒度权限管理
+- 📑 **多标签页** - 标签栏管理
+- ⌘ **命令面板** - 快捷键导航 (⌘K)
 
 ## 技术栈
 
 | 技术 | 版本 | 说明 |
 |------|------|------|
 | SvelteKit | 2.x | Svelte 全栈框架 |
-| Svelte | 5.x | 编译时框架（Runes） |
+| Svelte | 5.x | 编译时框架 (Runes) |
 | TypeScript | 5.9 | 类型安全 |
-| Tailwind CSS | 4.x | 原子化 CSS + @tailwindcss/postcss |
+| Tailwind CSS | 4.x | 原子化 CSS |
 | shadcn-svelte | latest | UI 组件库 |
-| bits-ui | latest | 无头 UI 组件 |
-| lucide-svelte | latest | 图标库 |
-| sveltekit-superforms | 2.x | 表单处理 |
-| Zod | 4.x | 数据验证 |
-| Vitest | 4.x | 单元测试 |
-| MSW | 2.x | Mock 数据 |
+| Superforms | 2.x | 表单处理 |
+| TanStack Query | 5.x | 服务端状态 |
+| Mock.js | 1.x | 数据模拟 |
 
 ## 核心特性
 
-- **Svelte 5 Runes**：`$state`、`$derived`、`$effect`、`$props` 全新响应式系统
-- **编译时优化**：无虚拟 DOM，极小运行时开销
-- **文件路由**：基于文件系统的自动路由
-- **服务端渲染**：内置 SSR/SSG 支持
-- **Load 函数**：优雅的数据加载模式
-- **Form Actions**：内置表单处理机制
-- **Hooks**：灵活的请求生命周期钩子
-- **View Transitions API**：主题/皮肤切换动画
-- **Cloudflare Pages**：边缘部署，全球加速
+- **可配置仪表盘** - 9 种小部件，拖拽布局，响应式适配
+- **多标签导航** - 浏览器式标签，右键菜单，状态缓存
+- **权限系统** - RBAC 权限控制，路由守卫，权限组件
+- **主题系统** - 11 种皮肤，明暗模式，View Transitions
+- **多账户切换** - 快速切换账户，记住登录状态
+- **命令面板** - 键盘快捷键 (⌘K)，全局搜索
+- **实时通知** - WebSocket 推送，通知中心
 
 ## 目录结构
 
@@ -40,54 +46,21 @@ HaloLight SvelteKit 版本基于 SvelteKit 2 构建，采用 Svelte 5 Runes + Ty
 halolight-svelte/
 ├── src/
 │   ├── routes/                    # 文件路由
-│   │   ├── +page.svelte          # 首页（重定向）
-│   │   ├── +layout.svelte        # 根布局
-│   │   ├── +error.svelte         # 错误页面
-│   │   ├── auth/                 # 认证页面
-│   │   │   ├── login/
-│   │   │   │   ├── +page.svelte
-│   │   │   │   └── +page.ts
-│   │   │   ├── register/
-│   │   │   └── forgot-password/
-│   │   └── (dashboard)/          # 仪表盘路由组
-│   │       ├── +layout.svelte
-│   │       ├── dashboard/
-│   │       ├── analytics/
-│   │       ├── users/
-│   │       ├── settings/
-│   │       └── profile/
+│   │   ├── (auth)/                # 认证页面
+│   │   └── (dashboard)/           # 仪表盘页面
 │   ├── lib/
-│   │   ├── components/           # 组件库
-│   │   │   ├── ui/              # shadcn-svelte 组件
-│   │   │   └── layout/          # 布局组件
-│   │   │       ├── AdminLayout.svelte
-│   │   │       ├── AppHeader.svelte
-│   │   │       ├── AppSidebar.svelte
-│   │   │       ├── AppFooter.svelte
-│   │   │       └── QuickSettings.svelte
-│   │   ├── config/              # 配置文件
-│   │   │   ├── menu.ts          # 菜单配置
-│   │   │   └── routes.ts        # 路由配置
-│   │   ├── stores/              # 状态管理
-│   │   │   ├── auth.ts
-│   │   │   ├── layout.ts
-│   │   │   ├── navigation.ts
-│   │   │   └── ui-settings.ts
-│   │   ├── types/               # 类型定义
-│   │   └── utils/               # 工具函数
-│   │       ├── cn.ts
-│   │       ├── format.ts
-│   │       └── validation.ts
-│   ├── hooks.server.ts          # 服务端钩子
-│   ├── app.html                 # HTML 模板
-│   ├── app.css                  # 全局样式 (Tailwind)
-│   └── app.d.ts                 # 类型声明
-├── static/                       # 静态资源
-├── tests/                        # 测试文件
-├── svelte.config.js             # Svelte 配置
-├── vite.config.ts               # Vite 配置
-├── tailwind.config.js           # Tailwind 配置
-├── postcss.config.js            # PostCSS 配置
+│   │   ├── components/            # 组件
+│   │   │   ├── ui/               # 基础 UI 组件
+│   │   │   ├── layout/           # 布局组件
+│   │   │   └── dashboard/        # 仪表盘组件
+│   │   ├── stores/               # 状态管理 (Runes)
+│   │   ├── utils/                # 工具库
+│   │   ├── mock/                 # Mock 数据
+│   │   └── types/                # 类型定义
+│   ├── hooks.server.ts           # 服务端钩子
+│   └── app.css                   # 全局样式
+├── static/                        # 静态资源
+├── svelte.config.js              # Svelte 配置
 └── package.json
 ```
 
@@ -95,8 +68,8 @@ halolight-svelte/
 
 ### 环境要求
 
-- Node.js >= 20
-- pnpm >= 9
+- Node.js >= 18.0.0
+- pnpm >= 9.x
 
 ### 安装
 
@@ -113,12 +86,14 @@ cp .env.example .env
 ```
 
 ```env
-# .env 示例
+# .env
 VITE_API_URL=/api
 VITE_MOCK=true
+VITE_DEMO_EMAIL=admin@halolight.h7ml.cn
+VITE_DEMO_PASSWORD=123456
+VITE_SHOW_DEMO_HINT=false
 VITE_APP_TITLE=Admin Pro
-VITE_51LA_SITE_ID=your-51la-site-id
-VITE_GA_MEASUREMENT_ID=your-ga-measurement-id
+VITE_BRAND_NAME=Halolight
 ```
 
 ### 启动开发
@@ -134,28 +109,6 @@ pnpm dev
 ```bash
 pnpm build
 pnpm preview
-```
-
-### 代码质量
-
-```bash
-# ESLint 检查
-pnpm lint
-
-# Prettier 格式化
-pnpm format
-
-# 类型检查
-pnpm check
-
-# 运行测试
-pnpm test
-
-# 测试覆盖率
-pnpm test:coverage
-
-# 完整 CI 检查
-pnpm ci
 ```
 
 ## 核心功能
@@ -233,63 +186,7 @@ class AuthStore {
 export const authStore = new AuthStore();
 ```
 
-### 响应式集合 (SvelteSet/SvelteMap)
-
-```svelte
-<script lang="ts">
-  import { SvelteSet, SvelteMap } from 'svelte/reactivity';
-
-  // 响应式 Set
-  let selectedIds = new SvelteSet<string>();
-
-  function toggleSelection(id: string) {
-    if (selectedIds.has(id)) {
-      selectedIds.delete(id);
-    } else {
-      selectedIds.add(id);
-    }
-  }
-
-  // 响应式 Map
-  let itemStatus = new SvelteMap<string, 'pending' | 'done'>();
-
-  function markDone(id: string) {
-    itemStatus.set(id, 'done');
-  }
-</script>
-
-<p>Selected: {selectedIds.size}</p>
-```
-
-### 服务端钩子
-
-```ts
-// src/hooks.server.ts
-import type { Handle } from '@sveltejs/kit';
-
-export const handle: Handle = async ({ event, resolve }) => {
-  const token = event.cookies.get('token');
-
-  if (token) {
-    // 验证 token 并设置用户信息
-    event.locals.user = await validateToken(token);
-  }
-
-  // 路由保护
-  if (event.url.pathname.startsWith('/dashboard')) {
-    if (!event.locals.user) {
-      return new Response(null, {
-        status: 302,
-        headers: { Location: '/auth/login' },
-      });
-    }
-  }
-
-  return resolve(event);
-};
-```
-
-### Load 函数
+### 数据获取 (Load 函数)
 
 ```ts
 // routes/(dashboard)/+layout.ts
@@ -315,51 +212,10 @@ export const load: LayoutLoad = async ({ parent, url }) => {
   let { data }: { data: PageData } = $props();
 </script>
 
-<h1>Welcome, {data.user.name}!</h1>
+<h1>欢迎, {data.user.name}!</h1>
 ```
 
-### Form Actions with Superforms
-
-```ts
-// routes/auth/login/+page.server.ts
-import type { Actions } from './$types';
-import { fail, redirect } from '@sveltejs/kit';
-import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
-import { z } from 'zod';
-
-const loginSchema = z.object({
-  email: z.string().email('请输入有效邮箱'),
-  password: z.string().min(6, '密码至少6位'),
-});
-
-export const actions: Actions = {
-  default: async ({ request, cookies }) => {
-    const form = await superValidate(request, zod(loginSchema));
-
-    if (!form.valid) {
-      return fail(400, { form });
-    }
-
-    try {
-      const { token, user } = await authenticate(form.data);
-
-      cookies.set('token', token, {
-        path: '/',
-        httpOnly: true,
-        sameSite: 'strict',
-        maxAge: 60 * 60 * 24 * 7, // 7 天
-      });
-
-      throw redirect(302, '/dashboard');
-    } catch (e) {
-      return fail(401, { form, message: '邮箱或密码错误' });
-    }
-  },
-};
-```
-
-### 权限组件
+### 权限控制
 
 ```svelte
 <!-- lib/components/PermissionGuard.svelte -->
@@ -396,13 +252,97 @@ export const actions: Actions = {
 </PermissionGuard>
 ```
 
+### 可拖拽仪表盘
+
+```svelte
+<script lang="ts">
+  import { SvelteSet } from 'svelte/reactivity';
+  import GridLayout from '$lib/components/dashboard/GridLayout.svelte';
+
+  // 响应式 Set 管理小部件
+  let activeWidgets = new SvelteSet(['stats', 'chart', 'recent']);
+
+  const layout = $state([
+    { i: 'stats', x: 0, y: 0, w: 4, h: 2 },
+    { i: 'chart', x: 4, y: 0, w: 8, h: 4 },
+    { i: 'recent', x: 0, y: 2, w: 4, h: 2 },
+  ]);
+
+  function onLayoutChange(newLayout: typeof layout) {
+    layout.splice(0, layout.length, ...newLayout);
+    localStorage.setItem('dashboard-layout', JSON.stringify(newLayout));
+  }
+</script>
+
+<GridLayout {layout} on:change={onLayoutChange}>
+  {#each [...activeWidgets] as widget}
+    <div data-grid-item={widget}>
+      <Widget type={widget} />
+    </div>
+  {/each}
+</GridLayout>
+```
+
+## 主题系统
+
+### 皮肤预设
+
+支持 11 种预设皮肤，通过快捷设置面板切换：
+
+| 皮肤 | 主色调 | CSS 变量 |
+|------|--------|----------|
+| Default | 紫色 | `--primary: 51.1% 0.262 276.97` |
+| Blue | 蓝色 | `--primary: 54.8% 0.243 264.05` |
+| Emerald | 翠绿 | `--primary: 64.6% 0.178 142.49` |
+| Orange | 橙色 | `--primary: 68.9% 0.181 40.84` |
+| Rose | 玫瑰 | `--primary: 60.7% 0.234 11.63` |
+| Teal | 青色 | `--primary: 62.8% 0.149 186.07` |
+| Yellow | 黄色 | `--primary: 82.3% 0.165 92.14` |
+| Violet | 紫罗兰 | `--primary: 58.9% 0.264 292.85` |
+| Cyan | 青蓝 | `--primary: 73.2% 0.152 196.85` |
+| Pink | 粉红 | `--primary: 70.5% 0.226 340.54` |
+| Indigo | 靛蓝 | `--primary: 52.4% 0.218 270.32` |
+
+### CSS 变量 (OKLch)
+
+```css
+/* app.css */
+@layer base {
+  :root {
+    --background: 100% 0 0;
+    --foreground: 14.9% 0.017 285.75;
+    --primary: 51.1% 0.262 276.97;
+    --primary-foreground: 98% 0.007 285.89;
+    --secondary: 96.1% 0.006 286.32;
+    --secondary-foreground: 14.9% 0.017 285.75;
+    --muted: 96.1% 0.006 286.32;
+    --muted-foreground: 45.5% 0.026 285.82;
+    --accent: 96.1% 0.006 286.32;
+    --accent-foreground: 14.9% 0.017 285.75;
+    --destructive: 61.1% 0.246 29.23;
+    --destructive-foreground: 98% 0.007 285.89;
+    --border: 92.1% 0.011 286.32;
+    --input: 92.1% 0.011 286.32;
+    --ring: 51.1% 0.262 276.97;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 22.4% 0.015 285.88;
+    --foreground: 98% 0.007 285.89;
+    --primary: 61.1% 0.262 276.97;
+    --primary-foreground: 98% 0.007 285.89;
+    /* ... */
+  }
+}
+```
+
 ### View Transitions 主题切换
 
 ```svelte
 <script lang="ts">
   function toggleTheme() {
     if (!document.startViewTransition) {
-      // 降级处理
       document.documentElement.classList.toggle('dark');
       return;
     }
@@ -413,7 +353,7 @@ export const actions: Actions = {
   }
 </script>
 
-<button onclick={toggleTheme}>Toggle Theme</button>
+<button onclick={toggleTheme}>切换主题</button>
 
 <style>
   :global(::view-transition-old(root)),
@@ -431,16 +371,120 @@ export const actions: Actions = {
 | `/auth/login` | 登录 | 公开 |
 | `/auth/register` | 注册 | 公开 |
 | `/auth/forgot-password` | 忘记密码 | 公开 |
+| `/auth/reset-password` | 重置密码 | 公开 |
 | `/dashboard` | 仪表盘 | `dashboard:view` |
+| `/dashboard/users` | 用户管理 | `users:view` |
 | `/dashboard/analytics` | 数据分析 | `analytics:view` |
-| `/dashboard/users` | 用户管理 | `users:list` |
+| `/dashboard/calendar` | 日程管理 | `calendar:view` |
 | `/dashboard/documents` | 文档管理 | `documents:view` |
+| `/dashboard/files` | 文件存储 | `files:view` |
+| `/dashboard/messages` | 消息中心 | `messages:view` |
+| `/dashboard/notifications` | 通知中心 | `notifications:view` |
 | `/dashboard/settings` | 系统设置 | `settings:view` |
-| `/dashboard/profile` | 个人中心 | 登录即可 |
+| `/dashboard/profile` | 个人资料 | `settings:view` |
+
+## 常用命令
+
+```bash
+pnpm dev            # 启动开发服务器
+pnpm build          # 生产构建
+pnpm preview        # 预览生产构建
+pnpm lint           # 代码检查
+pnpm lint:fix       # 自动修复
+pnpm format         # 格式化代码
+pnpm check          # 类型检查 (svelte-check)
+pnpm test           # 运行测试
+pnpm test:coverage  # 测试覆盖率
+pnpm ci             # 完整 CI 检查
+```
+
+## 部署
+
+### Cloudflare Pages (推荐)
+
+[![Deploy to Cloudflare Pages](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/halolight/halolight-svelte)
+
+项目默认配置 Cloudflare Pages 适配器：
+
+```js
+// svelte.config.js
+import adapter from '@sveltejs/adapter-cloudflare';
+
+export default {
+  kit: {
+    adapter: adapter(),
+  },
+};
+```
+
+```bash
+pnpm build
+# Cloudflare Pages 会自动部署 main 分支
+```
+
+### Docker
+
+```bash
+docker build -t halolight-svelte .
+docker run -p 3000:3000 halolight-svelte
+```
+
+### 其他平台
+
+- [Vercel](/guide/vercel)
+- [Netlify](/guide/netlify)
+- [AWS Amplify](/guide/aws)
+- [Azure Static Web Apps](/guide/azure)
+
+## 演示账号
+
+| 角色 | 邮箱 | 密码 |
+|------|------|------|
+| 管理员 | admin@halolight.h7ml.cn | 123456 |
+| 普通用户 | user@halolight.h7ml.cn | 123456 |
+
+## 测试
+
+```bash
+pnpm test           # 运行测试（watch 模式）
+pnpm test:run       # 单次运行
+pnpm test:coverage  # 覆盖率报告
+pnpm test:ui        # Vitest UI 界面
+```
+
+### 测试示例
+
+```ts
+// tests/auth.test.ts
+import { describe, it, expect } from 'vitest';
+import { authStore } from '$lib/stores/auth';
+
+describe('AuthStore', () => {
+  it('should initialize with null user', () => {
+    expect(authStore.user).toBeNull();
+    expect(authStore.isAuthenticated).toBe(false);
+  });
+
+  it('should authenticate user', async () => {
+    await authStore.login({
+      email: 'admin@halolight.h7ml.cn',
+      password: '123456',
+    });
+
+    expect(authStore.isAuthenticated).toBe(true);
+    expect(authStore.user?.email).toBe('admin@halolight.h7ml.cn');
+  });
+
+  it('should check permissions', () => {
+    expect(authStore.hasPermission('users:view')).toBe(true);
+    expect(authStore.hasPermission('invalid')).toBe(false);
+  });
+});
+```
 
 ## 配置
 
-### Svelte 配置
+### SvelteKit 配置
 
 ```js
 // svelte.config.js
@@ -460,99 +504,25 @@ export default {
 };
 ```
 
-### PostCSS 配置 (Tailwind CSS v4)
+### Vite 配置
 
-```js
-// postcss.config.js
-export default {
-  plugins: {
-    '@tailwindcss/postcss': {},
+```ts
+// vite.config.ts
+import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  plugins: [sveltekit()],
+  test: {
+    include: ['src/**/*.{test,spec}.{js,ts}'],
+    environment: 'jsdom',
   },
-};
-```
-
-## 部署
-
-### Cloudflare Pages (推荐)
-
-项目默认配置 Cloudflare Pages 适配器：
-
-```bash
-pnpm add -D @sveltejs/adapter-cloudflare
-```
-
-```js
-// svelte.config.js
-import adapter from '@sveltejs/adapter-cloudflare';
-
-export default {
-  kit: {
-    adapter: adapter(),
-  },
-};
-```
-
-```bash
-pnpm build
-# Cloudflare Pages 会自动部署 main 分支
-```
-
-### Node.js 服务器
-
-```bash
-pnpm add -D @sveltejs/adapter-node
-```
-
-```js
-// svelte.config.js
-import adapter from '@sveltejs/adapter-node';
-
-export default {
-  kit: {
-    adapter: adapter(),
-  },
-};
-```
-
-```bash
-pnpm build
-node build
-```
-
-### Docker
-
-```dockerfile
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
-COPY . .
-RUN pnpm build
-
-FROM node:20-alpine
-WORKDIR /app
-COPY --from=builder /app/build ./build
-COPY --from=builder /app/package.json .
-EXPOSE 3000
-CMD ["node", "build"]
-```
-
-### Vercel
-
-```bash
-# 默认支持，直接部署
-npx vercel
+});
 ```
 
 ## CI/CD
 
-GitHub Actions 自动运行以下检查：
-
-1. **lint** - ESLint 代码检查
-2. **format** - Prettier 格式检查
-3. **type-check** - TypeScript 类型检查 (svelte-check)
-4. **test** - Vitest 单元测试 + 覆盖率
-5. **build** - 生产构建验证
+项目配置了完整的 GitHub Actions CI 工作流：
 
 ```yaml
 # .github/workflows/ci.yml
@@ -573,12 +543,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
-      - run: pnpm install
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm format:check
 
-  type-check:
+  typecheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -586,8 +556,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
-      - run: pnpm install
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - run: pnpm check
 
   test:
@@ -598,9 +568,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
-      - run: pnpm install
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - run: pnpm test:coverage
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   build:
     runs-on: ubuntu-latest
@@ -610,37 +583,232 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
-      - run: pnpm install
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - run: pnpm build
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm audit --audit-level=high
 ```
 
-## 测试
+## 高级功能
+
+### 响应式集合 (SvelteSet/SvelteMap)
+
+```svelte
+<script lang="ts">
+  import { SvelteSet, SvelteMap } from 'svelte/reactivity';
+
+  // 响应式 Set
+  let selectedIds = new SvelteSet<string>();
+
+  function toggleSelection(id: string) {
+    if (selectedIds.has(id)) {
+      selectedIds.delete(id);
+    } else {
+      selectedIds.add(id);
+    }
+  }
+
+  // 响应式 Map
+  let itemStatus = new SvelteMap<string, 'pending' | 'done'>();
+
+  function markDone(id: string) {
+    itemStatus.set(id, 'done');
+  }
+</script>
+
+<p>已选择: {selectedIds.size}</p>
+```
+
+### 服务端钩子
+
+```ts
+// src/hooks.server.ts
+import type { Handle } from '@sveltejs/kit';
+
+export const handle: Handle = async ({ event, resolve }) => {
+  const token = event.cookies.get('token');
+
+  if (token) {
+    // 验证 token 并设置用户信息
+    event.locals.user = await validateToken(token);
+  }
+
+  // 路由保护
+  if (event.url.pathname.startsWith('/dashboard')) {
+    if (!event.locals.user) {
+      return new Response(null, {
+        status: 302,
+        headers: { Location: '/auth/login' },
+      });
+    }
+  }
+
+  return resolve(event);
+};
+```
+
+## 性能优化
+
+### 懒加载组件
+
+```svelte
+<script lang="ts">
+  const HeavyComponent = $lazy(() => import('$lib/components/Heavy.svelte'));
+</script>
+
+{#await HeavyComponent}
+  <div>加载中...</div>
+{:then component}
+  <svelte:component this={component} />
+{/await}
+```
+
+### 预加载
+
+```svelte
+<script lang="ts">
+  import { preloadData } from '$app/navigation';
+
+  function handleMouseEnter() {
+    preloadData('/dashboard/analytics');
+  }
+</script>
+
+<a href="/dashboard/analytics" onmouseenter={handleMouseEnter}>
+  数据分析
+</a>
+```
+
+### 图片优化
+
+```svelte
+<script lang="ts">
+  import { onMount } from 'svelte';
+
+  let visible = $state(false);
+
+  onMount(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        visible = true;
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(element);
+  });
+</script>
+
+{#if visible}
+  <img src="/large-image.jpg" alt="优化图片" />
+{:else}
+  <div class="placeholder" />
+{/if}
+```
+
+## 常见问题
+
+### Q：如何在 SvelteKit 中使用 TanStack Query？
+
+A：SvelteKit 推荐使用内置的 Load 函数进行数据加载，但也可以结合 TanStack Query：
+
+```svelte
+<script lang="ts">
+  import { createQuery } from '@tanstack/svelte-query';
+
+  const query = createQuery({
+    queryKey: ['users'],
+    queryFn: () => fetch('/api/users').then(r => r.json()),
+  });
+</script>
+
+{#if $query.isLoading}
+  <p>加载中...</p>
+{:else if $query.error}
+  <p>错误: {$query.error.message}</p>
+{:else if $query.data}
+  <ul>
+    {#each $query.data as user}
+      <li>{user.name}</li>
+    {/each}
+  </ul>
+{/if}
+```
+
+### Q：如何实现表单验证？
+
+A：推荐使用 Superforms + Zod：
+
+```ts
+// routes/users/create/+page.server.ts
+import { superValidate } from 'sveltekit-superforms';
+import { zod } from 'sveltekit-superforms/adapters';
+import { z } from 'zod';
+
+const schema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+});
+
+export const actions = {
+  default: async ({ request }) => {
+    const form = await superValidate(request, zod(schema));
+
+    if (!form.valid) {
+      return fail(400, { form });
+    }
+
+    // 处理表单数据
+    return { form };
+  },
+};
+```
+
+### Q：如何部署到 Vercel？
+
+A：切换到 Vercel 适配器：
 
 ```bash
-# 运行测试
-pnpm test
+pnpm add -D @sveltejs/adapter-vercel
+```
 
-# 监听模式
-pnpm test:watch
+```js
+// svelte.config.js
+import adapter from '@sveltejs/adapter-vercel';
 
-# 测试覆盖率
-pnpm test:coverage
-
-# UI 模式
-pnpm test:ui
+export default {
+  kit: {
+    adapter: adapter(),
+  },
+};
 ```
 
 ## 与其他版本对比
 
-| 功能 | SvelteKit 版本 | Vue 版本 | Next.js 版本 |
-|------|---------------|----------|--------------|
-| 状态管理 | Svelte 5 Runes + Stores | Pinia | Zustand |
-| 响应式 | $state/$derived/$effect | ref/reactive/computed | useState/useMemo |
-| 数据获取 | Load 函数 | TanStack Query | TanStack Query |
-| 表单验证 | Superforms + Zod | VeeValidate + Zod | React Hook Form + Zod |
-| 服务端 | 内置 Hooks | 独立后端 | API Routes |
-| 组件库 | shadcn-svelte | shadcn-vue | shadcn/ui |
-| 路由 | 文件路由 | Vue Router | App Router |
-| 编译 | 编译时优化 | 虚拟 DOM | 虚拟 DOM |
-| 部署 | Cloudflare Pages | Vercel | Vercel |
+| 特性 | SvelteKit | Next.js | Vue |
+|------|-----------|---------|-----|
+| SSR/SSG | ✅ | ✅ | ✅ (Nuxt) |
+| 状态管理 | Svelte 5 Runes | Zustand | Pinia |
+| 路由 | 文件路由 | App Router | Vue Router |
+| 构建工具 | Vite | Turbopack | Vite |
+| 运行时 | 无虚拟 DOM | 虚拟 DOM | 虚拟 DOM |
+| 表单 | Superforms | React Hook Form | VeeValidate |
+| 组件库 | shadcn-svelte | shadcn/ui | shadcn-vue |
+
+## 相关链接
+
+- [在线预览](https://halolight-svelte.h7ml.cn)
+- [GitHub 仓库](https://github.com/halolight/halolight-svelte)
+- [SvelteKit 官方文档](https://kit.svelte.dev)
+- [Svelte 5 文档](https://svelte.dev/docs/svelte/overview)
+- [HaloLight 文档](https://docs.halolight.h7ml.cn)

@@ -9,6 +9,7 @@ HaloLight 是一个多框架、多平台的后台管理系统解决方案。本�
 | 项目 | 框架 | 状态 | 说明 |
 |------|------|------|------|
 | [halolight](https://github.com/halolight/halolight) | Next.js 14 + React 18 | ✅ 已发布 | 参考实现 |
+| [halolight-react](https://github.com/halolight/halolight-react) | React + Vite | ✅ 已发布 | 纯 SPA 版本 |
 | [halolight-vue](https://github.com/halolight/halolight-vue) | Vue 3.5 + Vite | ✅ 已发布 | Vue 参考实现 |
 | [halolight-angular](https://github.com/halolight/halolight-angular) | Angular 21 | ✅ 已发布 | Angular 实现 |
 | [halolight-nuxt](https://github.com/halolight/halolight-nuxt) | Nuxt 3 | ✅ 已发布 | Vue SSR 版本 |
@@ -20,6 +21,7 @@ HaloLight 是一个多框架、多平台的后台管理系统解决方案。本�
 | [halolight-preact](https://github.com/halolight/halolight-preact) | Preact | ✅ 已发布 | 轻量级 React |
 | [halolight-lit](https://github.com/halolight/halolight-lit) | Lit | ✅ 已发布 | Web Components |
 | [halolight-fresh](https://github.com/halolight/halolight-fresh) | Fresh (Deno) | ✅ 已发布 | Deno 原生 |
+| [halolight-deno](https://github.com/halolight/halolight-deno) | Fresh (Deno) | ✅ 已发布 | Deno 实现 |
 
 ### 部署平台
 
@@ -38,17 +40,20 @@ HaloLight 是一个多框架、多平台的后台管理系统解决方案。本�
 
 | 项目 | 技术栈 | 状态 | 特性 |
 |------|------|------|------|
+| [halolight-api-nestjs](https://github.com/halolight/halolight-api-nestjs) | NestJS + Prisma + TypeScript | ✅ 已发布 | Node.js 企业级 |
 | [halolight-api-node](https://github.com/halolight/halolight-api-node) | Express + Prisma + TypeScript | ✅ 已发布 | Node.js 参考实现 |
 | [halolight-api-go](https://github.com/halolight/halolight-api-go) | Gin + GORM | ✅ 已发布 | 高性能 |
 | [halolight-api-python](https://github.com/halolight/halolight-api-python) | FastAPI + SQLAlchemy + Alembic | ✅ 已发布 | Python 生态 |
 | [halolight-api-bun](https://github.com/halolight/halolight-api-bun) | Hono + Drizzle ORM | ✅ 已发布 | Bun 运行时 |
 | [halolight-api-java](https://github.com/halolight/halolight-api-java) | Spring Boot 3.4 + JPA | ✅ 已发布 | 企业级 Java |
+| [halolight-api-php](https://github.com/halolight/halolight-api-php) | Laravel + Eloquent | ✅ 已发布 | PHP 生态 |
 
 ### 基础设施
 
 | 项目 | 用途 | 状态 | 特性 |
 |------|------|------|------|
 | [halolight-bff](https://github.com/halolight/halolight-bff) | tRPC 网关 | ✅ 已发布 | 类型安全 API |
+| [halolight-action](https://github.com/halolight/halolight-action) | Next.js 全栈 | ✅ 已发布 | Server Actions |
 | [halolight-ui](https://github.com/halolight/halolight-ui) | Stencil Web Components | ✅ 已发布 | 跨框架组件库 |
 
 ### 智能化 & Web3
@@ -63,18 +68,19 @@ HaloLight 是一个多框架、多平台的后台管理系统解决方案。本�
 ### 前端框架
 
 ```
-React 系:     Next.js → Remix → Preact
+React 系:     Next.js → Remix → Preact → React (Vite)
 Vue 系:       Vue 3.5 → Nuxt 3
-其他:         Angular → SvelteKit → SolidJS → Qwik → Lit → Astro → Fresh
+其他:         Angular → SvelteKit → SolidJS → Qwik → Lit → Astro → Fresh → Deno
 ```
 
 ### 后端语言
 
 ```
-Node.js:      Express (Prisma) → Hono (Drizzle)
+Node.js:      NestJS (Prisma) → Express (Prisma) → Hono (Drizzle)
 Go:           Gin (GORM)
 Python:       FastAPI (SQLAlchemy)
 Java:         Spring Boot (JPA)
+PHP:          Laravel (Eloquent)
 ```
 
 ### 部署平台

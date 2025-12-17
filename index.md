@@ -3,7 +3,7 @@ layout: home
 hero:
   name: HaloLight
   text: 全栈分离管理后台
-  tagline: 前后端完全解耦 · 11 个前端 × 8 个后端 = 88 种组合 · 企业级 Admin Dashboard
+  tagline: 前后端完全解耦 · 12 个前端 × 8 个后端 = 96 种组合 · 企业级 Admin Dashboard
   actions:
     - theme: brand
       text: 快速开始
@@ -17,7 +17,7 @@ hero:
 features:
   - icon: 🔀
     title: 前后端可组合
-    details: 11 个前端框架 × 8 个后端 API，任意搭配共 88 种组合，技术选型不锁定
+    details: 12 个前端框架 × 8 个后端 API，任意搭配共 96 种组合，技术选型不锁定
   - icon: 📊
     title: 可拖拽仪表盘
     details: 基于 Grid Layout 的自定义 Dashboard，支持拖拽、缩放、持久化
@@ -43,15 +43,15 @@ features:
 - **接口契约对齐**：通过 OpenAPI / tRPC / GraphQL Schema 保证前后端协同
 - **技术演进不锁定**：更换任意前端或后端实现时，遵守契约即可无痛切换
 
-### 88 种组合可能
+### 96 种组合可能
 
-**11 个前端框架**：
-Next.js · Nuxt · Vue · Angular · SvelteKit · Astro · Solid.js · Qwik · Remix · Preact · Lit
+**12 个前端框架**：
+Next.js · Nuxt · Vue · Angular · SvelteKit · Astro · Solid.js · Qwik · Remix · Preact · Lit · Fresh
 
 **8 个后端 API**：
 NestJS · Node.js (Express) · Python (FastAPI) · Java (Spring Boot) · Go (Fiber) · PHP (Laravel) · Bun + Hono · tRPC BFF
 
-**任意组合 = 11 × 8 = 88 种搭配方案**
+**任意组合 = 12 × 8 = 96 种搭配方案**
 
 ### 常见组合示例
 

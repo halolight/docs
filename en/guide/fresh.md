@@ -2,9 +2,20 @@
 
 HaloLight Fresh version is built on Fresh 2 + Deno, using Islands architecture + Preact to deliver a zero-config, ultra-fast admin dashboard.
 
-**Live Preview**: [https://halolight-fresh.h7ml.cn/](https://halolight-fresh.h7ml.cn/)
+**Live Preview**: [https://halolight-fresh.h7ml.cn](https://halolight-fresh.h7ml.cn)
 
 **GitHub**: [https://github.com/halolight/halolight-fresh](https://github.com/halolight/halolight-fresh)
+
+## Features
+
+- 🏗️ **Islands Architecture** - Zero JS by default, hydrate on demand, ultimate performance
+- ⚡ **Zero Config** - Works out of the box, no build step required
+- 🎨 **Theme System** - 11 skins, dark mode, View Transitions
+- 🔐 **Authentication** - Complete login/register/password recovery flow
+- 📊 **Dashboard** - Data visualization and business management
+- 🛡️ **Permission Control** - RBAC fine-grained permission management
+- 🔒 **Secure by Default** - Deno sandbox security model
+- 🌐 **Edge First** - Native support for Deno Deploy edge deployment
 
 ## Tech Stack
 
@@ -13,7 +24,7 @@ HaloLight Fresh version is built on Fresh 2 + Deno, using Islands architecture +
 | Fresh | 2.x | Deno full-stack framework |
 | Deno | 2.x | Modern JavaScript runtime |
 | Preact | 10.x | Lightweight UI library |
-| @preact/signals | 2.x | Reactive state |
+| @preact/signals | 2.x | Reactive state management |
 | TypeScript | Built-in | Type safety |
 | Tailwind CSS | Built-in | Atomic CSS |
 | Zod | 3.x | Data validation |
@@ -21,12 +32,13 @@ HaloLight Fresh version is built on Fresh 2 + Deno, using Islands architecture +
 
 ## Core Features
 
-- **Zero Config**: Works out of the box, no complex configuration
-- **Islands Architecture**: Zero JS by default, hydrate on demand
-- **Edge First**: Native support for Deno Deploy edge deployment
-- **Built-in TypeScript**: No configuration needed, use directly
-- **JIT Rendering**: No build step, instant rendering
-- **Secure by Default**: Deno sandbox security model
+- **Islands Architecture** - Zero JS by default, only interactive components hydrate, ultimate performance
+- **Zero Config Development** - JIT rendering, no build step, instant startup
+- **Permission System** - RBAC permission control, route guards, permission components
+- **Theme System** - 11 skins, dark mode, View Transitions
+- **Edge Deployment** - Native support for Deno Deploy edge runtime
+- **Type Safety** - Built-in TypeScript, no configuration needed
+- **Security Model** - Deno sandbox, explicit permissions, secure by default
 
 ## Directory Structure
 
@@ -94,6 +106,10 @@ halolight-fresh/
 
 ## Quick Start
 
+### Requirements
+
+- Deno >= 2.x
+
 ### Install Deno
 
 ```bash
@@ -104,7 +120,7 @@ curl -fsSL https://deno.land/install.sh | sh
 irm https://deno.land/install.ps1 | iex
 ```
 
-### Clone Project
+### Installation
 
 ```bash
 git clone https://github.com/halolight/halolight-fresh.git
@@ -118,7 +134,7 @@ cp .env.example .env
 ```
 
 ```env
-# .env example
+# .env
 API_URL=/api
 USE_MOCK=true
 DEMO_EMAIL=admin@halolight.h7ml.cn
@@ -220,43 +236,117 @@ export function hasPermission(permission: string): boolean {
 }
 ```
 
-### Auth Middleware
+### Data Fetching (Handlers)
 
 ```ts
-// routes/dashboard/_middleware.ts
-import { FreshContext } from '$fresh/server.ts'
-import { getCookies } from '$std/http/cookie.ts'
-import { verifyToken, getUser } from '../../lib/auth.ts'
+// routes/api/auth/login.ts
+import { Handlers } from '$fresh/server.ts'
+import { z } from 'zod'
+import { setCookie } from '$std/http/cookie.ts'
+import { createToken } from '../../../lib/auth.ts'
 
-export async function handler(req: Request, ctx: FreshContext) {
-  const cookies = getCookies(req.headers)
-  const token = cookies.token
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+})
 
-  if (!token) {
-    const url = new URL(req.url)
-    return new Response(null, {
-      status: 302,
-      headers: { Location: `/auth/login?redirect=${url.pathname}` },
-    })
-  }
+export const handler: Handlers = {
+  async POST(req) {
+    try {
+      const body = await req.json()
+      const { email, password } = loginSchema.parse(body)
 
-  try {
-    const payload = await verifyToken(token)
-    const user = await getUser(payload.userId)
-    ctx.state.user = user
-    ctx.state.token = token
-  } catch {
-    return new Response(null, {
-      status: 302,
-      headers: { Location: '/auth/login' },
-    })
-  }
+      // Authenticate user (example)
+      const user = await authenticateUser(email, password)
+      if (!user) {
+        return new Response(
+          JSON.stringify({ error: 'Invalid email or password' }),
+          { status: 401, headers: { 'Content-Type': 'application/json' } }
+        )
+      }
 
-  return ctx.next()
+      const token = await createToken({ userId: user.id })
+
+      const response = new Response(
+        JSON.stringify({ user, token }),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+
+      setCookie(response.headers, {
+        name: 'token',
+        value: token,
+        path: '/',
+        httpOnly: true,
+        sameSite: 'Lax',
+        maxAge: 60 * 60 * 24 * 7,
+      })
+
+      return response
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        return new Response(
+          JSON.stringify({ error: 'Validation failed', details: e.errors }),
+          { status: 400, headers: { 'Content-Type': 'application/json' } }
+        )
+      }
+      return new Response(
+        JSON.stringify({ error: 'Server error' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+  },
 }
 ```
 
-### Islands (Interactive Components)
+### Permission Control
+
+```tsx
+// components/shared/PermissionGuard.tsx
+import { ComponentChildren } from 'preact'
+
+interface Props {
+  permission: string
+  userPermissions: string[]
+  children: ComponentChildren
+  fallback?: ComponentChildren
+}
+
+function checkPermission(
+  userPermissions: string[],
+  permission: string
+): boolean {
+  return userPermissions.some((p) =>
+    p === '*' || p === permission ||
+    (p.endsWith(':*') && permission.startsWith(p.slice(0, -1)))
+  )
+}
+
+export function PermissionGuard({
+  permission,
+  userPermissions,
+  children,
+  fallback,
+}: Props) {
+  if (!checkPermission(userPermissions, permission)) {
+    return fallback ?? null
+  }
+
+  return <>{children}</>
+}
+```
+
+```tsx
+// Usage (in server-side rendering)
+<PermissionGuard
+  permission="users:delete"
+  userPermissions={ctx.state.user.permissions}
+  fallback={<span class="text-muted-foreground">No permission</span>}
+>
+  <Button variant="destructive">Delete</Button>
+</PermissionGuard>
+```
+
+### Islands Architecture
 
 ```tsx
 // islands/LoginForm.tsx
@@ -319,8 +409,6 @@ export default function LoginForm({ redirectTo = '/dashboard' }: Props) {
 }
 ```
 
-### Page Routes
-
 ```tsx
 // routes/auth/login.tsx
 import { Handlers, PageProps } from '$fresh/server.ts'
@@ -347,135 +435,47 @@ export default function LoginPage({ data }: PageProps<{ redirect: string }>) {
 }
 ```
 
-### API Routes
+## Theme System
 
-```ts
-// routes/api/auth/login.ts
-import { Handlers } from '$fresh/server.ts'
-import { z } from 'zod'
-import { setCookie } from '$std/http/cookie.ts'
-import { createToken } from '../../../lib/auth.ts'
+### Skin Presets
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-})
+Supports 11 preset skins, switch via quick settings panel:
 
-export const handler: Handlers = {
-  async POST(req) {
-    try {
-      const body = await req.json()
-      const { email, password } = loginSchema.parse(body)
+| Skin | Color | CSS Variable |
+|------|--------|----------|
+| Default | Purple | `--primary: 51.1% 0.262 276.97` |
+| Blue | Blue | `--primary: 54.8% 0.243 264.05` |
+| Emerald | Green | `--primary: 64.6% 0.178 142.49` |
+| Orange | Orange | `--primary: 69.7% 0.186 37.37` |
+| Rose | Rose | `--primary: 62.8% 0.241 12.48` |
+| Teal | Teal | `--primary: 66.7% 0.151 193.65` |
+| Amber | Amber | `--primary: 77.5% 0.166 69.76` |
+| Cyan | Cyan | `--primary: 75.1% 0.146 204.66` |
+| Pink | Pink | `--primary: 65.7% 0.255 347.69` |
+| Indigo | Indigo | `--primary: 51.9% 0.235 272.75` |
+| Lime | Lime | `--primary: 78.1% 0.167 136.29` |
 
-      // Authenticate user (example)
-      const user = await authenticateUser(email, password)
-      if (!user) {
-        return new Response(
-          JSON.stringify({ error: 'Invalid email or password' }),
-          { status: 401, headers: { 'Content-Type': 'application/json' } }
-        )
-      }
+### CSS Variables (OKLch)
 
-      const token = await createToken({ userId: user.id })
-
-      const response = new Response(
-        JSON.stringify({ user, token }),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-
-      setCookie(response.headers, {
-        name: 'token',
-        value: token,
-        path: '/',
-        httpOnly: true,
-        sameSite: 'Lax',
-        maxAge: 60 * 60 * 24 * 7,
-      })
-
-      return response
-    } catch (e) {
-      if (e instanceof z.ZodError) {
-        return new Response(
-          JSON.stringify({ error: 'Validation failed', details: e.errors }),
-          { status: 400, headers: { 'Content-Type': 'application/json' } }
-        )
-      }
-      return new Response(
-        JSON.stringify({ error: 'Server error' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      )
-    }
-  },
-}
-```
-
-### Permission Component
-
-```tsx
-// components/shared/PermissionGuard.tsx
-import { ComponentChildren } from 'preact'
-
-interface Props {
-  permission: string
-  userPermissions: string[]
-  children: ComponentChildren
-  fallback?: ComponentChildren
-}
-
-function checkPermission(
-  userPermissions: string[],
-  permission: string
-): boolean {
-  return userPermissions.some((p) =>
-    p === '*' || p === permission ||
-    (p.endsWith(':*') && permission.startsWith(p.slice(0, -1)))
-  )
-}
-
-export function PermissionGuard({
-  permission,
-  userPermissions,
-  children,
-  fallback,
-}: Props) {
-  if (!checkPermission(userPermissions, permission)) {
-    return fallback ?? null
-  }
-
-  return <>{children}</>
-}
-```
-
-```tsx
-// Usage (in server-side rendering)
-<PermissionGuard
-  permission="users:delete"
-  userPermissions={ctx.state.user.permissions}
-  fallback={<span class="text-muted-foreground">No permission</span>}
->
-  <Button variant="destructive">Delete</Button>
-</PermissionGuard>
-```
-
-### Dashboard Layout
-
-```tsx
-// routes/dashboard/_layout.tsx
-import { PageProps } from '$fresh/server.ts'
-import { AdminLayout } from '../../components/layout/AdminLayout.tsx'
-import Sidebar from '../../islands/Sidebar.tsx'
-
-export default function DashboardLayout({ Component, state }: PageProps) {
-  return (
-    <AdminLayout>
-      <div class="flex min-h-screen">
-        <Sidebar user={state.user} />
-        <main class="flex-1 p-6">
-          <Component />
-        </main>
-      </div>
-    </AdminLayout>
-  )
+```css
+/* Theme variable definitions */
+:root {
+  --background: 100% 0 0;
+  --foreground: 14.9% 0.017 285.75;
+  --primary: 51.1% 0.262 276.97;
+  --primary-foreground: 100% 0 0;
+  --secondary: 96.1% 0.006 285.75;
+  --secondary-foreground: 14.9% 0.017 285.75;
+  --muted: 96.1% 0.006 285.75;
+  --muted-foreground: 44.7% 0.025 285.75;
+  --accent: 96.1% 0.006 285.75;
+  --accent-foreground: 14.9% 0.017 285.75;
+  --destructive: 62.8% 0.241 12.48;
+  --destructive-foreground: 100% 0 0;
+  --border: 89.8% 0.011 285.75;
+  --input: 89.8% 0.011 285.75;
+  --ring: 51.1% 0.262 276.97;
+  --radius: 0.5rem;
 }
 ```
 
@@ -497,46 +497,20 @@ export default function DashboardLayout({ Component, state }: PageProps) {
 | `/dashboard/settings` | System Settings | `settings:view` |
 | `/dashboard/profile` | Profile | Logged in |
 
-## Configuration
+## Common Commands
 
-### Fresh Configuration
-
-```ts
-// fresh.config.ts
-import { defineConfig } from '$fresh/server.ts'
-import tailwind from '$fresh/plugins/tailwind.ts'
-
-export default defineConfig({
-  plugins: [tailwind()],
-})
-```
-
-### Deno Configuration
-
-```json
-// deno.json
-{
-  "lock": false,
-  "tasks": {
-    "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
-    "dev": "deno run -A --watch=static/,routes/ dev.ts",
-    "build": "deno run -A dev.ts build",
-    "start": "deno run -A main.ts",
-    "update": "deno run -A -r https://fresh.deno.dev/update ."
-  },
-  "imports": {
-    "$fresh/": "https://deno.land/x/fresh@2.0.0/",
-    "$std/": "https://deno.land/std@0.224.0/",
-    "preact": "https://esm.sh/preact@10.22.0",
-    "preact/": "https://esm.sh/preact@10.22.0/",
-    "@preact/signals": "https://esm.sh/@preact/signals@1.2.3",
-    "zod": "https://deno.land/x/zod@v3.23.0/mod.ts"
-  },
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact"
-  }
-}
+```bash
+deno task dev            # Start development server
+deno task build          # Production build
+deno task start          # Start production server
+deno task check          # Format and type check
+deno task fmt            # Format code
+deno task fmt:check      # Check code format
+deno task lint           # Lint code
+deno task test           # Run tests
+deno task test:watch     # Test watch mode
+deno task test:coverage  # Test coverage
+deno task ci             # Run full CI check
 ```
 
 ## Deployment
@@ -565,15 +539,23 @@ EXPOSE 8000
 CMD ["run", "-A", "main.ts"]
 ```
 
-### Self-hosted
-
 ```bash
-# Build
-deno task build
-
-# Run
-deno task start
+docker build -t halolight-fresh .
+docker run -p 8000:8000 halolight-fresh
 ```
+
+### Other Platforms
+
+- [Cloudflare Workers](/guide/cloudflare) - Via Deno Deploy adapter
+- [Fly.io](/guide/fly) - Native Deno support
+- Self-hosted - Run `deno task start` directly
+
+## Demo Accounts
+
+| Role | Email | Password |
+|------|------|------|
+| Admin | admin@halolight.h7ml.cn | 123456 |
+| User | user@halolight.h7ml.cn | 123456 |
 
 ## Testing
 
@@ -635,6 +617,48 @@ Deno.test("hasPermission - permission check", async (t) => {
 });
 ```
 
+## Configuration
+
+### Fresh Configuration
+
+```ts
+// fresh.config.ts
+import { defineConfig } from '$fresh/server.ts'
+import tailwind from '$fresh/plugins/tailwind.ts'
+
+export default defineConfig({
+  plugins: [tailwind()],
+})
+```
+
+### Deno Configuration
+
+```json
+// deno.json
+{
+  "lock": false,
+  "tasks": {
+    "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
+    "dev": "deno run -A --watch=static/,routes/ dev.ts",
+    "build": "deno run -A dev.ts build",
+    "start": "deno run -A main.ts",
+    "update": "deno run -A -r https://fresh.deno.dev/update ."
+  },
+  "imports": {
+    "$fresh/": "https://deno.land/x/fresh@2.0.0/",
+    "$std/": "https://deno.land/std@0.224.0/",
+    "preact": "https://esm.sh/preact@10.22.0",
+    "preact/": "https://esm.sh/preact@10.22.0/",
+    "@preact/signals": "https://esm.sh/@preact/signals@1.2.3",
+    "zod": "https://deno.land/x/zod@v3.23.0/mod.ts"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  }
+}
+```
+
 ## CI/CD
 
 The project uses GitHub Actions for continuous integration, configuration file is located at `.github/workflows/ci.yml`.
@@ -648,16 +672,6 @@ The project uses GitHub Actions for continuous integration, configuration file i
 | build | Production build verification | After lint/test pass |
 | security | Deno security audit | push/PR |
 | dependency-review | Dependency security review | PR only |
-
-### Local CI Commands
-
-```bash
-# Run full CI check
-deno task ci
-
-# Equivalent to
-deno task fmt:check && deno task lint && deno task check && deno task test
-```
 
 ### Code Quality Configuration
 
@@ -685,6 +699,167 @@ deno task fmt:check && deno task lint && deno task check && deno task test
 }
 ```
 
+## Advanced Features
+
+### Middleware System
+
+```ts
+// routes/dashboard/_middleware.ts
+import { FreshContext } from '$fresh/server.ts'
+import { getCookies } from '$std/http/cookie.ts'
+import { verifyToken, getUser } from '../../lib/auth.ts'
+
+export async function handler(req: Request, ctx: FreshContext) {
+  const cookies = getCookies(req.headers)
+  const token = cookies.token
+
+  if (!token) {
+    const url = new URL(req.url)
+    return new Response(null, {
+      status: 302,
+      headers: { Location: `/auth/login?redirect=${url.pathname}` },
+    })
+  }
+
+  try {
+    const payload = await verifyToken(token)
+    const user = await getUser(payload.userId)
+    ctx.state.user = user
+    ctx.state.token = token
+  } catch {
+    return new Response(null, {
+      status: 302,
+      headers: { Location: '/auth/login' },
+    })
+  }
+
+  return ctx.next()
+}
+```
+
+### Nested Layouts
+
+```tsx
+// routes/dashboard/_layout.tsx
+import { PageProps } from '$fresh/server.ts'
+import { AdminLayout } from '../../components/layout/AdminLayout.tsx'
+import Sidebar from '../../islands/Sidebar.tsx'
+
+export default function DashboardLayout({ Component, state }: PageProps) {
+  return (
+    <AdminLayout>
+      <div class="flex min-h-screen">
+        <Sidebar user={state.user} />
+        <main class="flex-1 p-6">
+          <Component />
+        </main>
+      </div>
+    </AdminLayout>
+  )
+}
+```
+
+## Performance Optimization
+
+### Islands Architecture Optimization
+
+Fresh defaults to zero JS, only interactive components need hydration:
+
+```tsx
+// Static component (components/) - Zero JS
+export function Card({ title, content }) {
+  return (
+    <div class="card">
+      <h2>{title}</h2>
+      <p>{content}</p>
+    </div>
+  )
+}
+
+// Interactive Island (islands/) - Hydrate on demand
+export default function Counter() {
+  const count = useSignal(0)
+  return (
+    <button onClick={() => count.value++}>
+      Count: {count.value}
+    </button>
+  )
+}
+```
+
+### Edge Deployment Optimization
+
+```ts
+// Leverage Deno Deploy edge runtime
+export const handler: Handlers = {
+  async GET(req) {
+    // Execute at edge nodes, reduce latency
+    const data = await fetchFromDatabase()
+    return new Response(JSON.stringify(data))
+  }
+}
+```
+
+### Preloading
+
+```tsx
+// Preload critical resources
+<link rel="preload" href="/api/auth/me" as="fetch" crossOrigin="anonymous" />
+```
+
+## FAQ
+
+### Q: How to share state between Islands and server components?
+
+A: Use @preact/signals, which works on both server and client:
+
+```ts
+// signals/auth.ts
+export const user = signal<User | null>(null)
+
+// islands/UserProfile.tsx (client-side)
+import { user } from '../signals/auth.ts'
+export default function UserProfile() {
+  return <div>{user.value?.name}</div>
+}
+
+// routes/dashboard/index.tsx (server-side)
+import { user } from '../signals/auth.ts'
+export default function Dashboard({ data }: PageProps) {
+  return <div>Welcome {data.user.name}</div>
+}
+```
+
+### Q: How to handle environment variables?
+
+A: Fresh uses Deno's environment variable system:
+
+```ts
+// Read environment variable
+const apiUrl = Deno.env.get('API_URL') || '/api'
+
+// .env file (development)
+// Automatically loaded with deno task dev
+```
+
+### Q: How to implement data persistence?
+
+A: Use Deno KV (built-in key-value database):
+
+```ts
+// lib/db.ts
+const kv = await Deno.openKv()
+
+export async function saveUser(user: User) {
+  await kv.set(['users', user.id], user)
+}
+
+export async function getUser(id: number) {
+  const result = await kv.get(['users', id])
+  return result.value as User
+}
+```
+
 ## Comparison with Other Versions
 
 | Feature | Fresh Version | Astro Version | Next.js Version |
@@ -699,3 +874,11 @@ deno task fmt:check && deno task lint && deno task check && deno task test
 | Zero Config | ✅ | ❌ | ❌ |
 | Edge Deployment | Deno Deploy | Cloudflare | Vercel Edge |
 | Build Step | Optional | Required | Required |
+
+## Related Links
+
+- [Live Preview](https://halolight-fresh.h7ml.cn)
+- [GitHub Repository](https://github.com/halolight/halolight-fresh)
+- [Fresh Documentation](https://fresh.deno.dev)
+- [Deno Documentation](https://deno.com)
+- [HaloLight Documentation](https://docs.halolight.h7ml.cn)

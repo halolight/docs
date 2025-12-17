@@ -3,7 +3,7 @@ layout: home
 hero:
   name: HaloLight
   text: Full-Stack Decoupled Admin Dashboard
-  tagline: Frontend-Backend Separation · 11 Frontends × 8 Backends = 88 Combinations · Enterprise-Grade
+  tagline: Frontend-Backend Separation · 12 Frontends × 8 Backends = 96 Combinations · Enterprise-Grade
   actions:
     - theme: brand
       text: Get Started
@@ -17,7 +17,7 @@ hero:
 features:
   - icon: 🔀
     title: Frontend-Backend Composable
-    details: 11 frontend frameworks × 8 backend APIs, freely mix and match for 88 combinations
+    details: 12 frontend frameworks × 8 backend APIs, freely mix and match for 96 combinations
   - icon: 📊
     title: Draggable Dashboard
     details: Custom Dashboard based on Grid Layout with drag, resize, and persistence support
@@ -43,15 +43,15 @@ features:
 - **Contract Alignment**: OpenAPI / tRPC / GraphQL Schema ensures frontend-backend coordination
 - **Tech Stack Unlocked**: Replace any frontend or backend while maintaining contract compatibility
 
-### 88 Combination Possibilities
+### 96 Combination Possibilities
 
-**11 Frontend Frameworks**：
-Next.js · Nuxt · Vue · Angular · SvelteKit · Astro · Solid.js · Qwik · Remix · Preact · Lit
+**12 Frontend Frameworks**：
+Next.js · Nuxt · Vue · Angular · SvelteKit · Astro · Solid.js · Qwik · Remix · Preact · Lit · Fresh
 
 **8 Backend APIs**：
 NestJS · Node.js (Express) · Python (FastAPI) · Java (Spring Boot) · Go (Fiber) · PHP (Laravel) · Bun + Hono · tRPC BFF
 
-**Any Combination = 11 × 8 = 88 Stack Options**
+**Any Combination = 12 × 8 = 96 Stack Options**
 
 ### Common Combination Examples
 

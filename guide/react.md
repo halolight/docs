@@ -6,6 +6,17 @@ HaloLight React 版本基于 React 19 + Vite 6 构建，是一个纯客户端渲
 
 **GitHub**：[https://github.com/halolight/halolight-react](https://github.com/halolight/halolight-react)
 
+## 特性
+
+- 🏗️ **React 19** - 最新的 React 特性和性能优化
+- ⚡ **Vite 6** - 极速冷启动与 HMR
+- 🎨 **主题系统** - 11 种皮肤，明暗模式，View Transitions
+- 🔐 **认证系统** - 完整登录/注册/找回密码流程
+- 📊 **仪表盘** - 数据可视化与业务管理
+- 🛡️ **权限控制** - RBAC 细粒度权限管理
+- 📑 **多标签页** - 浏览器式标签管理
+- ⌘ **命令面板** - 快捷键导航 (⌘K)
+
 ## 技术栈
 
 | 技术 | 版本 | 说明 |
@@ -24,6 +35,16 @@ HaloLight React 版本基于 React 19 + Vite 6 构建，是一个纯客户端渲
 | Recharts | 3.x | 图表可视化 |
 | Framer Motion | 12.x | 动画效果 |
 | Mock.js | 1.x | 数据模拟 |
+
+## 核心特性
+
+- **可配置仪表盘** - 9 种小部件，拖拽布局，响应式适配
+- **多标签导航** - 浏览器式标签，右键菜单，状态缓存
+- **权限系统** - RBAC 权限控制，路由守卫，权限组件
+- **主题系统** - 11 种皮肤，明暗模式，View Transitions
+- **多账户切换** - 快速切换账户，记住登录状态
+- **命令面板** - 键盘快捷键 (⌘K)，全局搜索
+- **实时通知** - WebSocket 推送，通知中心
 
 ## 目录结构
 
@@ -86,6 +107,11 @@ halolight-react/
 
 ## 快速开始
 
+### 环境要求
+
+- Node.js >= 18.0.0
+- pnpm >= 9.x
+
 ### 安装
 
 ```bash
@@ -125,6 +151,13 @@ pnpm dev
 pnpm build
 pnpm preview
 ```
+
+## 演示账号
+
+| 角色 | 邮箱 | 密码 |
+|------|------|------|
+| 管理员 | admin@halolight.h7ml.cn | 123456 |
+| 普通用户 | user@halolight.h7ml.cn | 123456 |
 
 ## 核心功能
 
@@ -217,40 +250,7 @@ function UsersPage() {
 }
 ```
 
-### 路由配置 (React Router)
-
-```tsx
-// routes/index.tsx
-import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { DashboardLayout } from '@/layouts/dashboard-layout'
-import { AuthLayout } from '@/layouts/auth-layout'
-
-export const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Navigate to="/dashboard" replace />,
-  },
-  {
-    path: '/login',
-    element: <AuthLayout />,
-    children: [
-      { index: true, element: <LoginPage /> },
-    ],
-  },
-  {
-    path: '/',
-    element: <DashboardLayout />,
-    children: [
-      { path: 'dashboard', element: <HomePage /> },
-      { path: 'users', element: <UsersPage /> },
-      { path: 'settings', element: <SettingsPage /> },
-      // 更多路由...
-    ],
-  },
-])
-```
-
-### 权限 Hook
+### 权限控制
 
 ```tsx
 // hooks/use-permission.ts
@@ -277,8 +277,6 @@ function DeleteButton() {
   return <Button variant="destructive">删除</Button>
 }
 ```
-
-### 权限组件
 
 ```tsx
 // components/permission-guard.tsx
@@ -340,33 +338,55 @@ export function ConfigurableDashboard() {
 }
 ```
 
-### 主题切换
+## 主题系统
 
-```tsx
-// hooks/use-theme.ts
-import { useEffect, useState } from 'react'
+### 皮肤预设
 
-type Theme = 'light' | 'dark' | 'system'
+支持 11 种预设皮肤，通过快捷设置面板切换：
 
-export function useTheme() {
-  const [theme, setTheme] = useState<Theme>('system')
+| 皮肤 | 主色调 | CSS 变量 |
+|------|--------|----------|
+| Default | 紫色 | `--primary: 51.1% 0.262 276.97` |
+| Blue | 蓝色 | `--primary: 54.8% 0.243 264.05` |
+| Emerald | 翠绿 | `--primary: 64.6% 0.178 142.49` |
+| Orange | 橙色 | `--primary: 65.7% 0.198 45.13` |
+| Rose | 玫红 | `--primary: 58.9% 0.238 11.26` |
+| Cyan | 青色 | `--primary: 75.6% 0.146 191.68` |
+| Yellow | 黄色 | `--primary: 85.1% 0.184 98.08` |
+| Violet | 紫罗兰 | `--primary: 55.3% 0.264 293.49` |
+| Slate | 石板灰 | `--primary: 47.9% 0.017 256.71` |
+| Zinc | 锌灰 | `--primary: 48.3% 0 0` |
+| Neutral | 中性灰 | `--primary: 48.5% 0 0` |
 
-  const actualTheme = theme === 'system'
-    ? window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light'
-    : theme
+### CSS 变量 (OKLch)
 
-  useEffect(() => {
-    document.documentElement.classList.remove('light', 'dark')
-    document.documentElement.classList.add(actualTheme)
-  }, [actualTheme])
+```css
+/* 示例变量定义 */
+:root {
+  --background: 100% 0 0;
+  --foreground: 14.9% 0.017 285.75;
+  --primary: 51.1% 0.262 276.97;
+  --primary-foreground: 100% 0 0;
+  --secondary: 96.1% 0.004 286.41;
+  --secondary-foreground: 14.9% 0.017 285.75;
+  --muted: 96.1% 0.004 286.41;
+  --muted-foreground: 45.8% 0.009 285.77;
+  --accent: 96.1% 0.004 286.41;
+  --accent-foreground: 14.9% 0.017 285.75;
+  --destructive: 59.3% 0.246 27.33;
+  --destructive-foreground: 100% 0 0;
+  --border: 89.8% 0.006 286.32;
+  --input: 89.8% 0.006 286.32;
+  --ring: 51.1% 0.262 276.97;
+  --radius: 0.5rem;
+}
 
-  const toggleTheme = () => {
-    setTheme(actualTheme === 'dark' ? 'light' : 'dark')
-  }
-
-  return { theme, actualTheme, setTheme, toggleTheme }
+.dark {
+  --background: 0% 0 0;
+  --foreground: 98.3% 0 0;
+  --primary: 51.1% 0.262 276.97;
+  --primary-foreground: 100% 0 0;
+  /* ... */
 }
 ```
 
@@ -388,6 +408,312 @@ export function useTheme() {
 | `/permissions` | 权限管理 | `permissions:list` |
 | `/settings` | 系统设置 | `settings:view` |
 | `/profile` | 个人中心 | 登录即可 |
+
+## 环境变量
+
+### 配置示例
+
+```bash
+cp .env.example .env.development
+```
+
+```env
+# .env.development 示例
+VITE_API_URL=/api
+VITE_MOCK=true
+VITE_APP_TITLE=Admin Pro
+VITE_BRAND_NAME=Halolight
+VITE_DEMO_EMAIL=admin@halolight.h7ml.cn
+VITE_DEMO_PASSWORD=123456
+VITE_SHOW_DEMO_HINT=true
+```
+
+### 变量说明
+
+| 变量名 | 说明 | 默认值 |
+|--------|------|--------|
+| VITE_API_URL | API 基础路径 | /api |
+| VITE_MOCK | 是否启用 Mock 数据 | true |
+| VITE_APP_TITLE | 应用标题 | Admin Pro |
+| VITE_BRAND_NAME | 品牌名称 | Halolight |
+| VITE_DEMO_EMAIL | 演示账号邮箱 | admin@halolight.h7ml.cn |
+| VITE_DEMO_PASSWORD | 演示账号密码 | 123456 |
+| VITE_SHOW_DEMO_HINT | 是否显示演示提示 | true |
+
+### 使用方式
+
+```tsx
+// 在代码中访问环境变量
+const apiUrl = import.meta.env.VITE_API_URL
+const isMock = import.meta.env.VITE_MOCK === 'true'
+```
+
+## 常用命令
+
+```bash
+pnpm dev            # 启动开发服务器
+pnpm build          # 生产构建
+pnpm preview        # 预览生产构建
+pnpm lint           # 代码检查
+pnpm lint:fix       # 自动修复
+pnpm type-check     # 类型检查
+pnpm test           # 运行测试
+pnpm test:coverage  # 测试覆盖率
+```
+
+## 测试
+
+```bash
+pnpm test           # 运行测试（watch 模式）
+pnpm test:run       # 单次运行
+pnpm test:coverage  # 覆盖率报告
+pnpm test:ui        # Vitest UI 界面
+```
+
+### 测试示例
+
+```tsx
+// __tests__/components/Button.test.tsx
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Button } from '@/components/ui/button'
+
+describe('Button', () => {
+  it('renders button with text', () => {
+    render(<Button>Click me</Button>)
+    expect(screen.getByRole('button')).toHaveTextContent('Click me')
+  })
+
+  it('handles click events', async () => {
+    const handleClick = vi.fn()
+    render(<Button onClick={handleClick}>Click me</Button>)
+
+    await userEvent.click(screen.getByRole('button'))
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('disables button when disabled prop is true', () => {
+    render(<Button disabled>Click me</Button>)
+    expect(screen.getByRole('button')).toBeDisabled()
+  })
+})
+```
+
+## 配置
+
+### Vite 配置
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+          'chart-vendor': ['recharts'],
+        },
+      },
+    },
+  },
+})
+```
+
+## 部署
+
+### Vercel (推荐)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/halolight/halolight-react)
+
+```bash
+vercel
+```
+
+### Docker
+
+```dockerfile
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
+COPY . .
+RUN pnpm build
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+```bash
+docker build -t halolight-react .
+docker run -p 3000:80 halolight-react
+```
+
+### 其他平台
+
+- [Cloudflare Pages](/guide/cloudflare)
+- [Netlify](/guide/netlify)
+- [AWS Amplify](/guide/aws)
+- [Azure Static Web Apps](/guide/azure)
+
+## CI/CD
+
+项目配置了完整的 GitHub Actions CI 工作流：
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm type-check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:coverage
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm audit --audit-level=high
+```
+
+## 高级功能
+
+### PWA 支持
+
+项目内置 PWA 支持，包括：
+
+- Service Worker 注册
+- 离线缓存
+- 应用清单 (manifest.json)
+- 多尺寸图标
+
+```json
+// public/manifest.json
+{
+  "name": "Admin Pro",
+  "short_name": "Admin",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+```
+
+### React Router 配置
+
+```tsx
+// routes/index.tsx
+import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { DashboardLayout } from '@/layouts/dashboard-layout'
+import { AuthLayout } from '@/layouts/auth-layout'
+
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Navigate to="/dashboard" replace />,
+  },
+  {
+    path: '/login',
+    element: <AuthLayout />,
+    children: [
+      { index: true, element: <LoginPage /> },
+    ],
+  },
+  {
+    path: '/',
+    element: <DashboardLayout />,
+    children: [
+      { path: 'dashboard', element: <HomePage /> },
+      { path: 'users', element: <UsersPage /> },
+      { path: 'settings', element: <SettingsPage /> },
+      // 更多路由...
+    ],
+  },
+])
+```
 
 ### 路由守卫
 
@@ -417,149 +743,141 @@ export function AuthGuard({ children, permission }: AuthGuardProps) {
 }
 ```
 
-## UI 组件
+## 性能优化
 
-基于 shadcn/ui，已集成 20+ 组件：
-
-- **表单**：Button、Input、Textarea、Select、Checkbox、RadioGroup、Switch、Slider、DatePicker
-- **数据展示**：Table、Card、Badge、Avatar、Progress、Skeleton
-- **反馈**：Dialog、Sheet、AlertDialog、Toast、Tooltip、Popover
-- **导航**：Tabs、Breadcrumb、Pagination、DropdownMenu、Command
-- **布局**：Accordion、Collapsible、ScrollArea、Separator
-
-## Recharts 图表集成
+### 图片优化
 
 ```tsx
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+// 使用 lazy 加载图片
+import { useState } from 'react'
 
-const data = [
-  { name: 'Jan', value: 400 },
-  { name: 'Feb', value: 300 },
-  { name: 'Mar', value: 600 },
-  // ...
-]
+function LazyImage({ src, alt }: { src: string; alt: string }) {
+  const [loaded, setLoaded] = useState(false)
 
-function Chart() {
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Line type="monotone" dataKey="value" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
+    <div className="relative">
+      {!loaded && <div className="skeleton" />}
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        className={loaded ? 'opacity-100' : 'opacity-0'}
+      />
+    </div>
   )
 }
 ```
 
-## PWA 支持
+### 懒加载组件
 
-项目内置 PWA 支持，包括：
+```tsx
+// 路由级别代码分割
+import { lazy, Suspense } from 'react'
 
-- Service Worker 注册
-- 离线缓存
-- 应用清单 (manifest.json)
-- 多尺寸图标
+const Dashboard = lazy(() => import('@/pages/dashboard'))
+const Users = lazy(() => import('@/pages/users'))
 
-```json
-// public/manifest.json
+function App() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/users" element={<Users />} />
+      </Routes>
+    </Suspense>
+  )
+}
+```
+
+### 预加载
+
+```tsx
+// 鼠标悬停时预加载组件
+import { lazy } from 'react'
+
+const UserDetails = lazy(() => import('@/pages/user-details'))
+
+function UserList() {
+  const preloadUserDetails = () => {
+    // 触发预加载
+    import('@/pages/user-details')
+  }
+
+  return (
+    <Link
+      to="/users/1"
+      onMouseEnter={preloadUserDetails}
+    >
+      查看详情
+    </Link>
+  )
+}
+```
+
+### Memo 优化
+
+```tsx
+import { memo } from 'react'
+
+// 防止不必要的重渲染
+const ExpensiveComponent = memo(({ data }: { data: any }) => {
+  return <div>{/* 复杂渲染逻辑 */}</div>
+})
+```
+
+## 常见问题
+
+### Q：如何添加新的路由？
+
+A：在 `src/routes/index.tsx` 中添加路由配置：
+
+```tsx
 {
-  "name": "Admin Pro",
-  "short_name": "Admin",
-  "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "icons": [
-    {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ]
+  path: '/new-page',
+  element: <NewPage />,
 }
 ```
 
-## 部署
+### Q：如何自定义主题颜色？
 
-### Vercel
+A：修改 CSS 变量或使用主题切换功能：
 
-```bash
-vercel
-```
-
-### Netlify
-
-```bash
-netlify deploy --prod
-```
-
-### Nginx
-
-```nginx
-server {
-    listen 80;
-    server_name example.com;
-    root /var/www/halolight-react/dist;
-    index index.html;
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-
-    location /api {
-        proxy_pass http://backend:3000;
-    }
+```css
+:root {
+  --primary: 51.1% 0.262 276.97; /* 修改主色调 */
 }
 ```
 
-### Docker
+### Q：如何集成真实 API？
 
-```dockerfile
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
-COPY . .
-RUN pnpm build
+A：将 `VITE_MOCK` 设置为 `false`，并配置 `VITE_API_URL`：
 
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+```env
+VITE_MOCK=false
+VITE_API_URL=https://api.example.com
 ```
 
-## 与 Next.js 版本对比
+### Q：如何添加新的权限？
 
-| 功能 | React 版本 | Next.js 版本 |
-|------|-----------|--------------|
-| 渲染模式 | CSR (客户端渲染) | SSR/SSG/ISR |
-| 状态管理 | Zustand | Zustand |
-| 数据获取 | TanStack Query | TanStack Query |
-| 表单验证 | React Hook Form + Zod | React Hook Form + Zod |
-| 拖拽布局 | react-grid-layout | react-grid-layout |
-| 组件库 | shadcn/ui | shadcn/ui |
-| 路由 | React Router | Next.js App Router |
-| 图表 | Recharts | Recharts |
-| SSR | 无 | 内置支持 |
-| SEO | react-helmet-async | 内置支持 |
-| 部署 | 静态托管 / CDN | Vercel / 任意平台 |
+A：在用户的 `permissions` 数组中添加权限字符串，并使用 `usePermission` Hook：
 
-### 何时选择 React 版本？
+```tsx
+const canEdit = usePermission('users:edit')
+```
 
-- 纯前端应用，后端 API 独立部署
-- 不需要 SSR/SEO 优化
-- 已有后端服务，只需要前端管理界面
-- 希望使用更轻量的技术栈
-- 部署到纯静态托管服务
+## 与其他版本对比
 
-### 何时选择 Next.js 版本？
+| 特性 | React 版本 | Next.js | Vue |
+|------|-----------|---------|-----|
+| SSR/SSG | ❌ | ✅ | ✅ (Nuxt) |
+| 状态管理 | Zustand | Zustand | Pinia |
+| 路由 | React Router | App Router | Vue Router |
+| 构建工具 | Vite | Next.js | Vite |
 
-- 需要 SEO 优化
-- 需要 SSR/SSG 提升首屏性能
-- 希望前后端一体化
-- 需要 API Routes / Server Actions
-- 部署到 Vercel 等全栈平台
+## 相关链接
+
+- [在线预览](https://halolight-react.h7ml.cn)
+- [GitHub 仓库](https://github.com/halolight/halolight-react)
+- [React 官方文档](https://react.dev)
+- [HaloLight 文档](https://docs.halolight.h7ml.cn)

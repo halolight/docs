@@ -1,643 +1,469 @@
-# Go Gin Backend API
+# Go Fiber Backend API
 
-HaloLight Go backend API built with Gin 1.10 + GORM 2, providing complete JWT dual-token authentication and RBAC permission system.
+HaloLight Go Fiber backend API is built on Fiber 3.0, providing high-performance Go backend service with complete JWT dual-token authentication.
+
+**API Documentation**: [https://halolight-api-go.h7ml.cn/docs](https://halolight-api-go.h7ml.cn/docs)
+
+**GitHub**: [https://github.com/halolight/halolight-api-go](https://github.com/halolight/halolight-api-go)
 
 ## Features
 
-- **Gin 1.10** - High-performance HTTP web framework with fast routing
-- **GORM 2** - Powerful ORM library with auto-migration and associations
-- **JWT Dual Tokens** - AccessToken + RefreshToken (7 days + 30 days validity)
-- **RBAC Permissions** - Role-based access control with wildcard support (users:*, *)
-- **ULID Primary Keys** - 26-character unique IDs, time-sortable and URL-safe
-- **Request Validation** - Automatic validation with Gin Binding
-- **Unified Response** - Standardized JSON response format
-- **Docker Deployment** - Multi-stage build optimized, only 20MB image size
-- **CI/CD Ready** - GitHub Actions with automated testing and security scanning
+- 🔐 **JWT Dual Tokens** - Access Token + Refresh Token with auto-renewal
+- 🛡️ **RBAC Permissions** - Role-based access control with wildcard matching
+- 📡 **RESTful API** - Standardized interface design with OpenAPI documentation
+- 🗄️ **GORM 2** - Type-safe database operations
+- ✅ **Data Validation** - Request parameter validation and error handling
+- 📊 **Logging System** - Request logging and error tracking
+- 🐳 **Docker Support** - Containerized deployment
 
 ## Tech Stack
 
-| Category | Technology |
-|----------|------------|
-| Framework | Gin 1.10 |
-| Language | Go 1.22+ |
-| ORM | GORM 2 |
-| Database | PostgreSQL 16 |
-| Authentication | JWT (golang-jwt/jwt/v5) |
-| Validation | Gin Binding + go-playground/validator |
-| ID Generation | ULID (oklog/ulid) |
-| Documentation | Swagger UI |
-| Testing | Go testing + race detector |
-| Containerization | Docker + Docker Compose |
+| Technology | Version | Description |
+|------------|---------|-------------|
+| Go | 1.22+ | Runtime |
+| Fiber | 3.0 | Web Framework |
+| GORM | 2.0 | Database ORM |
+| PostgreSQL | 16 | Data Storage |
+| go-playground/validator | v10 | Data Validation |
+| JWT | golang-jwt/jwt/v5 | Authentication |
+| Swagger UI | - | API Documentation |
 
 ## Quick Start
 
-### Method 1: Local Development
+### Environment Requirements
+
+- Go >= 1.22
+- PostgreSQL 16 (optional, defaults to SQLite)
+
+### Installation
 
 ```bash
-# 1. Clone repository
+# Clone repository
 git clone https://github.com/halolight/halolight-api-go.git
 cd halolight-api-go
 
-# 2. Install Go 1.22+
-# macOS
-brew install go
-
-# Ubuntu
-sudo apt install golang-1.22
-
-# 3. Install dependencies
+# Install dependencies
 go mod download
+```
 
-# 4. Configure environment
+### Environment Variables
+
+```bash
 cp .env.example .env
-# Edit .env file to configure database and JWT secret
+```
 
-# 5. Start PostgreSQL (using Docker)
-docker-compose up -d postgres
+```env
+# Database
+DATABASE_URL=postgresql://user:pass@localhost:5432/halolight?sslmode=disable
 
-# 6. Run development server
+# JWT Secret
+JWT_SECRET=your-super-secret-key
+JWT_ACCESS_EXPIRES=7d
+JWT_REFRESH_EXPIRES=30d
+
+# Service Configuration
+PORT=8080
+APP_ENV=development
+```
+
+### Database Initialization
+
+```bash
+# GORM auto-migration
 go run cmd/server/main.go
 
-# Server will start at http://localhost:8080
+# Or use Makefile
+make migrate
 ```
 
-### Method 2: Docker Compose
+### Start Service
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/halolight/halolight-api-go.git
-cd halolight-api-go
+# Development mode
+go run cmd/server/main.go
 
-# 2. Configure environment
-cp .env.example .env
-
-# 3. Start all services
-docker-compose up -d
-
-# Access services
-# - API: http://localhost:8080
-# - Swagger: http://localhost:8080/docs
-# - Health Check: http://localhost:8080/health
-```
-
-### Method 3: Using Makefile
-
-```bash
-# Development mode (hot reload)
-make dev
-
-# Build
+# Production mode
 make build
-
-# Run
-make run
-
-# Test
-make test
-
-# Test coverage
-make test-coverage
-
-# Lint
-make lint
-
-# Clean
-make clean
+./bin/server
 ```
+
+Visit http://localhost:8080
 
 ## Project Structure
 
 ```
 halolight-api-go/
-├── cmd/                          # Application entry
+├── cmd/
 │   └── server/
-│       └── main.go               # Main entry point
-├── internal/                     # Internal packages
-│   ├── handlers/                 # HTTP handlers (13 modules)
-│   │   ├── auth_handler.go       # Auth endpoints
-│   │   ├── user_handler.go       # User management
-│   │   ├── role_handler.go       # Role management
+│       └── main.go              # Application entry
+├── internal/
+│   ├── handlers/                # Controllers/route handlers
+│   │   ├── auth_handler.go      # Authentication endpoints
+│   │   ├── user_handler.go      # User management
+│   │   ├── role_handler.go      # Role management
 │   │   ├── permission_handler.go # Permission management
-│   │   ├── team_handler.go       # Team management
-│   │   ├── document_handler.go   # Document management
-│   │   ├── file_handler.go       # File management
-│   │   ├── folder_handler.go     # Folder management
-│   │   ├── calendar_handler.go   # Calendar events
-│   │   ├── notification_handler.go # Notifications
-│   │   ├── message_handler.go    # Messaging
-│   │   ├── dashboard_handler.go  # Dashboard stats
-│   │   └── home_handler.go       # Home + Health check
-│   ├── middleware/               # Middleware
-│   │   ├── auth.go               # JWT authentication
-│   │   └── cors.go               # CORS middleware
-│   ├── models/                   # GORM models (17 models)
-│   │   ├── user.go               # User model
-│   │   ├── role.go               # Role model
-│   │   ├── permission.go         # Permission model
-│   │   ├── refresh_token.go      # Refresh token
-│   │   ├── team.go               # Team model
-│   │   ├── document.go           # Document model
-│   │   ├── file.go               # File model
-│   │   └── ulid.go               # ULID generator
-│   ├── repository/               # Data access layer
-│   │   ├── user_repository.go
-│   │   └── refresh_token_repository.go
-│   ├── services/                 # Business logic (12 services)
+│   │   ├── team_handler.go      # Team management
+│   │   ├── document_handler.go  # Document management
+│   │   ├── file_handler.go      # File management
+│   │   ├── folder_handler.go    # Folder management
+│   │   ├── calendar_handler.go  # Calendar events
+│   │   ├── notification_handler.go # Notification management
+│   │   ├── message_handler.go   # Message management
+│   │   ├── dashboard_handler.go # Dashboard statistics
+│   │   └── home_handler.go      # Homepage + health check
+│   ├── services/                # Business logic layer
 │   │   ├── auth_service.go
 │   │   ├── user_service.go
-│   │   ├── role_service.go
 │   │   └── ...
-│   └── routes/                   # Route configuration
+│   ├── models/                  # Data models
+│   │   ├── user.go
+│   │   ├── role.go
+│   │   └── ...
+│   ├── middleware/              # Middleware
+│   │   ├── auth.go
+│   │   └── cors.go
+│   └── routes/                  # Route configuration
 │       └── router.go
-├── pkg/                          # Public packages
-│   ├── config/                   # Configuration
-│   ├── database/                 # Database connection
-│   └── utils/                    # Utilities (JWT, hash)
-├── docs/                         # Documentation
-│   └── swagger-ui/               # Swagger UI
-├── .github/workflows/            # GitHub Actions
-├── Dockerfile                    # Multi-stage build
-├── docker-compose.yml            # Docker Compose
-├── Makefile                      # Make commands
-└── go.mod                        # Go module definition
+├── pkg/
+│   ├── config/                  # Configuration management
+│   ├── database/                # Database connection
+│   └── utils/                   # Utility functions
+├── docs/                        # Documentation
+├── .github/workflows/           # GitHub Actions
+├── Dockerfile                   # Docker configuration
+├── docker-compose.yml
+└── go.mod
 ```
 
 ## API Modules
 
-HaloLight Go API provides **12 core business modules** with **90+ RESTful API endpoints**:
+### Authentication Endpoints
 
-### 1. Authentication (7 endpoints)
+| Method | Path | Description | Permission |
+|--------|------|-------------|------------|
+| POST | `/api/auth/login` | User login | Public |
+| POST | `/api/auth/register` | User registration | Public |
+| POST | `/api/auth/refresh` | Refresh token | Public |
+| POST | `/api/auth/logout` | Logout | Authenticated |
+| POST | `/api/auth/forgot-password` | Forgot password | Public |
+| POST | `/api/auth/reset-password` | Reset password | Public |
+| GET | `/api/auth/me` | Get current user | Authenticated |
+
+### User Management Endpoints
+
+| Method | Path | Description | Permission |
+|--------|------|-------------|------------|
+| GET | `/api/users` | List users | `users:view` |
+| GET | `/api/users/:id` | Get user details | `users:view` |
+| POST | `/api/users` | Create user | `users:create` |
+| PUT | `/api/users/:id` | Update user | `users:update` |
+| DELETE | `/api/users/:id` | Delete user | `users:delete` |
+| PATCH | `/api/users/:id/status` | Update user status | `users:update` |
+| POST | `/api/users/batch-delete` | Batch delete users | `users:delete` |
+
+### Complete Endpoint List
+
+#### Role Management (Roles) - 6 endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/roles` | List roles |
+| GET | `/api/roles/:id` | Get role details |
+| POST | `/api/roles` | Create role |
+| PUT | `/api/roles/:id` | Update role |
+| POST | `/api/roles/:id/permissions` | Assign permissions |
+| DELETE | `/api/roles/:id` | Delete role |
+
+#### Permission Management (Permissions) - 4 endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/permissions` | List permissions |
+| GET | `/api/permissions/:id` | Get permission details |
+| POST | `/api/permissions` | Create permission |
+| DELETE | `/api/permissions/:id` | Delete permission |
+
+#### Team Management (Teams) - 7 endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/teams` | List teams |
+| GET | `/api/teams/:id` | Get team details |
+| POST | `/api/teams` | Create team |
+| PATCH | `/api/teams/:id` | Update team |
+| DELETE | `/api/teams/:id` | Delete team |
+| POST | `/api/teams/:id/members` | Add member |
+| DELETE | `/api/teams/:id/members/:userId` | Remove member |
+
+#### Document Management (Documents) - 11 endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/documents` | List documents |
+| GET | `/api/documents/:id` | Get document details |
+| POST | `/api/documents` | Create document |
+| PUT | `/api/documents/:id` | Update document |
+| PATCH | `/api/documents/:id/rename` | Rename document |
+| POST | `/api/documents/:id/move` | Move document |
+| POST | `/api/documents/:id/tags` | Update tags |
+| POST | `/api/documents/:id/share` | Share document |
+| POST | `/api/documents/:id/unshare` | Unshare document |
+| POST | `/api/documents/batch-delete` | Batch delete |
+| DELETE | `/api/documents/:id` | Delete document |
+
+#### File Management (Files) - 14 endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/files/upload` | Upload file |
+| POST | `/api/files/folder` | Create folder |
+| GET | `/api/files` | List files |
+| GET | `/api/files/storage` | Get storage info |
+| GET | `/api/files/:id` | Get file details |
+| GET | `/api/files/:id/download-url` | Get download URL |
+| PATCH | `/api/files/:id/rename` | Rename file |
+| POST | `/api/files/:id/move` | Move file |
+| POST | `/api/files/:id/copy` | Copy file |
+| PATCH | `/api/files/:id/favorite` | Toggle favorite |
+| POST | `/api/files/:id/share` | Share file |
+| POST | `/api/files/batch-delete` | Batch delete |
+| DELETE | `/api/files/:id` | Delete file |
+
+#### Folder Management (Folders) - 5 endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/folders` | List folders |
+| GET | `/api/folders/tree` | Get folder tree |
+| GET | `/api/folders/:id` | Get folder details |
+| POST | `/api/folders` | Create folder |
+| DELETE | `/api/folders/:id` | Delete folder |
+
+#### Message Management (Messages) - 5 endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/messages/conversations` | List conversations |
+| GET | `/api/messages/conversations/:id` | Get conversation details |
+| POST | `/api/messages` | Send message |
+| PUT | `/api/messages/:id/read` | Mark as read |
+| DELETE | `/api/messages/:id` | Delete message |
+
+#### Notification Management (Notifications) - 5 endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/notifications` | List notifications |
+| GET | `/api/notifications/unread-count` | Get unread count |
+| PUT | `/api/notifications/:id/read` | Mark as read |
+| PUT | `/api/notifications/read-all` | Mark all as read |
+| DELETE | `/api/notifications/:id` | Delete notification |
+
+#### Calendar Management (Calendar) - 9 endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/calendar/events` | List events |
+| GET | `/api/calendar/events/:id` | Get event details |
+| POST | `/api/calendar/events` | Create event |
+| PUT | `/api/calendar/events/:id` | Update event |
+| PATCH | `/api/calendar/events/:id/reschedule` | Reschedule event |
+| POST | `/api/calendar/events/:id/attendees` | Add attendee |
+| DELETE | `/api/calendar/events/:id/attendees/:attendeeId` | Remove attendee |
+| POST | `/api/calendar/events/batch-delete` | Batch delete |
+| DELETE | `/api/calendar/events/:id` | Delete event |
+
+#### Dashboard (Dashboard) - 9 endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/dashboard/stats` | Get statistics |
+| GET | `/api/dashboard/visits` | Get visit data |
+| GET | `/api/dashboard/sales` | Get sales data |
+| GET | `/api/dashboard/products` | Get product data |
+| GET | `/api/dashboard/orders` | Get order data |
+| GET | `/api/dashboard/activities` | Get activity data |
+| GET | `/api/dashboard/pie` | Get pie chart data |
+| GET | `/api/dashboard/tasks` | Get task data |
+| GET | `/api/dashboard/overview` | Get overview data |
+
+## Authentication Mechanism
+
+### JWT Dual Tokens
 
 ```
-POST   /api/auth/register         # User registration
-POST   /api/auth/login            # User login
-POST   /api/auth/refresh          # Refresh token
-POST   /api/auth/logout           # Logout
-GET    /api/auth/me               # Get current user
-POST   /api/auth/forgot-password  # Forgot password
-POST   /api/auth/reset-password   # Reset password
+Access Token:  7 days validity, used for API requests
+Refresh Token: 30 days validity, used to refresh Access Token
 ```
 
-### 2. Users (7 endpoints)
+### Request Headers
 
-```
-GET    /api/users                 # List users (pagination, search)
-GET    /api/users/:id             # Get user details
-POST   /api/users                 # Create user
-PUT    /api/users/:id             # Update user
-PATCH  /api/users/:id/status      # Update user status
-POST   /api/users/batch-delete    # Batch delete users
-DELETE /api/users/:id             # Delete user
+```http
+Authorization: Bearer <access_token>
 ```
 
-### 3. Roles (6 endpoints)
-
-```
-GET    /api/roles                 # List roles
-GET    /api/roles/:id             # Get role details
-POST   /api/roles                 # Create role
-PUT    /api/roles/:id             # Update role
-POST   /api/roles/:id/permissions # Assign permissions
-DELETE /api/roles/:id             # Delete role
-```
-
-### 4. Permissions (4 endpoints)
-
-```
-GET    /api/permissions           # List permissions
-GET    /api/permissions/:id       # Get permission details
-POST   /api/permissions           # Create permission
-DELETE /api/permissions/:id       # Delete permission
-```
-
-### 5. Teams (7 endpoints)
-
-```
-GET    /api/teams                 # List teams
-GET    /api/teams/:id             # Get team details
-POST   /api/teams                 # Create team
-PATCH  /api/teams/:id             # Update team
-DELETE /api/teams/:id             # Delete team
-POST   /api/teams/:id/members     # Add member
-DELETE /api/teams/:id/members/:userId # Remove member
-```
-
-### 6. Documents (11 endpoints)
-
-```
-GET    /api/documents             # List documents (pagination, search)
-GET    /api/documents/:id         # Get document details
-POST   /api/documents             # Create document
-PUT    /api/documents/:id         # Update document
-PATCH  /api/documents/:id/rename  # Rename document
-POST   /api/documents/:id/move    # Move document
-POST   /api/documents/:id/tags    # Update tags
-POST   /api/documents/:id/share   # Share document
-POST   /api/documents/:id/unshare # Unshare document
-POST   /api/documents/batch-delete # Batch delete
-DELETE /api/documents/:id         # Delete document
-```
-
-### 7. Files (14 endpoints)
-
-```
-POST   /api/files/upload          # Upload file
-POST   /api/files/folder          # Create folder
-GET    /api/files                 # List files
-GET    /api/files/storage         # Get storage info
-GET    /api/files/storage-info    # Get storage info (alias)
-GET    /api/files/:id             # Get file details
-GET    /api/files/:id/download-url # Get download URL
-PATCH  /api/files/:id/rename      # Rename file
-POST   /api/files/:id/move        # Move file
-POST   /api/files/:id/copy        # Copy file
-PATCH  /api/files/:id/favorite    # Toggle favorite
-POST   /api/files/:id/share       # Share file
-POST   /api/files/batch-delete    # Batch delete
-DELETE /api/files/:id             # Delete file
-```
-
-### 8. Folders (5 endpoints)
-
-```
-GET    /api/folders               # List folders
-GET    /api/folders/tree          # Get folder tree
-GET    /api/folders/:id           # Get folder details
-POST   /api/folders               # Create folder
-DELETE /api/folders/:id           # Delete folder
-```
-
-### 9. Calendar (9 endpoints)
-
-```
-GET    /api/calendar/events       # List events
-GET    /api/calendar/events/:id   # Get event details
-POST   /api/calendar/events       # Create event
-PUT    /api/calendar/events/:id   # Update event
-PATCH  /api/calendar/events/:id/reschedule # Reschedule event
-POST   /api/calendar/events/:id/attendees   # Add attendee
-DELETE /api/calendar/events/:id/attendees/:attendeeId # Remove attendee
-POST   /api/calendar/events/batch-delete # Batch delete
-DELETE /api/calendar/events/:id   # Delete event
-```
-
-### 10. Notifications (5 endpoints)
-
-```
-GET    /api/notifications         # List notifications
-GET    /api/notifications/unread-count # Get unread count
-PUT    /api/notifications/:id/read # Mark as read
-PUT    /api/notifications/read-all # Mark all as read
-DELETE /api/notifications/:id     # Delete notification
-```
-
-### 11. Messages (5 endpoints)
-
-```
-GET    /api/messages/conversations # List conversations
-GET    /api/messages/conversations/:id # Get conversation details
-POST   /api/messages              # Send message
-PUT    /api/messages/:id/read     # Mark message as read
-DELETE /api/messages/:id          # Delete message
-```
-
-### 12. Dashboard (9 endpoints)
-
-```
-GET    /api/dashboard/stats       # Get statistics
-GET    /api/dashboard/visits      # Get visit data
-GET    /api/dashboard/sales       # Get sales data
-GET    /api/dashboard/products    # Get product data
-GET    /api/dashboard/orders      # Get order data
-GET    /api/dashboard/activities  # Get activity data
-GET    /api/dashboard/pie         # Get pie chart data
-GET    /api/dashboard/tasks       # Get task data
-GET    /api/dashboard/overview    # Get overview data
-```
-
-## Authentication System
-
-### JWT Dual Token Mechanism
+### Refresh Flow
 
 ```go
-// AccessToken Configuration
-- Validity: 7 days (168 hours)
-- Purpose: API access authentication
-- Storage: Client memory/localStorage
-
-// RefreshToken Configuration
-- Validity: 30 days (720 hours)
-- Purpose: Refresh AccessToken
-- Storage: Database + Client (HttpOnly Cookie recommended)
-```
-
-### Authentication Flow
-
-#### 1. User Registration
-
-```bash
-POST /api/auth/register
-Content-Type: application/json
-
-{
-  "email": "user@example.com",
-  "username": "john_doe",
-  "password": "SecurePass123!"
-}
-
-# Response
-{
-  "success": true,
-  "data": {
-    "accessToken": "eyJhbGciOiJIUzI1NiIs...",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
-    "user": {
-      "id": "01J9XQZV8M5N3P7K2RGWT4HFBA",
-      "email": "user@example.com",
-      "username": "john_doe",
-      "name": "John Doe",
-      "status": "ACTIVE",
-      "createdAt": "2024-12-10T00:00:00Z"
+// Token refresh example
+func RefreshToken(c *fiber.Ctx) error {
+    type RefreshRequest struct {
+        RefreshToken string `json:"refreshToken"`
     }
-  }
+
+    var req RefreshRequest
+    if err := c.BodyParser(&req); err != nil {
+        return c.Status(400).JSON(fiber.Map{
+            "success": false,
+            "message": "Invalid request",
+        })
+    }
+
+    // Validate refresh token
+    claims, err := utils.ValidateToken(req.RefreshToken)
+    if err != nil {
+        return c.Status(401).JSON(fiber.Map{
+            "success": false,
+            "message": "Invalid refresh token",
+        })
+    }
+
+    // Generate new access token
+    accessToken, err := utils.GenerateAccessToken(claims.UserID)
+    if err != nil {
+        return c.Status(500).JSON(fiber.Map{
+            "success": false,
+            "message": "Failed to generate token",
+        })
+    }
+
+    return c.JSON(fiber.Map{
+        "success": true,
+        "accessToken": accessToken,
+    })
 }
 ```
 
-#### 2. User Login
+## Permission System
 
-```bash
-POST /api/auth/login
-Content-Type: application/json
+### Role Definitions
 
-{
-  "email": "user@example.com",
-  "password": "SecurePass123!"
-}
-
-# Response (same as registration)
-```
-
-#### 3. Refresh Token
-
-```bash
-POST /api/auth/refresh
-Content-Type: application/json
-
-{
-  "refreshToken": "eyJhbGciOiJIUzI1NiIs..."
-}
-
-# Response
-{
-  "success": true,
-  "accessToken": "eyJhbGciOiJIUzI1NiIs..." # New AccessToken
-}
-```
-
-#### 4. Get Current User
-
-```bash
-GET /api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
-
-# Response
-{
-  "success": true,
-  "data": {
-    "id": "01J9XQZV8M5N3P7K2RGWT4HFBA",
-    "email": "user@example.com",
-    "username": "john_doe",
-    "name": "John Doe",
-    "avatar": "https://example.com/avatar.jpg",
-    "status": "ACTIVE",
-    "roles": [
-      {
-        "id": "01J9XQZ...",
-        "name": "user",
-        "label": "Regular User"
-      }
-    ],
-    "createdAt": "2024-12-10T00:00:00Z"
-  }
-}
-```
-
-### Using Authentication
-
-Add `Authorization` header to authenticated requests:
-
-```bash
-curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-     http://localhost:8080/api/users
-```
-
-## RBAC Permission System
+| Role | Description | Permissions |
+|------|-------------|-------------|
+| `super_admin` | Super Administrator | `*` (all permissions) |
+| `admin` | Administrator | `users:*`, `documents:*`, `files:*`, `teams:*` |
+| `user` | Regular User | `documents:view`, `documents:create`, `files:*` |
+| `guest` | Guest | `dashboard:view` |
 
 ### Permission Format
 
 ```
-Format: resource:action
+{resource}:{action}
+
 Examples:
-  - users:view      # View users
-  - users:create    # Create users
-  - users:*         # All user permissions
-  - *               # All permissions (super admin)
+- users:view      # View users
+- users:create    # Create users
+- users:*         # All user operations
+- *               # All permissions
 ```
 
-### Built-in Roles
+## Error Handling
 
-| Role | Permissions | Description |
-|------|-------------|-------------|
-| **admin** | `*` | Super admin with all permissions |
-| **user** | `users:view`, `documents:*`, `files:*` | Regular user, manage own documents and files |
-| **guest** | `users:view`, `documents:view` | Guest with read-only access |
-
-### Assign Permissions
-
-```bash
-# 1. Create role
-POST /api/roles
-{
-  "name": "editor",
-  "label": "Editor",
-  "description": "Can edit documents"
-}
-
-# 2. Assign permissions
-POST /api/roles/{roleId}/permissions
-{
-  "permissionIds": ["permission_id_1", "permission_id_2"]
-}
-
-# 3. Assign role to user
-PUT /api/users/{userId}
-{
-  "roleIds": ["role_id_1", "role_id_2"]
-}
-```
-
-## Database Models
-
-### Core Models
-
-```go
-// User Model
-type User struct {
-    ID          string    `gorm:"primaryKey;type:char(26)"`
-    Email       string    `gorm:"uniqueIndex;size:191;not null"`
-    Username    string    `gorm:"uniqueIndex;size:100;not null"`
-    Password    string    `gorm:"size:255;not null"`
-    Name        string    `gorm:"size:191;not null"`
-    Avatar      *string   `gorm:"size:255"`
-    Status      UserStatus `gorm:"type:varchar(20);default:ACTIVE"`
-    QuotaUsed   int64     `gorm:"default:0"`
-    CreatedAt   time.Time
-    UpdatedAt   time.Time
-
-    // Relations
-    Roles       []Role    `gorm:"many2many:user_roles"`
-}
-
-// Role Model
-type Role struct {
-    ID          string    `gorm:"primaryKey;type:char(26)"`
-    Name        string    `gorm:"uniqueIndex;size:100;not null"`
-    Label       string    `gorm:"size:191;not null"`
-    Description *string   `gorm:"type:text"`
-    CreatedAt   time.Time
-    UpdatedAt   time.Time
-
-    // Relations
-    Permissions []Permission `gorm:"many2many:role_permissions"`
-}
-
-// Refresh Token Model
-type RefreshToken struct {
-    ID        string    `gorm:"primaryKey;type:char(26)"`
-    UserID    string    `gorm:"index;type:char(26);not null"`
-    Token     string    `gorm:"uniqueIndex;size:500;not null"`
-    ExpiresAt time.Time `gorm:"index;not null"`
-    CreatedAt time.Time
-}
-```
-
-### Database Migration
-
-GORM auto-migration:
-
-```go
-db.AutoMigrate(
-    &models.User{},
-    &models.Role{},
-    &models.Permission{},
-    &models.RefreshToken{},
-    &models.Team{},
-    &models.Document{},
-    &models.File{},
-    // ... other models
-)
-```
-
-## Environment Variables
-
-### Complete Configuration (.env)
-
-```bash
-# Application
-APP_ENV=development          # Environment: development/production
-APP_PORT=8080                # Port
-
-# JWT
-JWT_SECRET=your-super-secret-key-min-32-chars  # JWT secret (min 32 chars)
-JWT_EXPIRE_MINUTES=10080     # AccessToken validity (minutes) = 7 days
-
-# Database
-DB_HOST=localhost            # Database host
-DB_PORT=5432                 # Database port
-DB_USER=postgres             # Database user
-DB_PASSWORD=postgres         # Database password
-DB_NAME=halolight            # Database name
-DB_SSLMODE=disable           # SSL mode: disable/require
-```
-
-### Neon PostgreSQL Configuration
-
-```bash
-# Neon Database (recommended for production)
-DB_HOST=your-project.neon.tech
-DB_PORT=5432
-DB_USER=your-username
-DB_PASSWORD=your-password
-DB_NAME=halolight_prod
-DB_SSLMODE=require           # Neon requires SSL
-```
-
-## Unified Response Format
-
-### Success Response
-
-```json
-{
-  "success": true,
-  "data": {
-    // Data content
-  },
-  "message": "Operation successful"
-}
-```
-
-### Paginated Response
-
-```json
-{
-  "success": true,
-  "data": [
-    // Data list
-  ],
-  "meta": {
-    "total": 100,
-    "page": 1,
-    "limit": 20,
-    "totalPages": 5
-  }
-}
-```
-
-### Error Response
+### Error Response Format
 
 ```json
 {
   "success": false,
-  "message": "Error message"
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Request parameter validation failed",
+    "details": [
+      { "field": "email", "message": "Invalid email format" }
+    ]
+  }
 }
 ```
 
-## Docker Deployment
+### Error Codes
 
-### Dockerfile Features
+| Status Code | Error Code | Description |
+|-------------|------------|-------------|
+| 400 | `VALIDATION_ERROR` | Parameter validation failed |
+| 401 | `UNAUTHORIZED` | Unauthorized |
+| 403 | `FORBIDDEN` | Forbidden |
+| 404 | `NOT_FOUND` | Resource not found |
+| 409 | `CONFLICT` | Resource conflict |
+| 500 | `INTERNAL_ERROR` | Internal server error |
 
-- **Multi-stage Build**: Separate Builder and Runtime
-- **Small Size**: Final image only 20MB (using distroless/base-debian12)
-- **Secure**: Runs as non-root user
-- **Optimized**: CGO_ENABLED=0, static compilation
-
-### Deployment Commands
+## Common Commands
 
 ```bash
-# Build image
-docker build -t halolight-api-go:latest .
+# Development
+go run cmd/server/main.go
 
-# Start services
+# Build
+go build -o bin/server cmd/server/main.go
+
+# Testing
+go test ./...
+
+# Database
+make migrate
+
+# Code Quality
+go vet ./...
+golangci-lint run
+```
+
+## Deployment
+
+### Docker
+
+```bash
+docker build -t halolight-api-go .
+docker run -p 8080:8080 halolight-api-go
+```
+
+### Docker Compose
+
+```bash
 docker-compose up -d
+```
 
-# View logs
-docker-compose logs -f api
+```yaml
+# docker-compose.yml
+version: '3.8'
 
-# Stop services
-docker-compose down
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - APP_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+    restart: unless-stopped
 
-# Restart service
-docker-compose restart api
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: halolight
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```
+
+### Production Configuration
+
+```env
+APP_ENV=production
+DATABASE_URL=postgresql://user:pass@host:5432/db
+JWT_SECRET=your-production-secret
 ```
 
 ## Testing
@@ -648,107 +474,139 @@ docker-compose restart api
 # Unit tests
 go test ./...
 
-# With coverage
+# Test coverage
 go test -coverprofile=coverage.out ./...
 go tool cover -html=coverage.out
-
-# Race detection
-go test -race ./...
-
-# Verbose output
-go test -v ./...
 ```
 
-### CI/CD
+### Test Example
 
-Project uses GitHub Actions for automated testing and building:
+```go
+func TestUserLogin(t *testing.T) {
+    app := fiber.New()
 
-- ✅ **Code Quality**: go vet, golangci-lint
-- ✅ **Unit Tests**: go test -race
-- ✅ **Security Scan**: gosec, govulncheck
-- ✅ **Multi-platform Build**: Linux, macOS, Windows
-- ✅ **Docker Build**: Automated image push
+    // Setup routes
+    app.Post("/api/auth/login", handlers.Login)
+
+    // Prepare test data
+    reqBody := `{"email":"test@example.com","password":"password123"}`
+    req := httptest.NewRequest("POST", "/api/auth/login", strings.NewReader(reqBody))
+    req.Header.Set("Content-Type", "application/json")
+
+    // Execute request
+    resp, _ := app.Test(req)
+
+    // Verify response
+    assert.Equal(t, 200, resp.StatusCode)
+}
+```
 
 ## Performance Metrics
 
-| Metric | Value |
-|--------|-------|
-| Response Time | < 10ms (average) |
-| Concurrent Processing | 10,000+ QPS |
-| Memory Usage | ~50MB (idle) |
-| Docker Image | ~20MB |
-| Startup Time | < 1s |
+### Benchmarks
 
-## Common Issues
+| Metric | Value | Conditions |
+|--------|-------|------------|
+| Request Throughput | 10,000+ QPS | Single machine, 8-core CPU |
+| Average Response Time | < 10ms | Simple queries |
+| Memory Usage | ~50MB | Idle state |
+| CPU Usage | < 10% | Idle state |
 
-### 1. JWT Secret Requirements
+## Observability
 
-```bash
-# Generate secure JWT secret
-openssl rand -base64 64
-
-# Set in .env
-JWT_SECRET=generated_secret
-```
-
-### 2. Database Connection Failed
-
-```bash
-# Check if PostgreSQL is running
-docker-compose ps postgres
-
-# Restart database
-docker-compose restart postgres
-
-# View database logs
-docker-compose logs postgres
-```
-
-### 3. Port Conflict
-
-```bash
-# Modify port in .env
-APP_PORT=8081
-
-# Or modify docker-compose.yml
-ports:
-  - "8081:8080"
-```
-
-### 4. CORS Error
-
-Frontend needs to configure correct API address. CORS middleware is configured to allow all origins (development environment).
-
-For production, modify `internal/middleware/cors.go`:
+### Logging System
 
 ```go
-config.AddAllowOrigins("https://your-frontend.com")
+// Logging configuration
+logger := log.New(os.Stdout, "API: ", log.LstdFlags)
+
+app.Use(func(c *fiber.Ctx) error {
+    start := time.Now()
+    err := c.Next()
+    logger.Printf("%s %s %s %v",
+        c.Method(),
+        c.Path(),
+        c.IP(),
+        time.Since(start),
+    )
+    return err
+})
+```
+
+### Health Check
+
+```go
+// Health check endpoint
+app.Get("/health", func(c *fiber.Ctx) error {
+    return c.JSON(fiber.Map{
+        "status": "healthy",
+        "timestamp": time.Now(),
+        "database": db.Ping() == nil,
+    })
+})
+```
+
+### Monitoring Metrics
+
+```go
+// Prometheus metrics
+import "github.com/prometheus/client_golang/prometheus"
+
+var (
+    requestCounter = prometheus.NewCounterVec(
+        prometheus.CounterOpts{
+            Name: "api_requests_total",
+            Help: "Total API requests",
+        },
+        []string{"method", "path", "status"},
+    )
+)
+```
+
+## FAQ
+
+### Q: JWT secret key length requirements?
+
+A: JWT secret must be at least 32 characters. Recommend using 64+ character random strings.
+
+```bash
+# Generate secure key
+openssl rand -base64 64
+```
+
+### Q: Database connection failed?
+
+A: Check database configuration and network connection.
+
+```bash
+# Check PostgreSQL status
+docker-compose ps postgres
+
+# Test connection
+psql -h localhost -U postgres -d halolight
 ```
 
 ## Development Tools
 
-### Recommended VSCode Extensions
+### Recommended Plugins/Tools
 
-- **Go** - Go language support
-- **Go Test Explorer** - Test management
-- **REST Client** - API testing
-- **Docker** - Docker support
+- **Air** - Go hot reload tool
+- **golangci-lint** - Go code linter
+- **goose** - Database migration tool
+- **mockery** - Mock generation tool
 
-### Recommended Tools
+## Comparison with Other Backends
 
-- **Air** - Hot reload
-- **goose** - Database migration
-- **wire** - Dependency injection
-- **mockery** - Mock generation
+| Feature | Go Fiber | NestJS | FastAPI | Spring Boot |
+|---------|----------|--------|---------|-------------|
+| Language | Go | TypeScript | Python | Java |
+| ORM | GORM | Prisma | SQLAlchemy | JPA |
+| Performance | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Learning Curve | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
 
 ## Related Links
 
-- 📘 [GitHub Repository](https://github.com/halolight/halolight-api-go)
-- 📖 [Documentation](https://halolight.docs.h7ml.cn/en/guide/api-go)
-- 🔵 [API Homepage](http://localhost:8080/)
-- 📄 [Swagger Docs](http://localhost:8080/docs)
-- 💚 [Health Check](http://localhost:8080/health)
-
-## License
-
-MIT License - See [LICENSE](https://github.com/halolight/halolight-api-go/blob/main/LICENSE) file for details
+- [API Documentation](https://halolight-api-go.h7ml.cn/docs)
+- [GitHub Repository](https://github.com/halolight/halolight-api-go)
+- [Fiber Official Documentation](https://docs.gofiber.io)
+- [HaloLight Documentation](https://docs.halolight.h7ml.cn)

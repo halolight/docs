@@ -33,7 +33,7 @@ Based on shadcn/ui design system:
 - Highly customizable
 
 ### Frontend-Backend Any Combination
-- **88 Combination Options**: 11 frontend frameworks × 8 backend APIs, choose freely based on team tech stack or business scenarios
+- **98 Combination Options**: 14 frontend frameworks × 7 backend APIs, choose freely based on team tech stack or business scenarios
 - **BFF/Gateway Decoupling**: Optional tRPC, GraphQL Gateway for aggregation, authentication & simplification
 - **Upgrade Without Lock-in**: Replace any frontend or backend while maintaining contract compatibility
 - **Independent Evolution**: Frontend can choose SSR/SSG/SPA, backend can choose monolith/microservices/serverless
@@ -48,6 +48,7 @@ All framework versions have been implemented and deployed (preview links availab
 | Framework | Status | Preview | Repository |
 |-----------|--------|---------|------------|
 | Next.js 14 | ✅ Deployed | [Preview](https://halolight.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight) |
+| React (Vite) | ✅ Deployed | [Preview](https://halolight-react.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-react) |
 | Vue 3.5 | ✅ Deployed | [Preview](https://halolight-vue.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-vue) |
 | Angular 21 | ✅ Deployed | [Preview](https://halolight-angular.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-angular) |
 | Nuxt 4 | ✅ Deployed | [Preview](https://halolight-nuxt.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-nuxt) |
@@ -59,8 +60,9 @@ All framework versions have been implemented and deployed (preview links availab
 | Preact | ✅ Deployed | [Preview](https://halolight-preact.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-preact) |
 | Lit | ✅ Deployed | [Preview](https://halolight-lit.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-lit) |
 | Fresh (Deno) | ✅ Deployed | [Preview](https://halolight-fresh.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-fresh) |
+| Deno | ✅ Deployed | [Preview](https://halolight-deno.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-deno) |
 
-> 💡 **Flexible Combinations**: Frontend mainline supports 11 frameworks, any frontend can combine with 8 backend APIs, forming 88+ combination options.
+> 💡 **Flexible Combinations**: Frontend mainline supports 14 frameworks, any frontend can combine with 7 backend APIs, forming 98+ combination options.
 
 ## Backend API Implementations
 
@@ -73,7 +75,13 @@ All framework versions have been implemented and deployed (preview links availab
 | Node.js Express | ✅ Deployed | - | [GitHub](https://github.com/halolight/halolight-api-node) |
 | PHP Laravel | ✅ Deployed | - | [GitHub](https://github.com/halolight/halolight-api-php) |
 | Bun + Hono | ✅ Deployed | - | [GitHub](https://github.com/halolight/halolight-api-bun) |
-| tRPC BFF | ✅ Deployed | - | [GitHub](https://github.com/halolight/halolight-bff) |
+
+## Middleware / Full-Stack
+
+| Project | Status | Description | Repository |
+|---------|--------|-------------|------------|
+| tRPC BFF | ✅ Deployed | Type-safe gateway | [GitHub](https://github.com/halolight/halolight-bff) |
+| Next.js Action | ✅ Deployed | Server Actions full-stack | [GitHub](https://github.com/halolight/halolight-action) |
 
 ## Tech Stack
 

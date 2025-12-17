@@ -87,6 +87,7 @@ Below shows all possible frontend-backend combinations. Each cell represents a v
 | **Remix** | ⭐ Best | ⭐ Best | ✅ | ✅ | ✅ | ✅ | ⭐ Best | ⭐ Best |
 | **Preact** | ✅ | ✅ | ✅ | ✅ | ⭐ Best | ✅ | ⭐ Best | ✅ |
 | **Lit** | ✅ | ✅ | ✅ | ✅ | ✅ | ⭐ Best | ✅ | ✅ |
+| **Fresh** | ✅ | ✅ | ✅ | ✅ | ⭐ Best | ✅ | ⭐ Best | ✅ |
 
 **Legend**:
 - ⭐ Best: Significant advantages in specific scenarios

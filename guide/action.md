@@ -2,7 +2,7 @@
 
 HaloLight Action 是基于 Next.js 14 App Router 和 Supabase 构建的现代化签到定时任务平台，支持多平台自动签到、任务调度、执行记录追踪和推送通知。
 
-**在线预览**：[https://halolight-action.vercel.app](https://halolight-action.vercel.app)
+**在线预览**：[https://halolight-action.h7ml.cn](https://halolight-action.h7ml.cn)
 
 **GitHub**：[https://github.com/halolight/halolight-action](https://github.com/halolight/halolight-action)
 

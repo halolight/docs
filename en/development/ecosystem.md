@@ -9,6 +9,7 @@ HaloLight is a multi-framework, multi-platform admin dashboard solution. This do
 | Project | Framework | Status | Description |
 |---------|-----------|--------|-------------|
 | [halolight](https://github.com/halolight/halolight) | Next.js 14 + React 18 | ✅ Released | Reference implementation |
+| [halolight-react](https://github.com/halolight/halolight-react) | React + Vite | ✅ Released | Pure SPA version |
 | [halolight-vue](https://github.com/halolight/halolight-vue) | Vue 3.5 + Vite | ✅ Released | Vue reference implementation |
 | [halolight-angular](https://github.com/halolight/halolight-angular) | Angular 21 | ✅ Released | Angular implementation |
 | [halolight-nuxt](https://github.com/halolight/halolight-nuxt) | Nuxt 3 | ✅ Released | Vue SSR version |
@@ -20,6 +21,7 @@ HaloLight is a multi-framework, multi-platform admin dashboard solution. This do
 | [halolight-preact](https://github.com/halolight/halolight-preact) | Preact | ✅ Released | Lightweight React |
 | [halolight-lit](https://github.com/halolight/halolight-lit) | Lit | ✅ Released | Web Components |
 | [halolight-fresh](https://github.com/halolight/halolight-fresh) | Fresh (Deno) | ✅ Released | Deno native |
+| [halolight-deno](https://github.com/halolight/halolight-deno) | Fresh (Deno) | ✅ Released | Deno implementation |
 
 ### Deployment Platforms
 
@@ -38,17 +40,20 @@ HaloLight is a multi-framework, multi-platform admin dashboard solution. This do
 
 | Project | Tech Stack | Status | Features |
 |---------|------------|--------|----------|
+| [halolight-api-nestjs](https://github.com/halolight/halolight-api-nestjs) | NestJS + Prisma + TypeScript | ✅ Released | Node.js enterprise |
 | [halolight-api-node](https://github.com/halolight/halolight-api-node) | Express + Prisma + TypeScript | ✅ Released | Node.js reference implementation |
 | [halolight-api-go](https://github.com/halolight/halolight-api-go) | Gin + GORM | ✅ Released | High performance |
 | [halolight-api-python](https://github.com/halolight/halolight-api-python) | FastAPI + SQLAlchemy + Alembic | ✅ Released | Python ecosystem |
 | [halolight-api-bun](https://github.com/halolight/halolight-api-bun) | Hono + Drizzle ORM | ✅ Released | Bun runtime |
 | [halolight-api-java](https://github.com/halolight/halolight-api-java) | Spring Boot 3.4 + JPA | ✅ Released | Enterprise Java |
+| [halolight-api-php](https://github.com/halolight/halolight-api-php) | Laravel + Eloquent | ✅ Released | PHP ecosystem |
 
 ### Infrastructure
 
 | Project | Purpose | Status | Features |
 |---------|---------|--------|----------|
 | [halolight-bff](https://github.com/halolight/halolight-bff) | tRPC Gateway | ✅ Released | Type-safe API |
+| [halolight-action](https://github.com/halolight/halolight-action) | Next.js Full-stack | ✅ Released | Server Actions |
 | [halolight-ui](https://github.com/halolight/halolight-ui) | Stencil Web Components | ✅ Released | Cross-framework component library |
 
 ### AI & Web3
@@ -63,18 +68,19 @@ HaloLight is a multi-framework, multi-platform admin dashboard solution. This do
 ### Frontend Frameworks
 
 ```
-React family:     Next.js → Remix → Preact
+React family:     Next.js → Remix → Preact → React (Vite)
 Vue family:       Vue 3.5 → Nuxt 3
-Others:           Angular → SvelteKit → SolidJS → Qwik → Lit → Astro → Fresh
+Others:           Angular → SvelteKit → SolidJS → Qwik → Lit → Astro → Fresh → Deno
 ```
 
 ### Backend Languages
 
 ```
-Node.js:          Express (Prisma) → Hono (Drizzle)
+Node.js:          NestJS (Prisma) → Express (Prisma) → Hono (Drizzle)
 Go:               Gin (GORM)
 Python:           FastAPI (SQLAlchemy)
 Java:             Spring Boot (JPA)
+PHP:              Laravel (Eloquent)
 ```
 
 ### Deployment Platforms

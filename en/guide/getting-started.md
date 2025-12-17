@@ -4,9 +4,9 @@ Choose your preferred frontend framework and match it with a backend API to quic
 
 ## 🎯 Choose Your Combination
 
-HaloLight uses a **fully decoupled frontend-backend architecture**, supporting **11 Frontends × 8 Backends = 88 Combinations**.
+HaloLight uses a **fully decoupled frontend-backend architecture**, supporting **12 Frontends × 8 Backends = 96 Combinations**.
 
-### Step 1: Choose Frontend Framework (Pick 1 of 11)
+### Step 1: Choose Frontend Framework (Pick 1 of 12)
 
 | Framework | Use Cases | Characteristics |
 |-----------|-----------|-----------------|
@@ -200,5 +200,5 @@ pip install -e ".[dev]" && uvicorn app.main:app --reload
 - [Vue Version](/en/guide/vue) - Deep dive into Vue implementation
 - [NestJS API](/en/guide/api-nestjs) - NestJS backend development guide
 - [Python API](/en/guide/api-python) - FastAPI backend development guide
-- [Architecture Combinations](/en/guide/combinations) - View all 88 combinations
+- [Architecture Combinations](/en/guide/combinations) - View all 96 combinations
 - [Development Docs](/en/development/) - View design specifications and contracts

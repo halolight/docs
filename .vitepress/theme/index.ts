@@ -9,7 +9,8 @@ import NotFound from './NotFound.vue'
 import Footer from './Footer.vue'
 import Comment from './Comment.vue'
 import BackToTop from './BackToTop.vue'
-import Announcement from './Announcement.vue'
+import SeoMeta from '../components/SeoMeta.vue'
+// import Announcement from './Announcement.vue'
 import { AiChat } from './ai-chat'
 import './custom.css'
 
@@ -18,10 +19,11 @@ export default {
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       'not-found': () => h(NotFound),
-      'layout-top': () => h(Announcement),
+      // 'layout-top': () => h(Announcement),
       'layout-bottom': () => [h(Footer), h(AiChat)],
       'doc-after': () => h(Comment),
       'aside-outline-after': () => h(BackToTop),
+      'doc-before': () => h(SeoMeta), // SEO Meta 标签
     })
   },
   enhanceApp({ app }) {

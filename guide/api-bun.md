@@ -1,42 +1,43 @@
-# Bun 后端 API
+# Bun Hono 后端 API
 
-HaloLight Bun 后端 API，基于 Bun + Hono + Drizzle ORM 构建的高性能后端服务，与 NestJS/Java 版本共用同一数据库 (PostgreSQL/Neon) 和接口规范。
+HaloLight Bun 后端 API 基于 Bun + Hono + Drizzle ORM 构建，提供超高性能后端服务。
+
+**API 文档**：[https://halolight-api-bun.h7ml.cn/docs](https://halolight-api-bun.h7ml.cn/docs)
+
+**GitHub**：[https://github.com/halolight/halolight-api-bun](https://github.com/halolight/halolight-api-bun)
 
 ## 特性
 
-- ⚡ **Bun 1.1+** - 比 Node.js 快 4 倍的 JavaScript 运行时
-- 🔥 **Hono 4.x** - 超轻量级、高性能 Web 框架 (~14KB)
-- 🗄️ **Drizzle ORM** - TypeScript-first SQL ORM，零运行时开销
-- 🔐 **JWT 双令牌** - AccessToken + RefreshToken 认证机制
-- 🛡️ **RBAC 权限** - 基于角色的访问控制系统
-- 📚 **Swagger 文档** - 动态生成 OpenAPI 规范
-- ✅ **Zod 验证** - 类型安全的请求数据验证
-- 🧪 **完整测试** - Bun Test 单元测试 + E2E 测试
+- 🔐 **JWT 双令牌** - Access Token + Refresh Token，自动续期
+- 🛡️ **RBAC 权限** - 基于角色的访问控制，通配符匹配
+- 📡 **RESTful API** - 标准化接口设计，OpenAPI 文档
+- 🗄️ **Drizzle ORM** - 类型安全的数据库操作
+- ✅ **数据验证** - 请求参数校验，错误处理
+- 📊 **日志系统** - 请求日志，错误追踪
+- 🐳 **Docker 支持** - 容器化部署
+- ⚡ **极速性能** - 比 Node.js 快 4 倍
 
 ## 技术栈
 
-| 类别 | 技术 |
-|------|------|
-| 运行时 | Bun 1.1+ |
-| 框架 | Hono 4.x |
-| 语言 | TypeScript 5.x |
-| 数据库 | PostgreSQL 15+ / Neon |
-| ORM | Drizzle ORM 0.36+ |
-| 认证 | JWT (jose) |
-| 验证 | Zod 3.x + @hono/zod-validator |
-| 文档 | Swagger/OpenAPI |
-| 测试 | Bun Test |
-| 包管理 | pnpm |
-
-## 性能对比
-
-| 指标 | Bun | Node.js | 提升 |
-|------|-----|---------|------|
-| 启动速度 | ~100ms | ~500ms | **4x** |
-| HTTP 吞吐量 | ~50,000 req/s | ~20,000 req/s | **2.5x** |
-| 内存占用 | ~30MB | ~50MB+ | **40%** |
+| 技术 | 版本 | 说明 |
+|------|------|------|
+| Bun | 1.1+ | 运行时 |
+| Hono | 4.x | Web 框架 |
+| Drizzle ORM | 0.36+ | 数据库 ORM |
+| PostgreSQL | 15+ | 数据存储 |
+| Zod | 3.x | 数据验证 |
+| JWT | - | 身份认证 |
+| Swagger | - | API 文档 |
 
 ## 快速开始
+
+### 环境要求
+
+- Bun >= 1.1
+- pnpm >= 8.0
+- PostgreSQL (可选，默认 SQLite)
+
+### 安装
 
 ```bash
 # 克隆仓库
@@ -45,301 +46,441 @@ cd halolight-api-bun
 
 # 安装依赖
 pnpm install
+```
 
-# 配置环境变量
+### 环境变量
+
+```bash
 cp .env.example .env
-# 编辑 .env 填写数据库连接字符串和 JWT 密钥
+```
 
-# 推送数据库 Schema
+```env
+# 数据库
+DATABASE_URL=postgresql://user:password@localhost:5432/halolight
+
+# JWT 密钥
+JWT_SECRET=your-super-secret-key
+JWT_ACCESS_EXPIRES=15m
+JWT_REFRESH_EXPIRES=7d
+
+# 服务配置
+PORT=3002
+NODE_ENV=development
+CORS_ORIGIN=http://localhost:3000
+API_PREFIX=/api
+```
+
+### 数据库初始化
+
+```bash
 bun run db:push
-
-# 填充测试数据（可选）
 bun run db:seed
+```
 
-# 运行开发服务器
+### 启动服务
+
+```bash
+# 开发模式
 bun run dev
 
-# 构建生产版本
+# 生产模式
 bun run build
 bun run start
 ```
 
-## 环境变量
-
-| 变量名 | 说明 | 默认值 |
-|--------|------|--------|
-| `DATABASE_URL` | PostgreSQL 连接字符串 | - |
-| `JWT_SECRET` | JWT 签名密钥（≥32字符） | - |
-| `JWT_REFRESH_SECRET` | RefreshToken 密钥 | - |
-| `PORT` | 服务端口 | `3002` |
-| `NODE_ENV` | 运行环境 | `development` |
-| `CORS_ORIGIN` | CORS 允许源（逗号分隔） | `http://localhost:3000` |
-| `API_PREFIX` | API 路由前缀 | `/api` |
-| `JWT_EXPIRES_IN` | AccessToken 过期时间 | `15m` |
-| `JWT_REFRESH_EXPIRES_IN` | RefreshToken 过期时间 | `7d` |
-| `SWAGGER_ENABLED` | 是否启用 Swagger | `true` |
-| `SWAGGER_PATH` | Swagger UI 路径 | `/swagger` |
+访问 http://localhost:3002
 
 ## 项目结构
 
 ```
 halolight-api-bun/
 ├── src/
-│   ├── db/
-│   │   ├── schema.ts           # Drizzle ORM Schema 定义（17 个实体）
-│   │   ├── index.ts            # 数据库连接池
-│   │   ├── migrate.ts          # 迁移脚本
-│   │   └── seed.ts             # 种子数据脚本
-│   ├── middleware/
-│   │   ├── auth.ts             # JWT 认证中间件
-│   │   ├── cors.ts             # CORS 配置
-│   │   ├── error.ts            # 全局错误处理
-│   │   └── logger.ts           # 请求日志中间件
-│   ├── routes/                 # 路由层（Controller）
-│   │   ├── auth.ts             # 认证端点
-│   │   ├── users.ts            # 用户管理
-│   │   ├── roles.ts            # 角色管理
-│   │   ├── permissions.ts      # 权限管理
-│   │   ├── teams.ts            # 团队管理
-│   │   ├── documents.ts        # 文档管理
-│   │   ├── notifications.ts    # 通知管理
-│   │   ├── dashboard.ts        # 仪表盘统计
-│   │   └── index.ts            # 路由汇总
-│   ├── services/               # 业务逻辑层
-│   │   ├── auth.service.ts
-│   │   ├── user.service.ts
-│   │   ├── role.service.ts
-│   │   ├── permission.service.ts
-│   │   ├── team.service.ts
-│   │   ├── document.service.ts
-│   │   ├── notification.service.ts
-│   │   └── dashboard.service.ts
-│   ├── swagger/                # Swagger 文档
-│   │   ├── openapi.ts          # OpenAPI 规范动态生成
-│   │   ├── zod-to-json.ts      # Zod Schema 转 JSON Schema
-│   │   └── index.ts            # Swagger UI 路由
-│   ├── pages/
-│   │   └── home.ts             # 首页 HTML 模板
-│   ├── utils/                  # 工具函数
-│   │   ├── env.ts              # 环境变量验证（Zod）
-│   │   ├── jwt.ts              # JWT 签名/验证
-│   │   ├── hash.ts             # 密码哈希（Bun.password）
-│   │   └── response.ts         # 统一响应格式
-│   └── index.ts                # 应用入口
-├── test/
-│   ├── unit/                   # 单元测试
-│   └── e2e/                    # E2E 测试
-├── drizzle.config.ts           # Drizzle 配置
+│   ├── routes/          # 控制器/路由处理
+│   ├── services/        # 业务逻辑层
+│   ├── db/              # 数据模型
+│   ├── middleware/      # 中间件
+│   ├── utils/           # 工具函数
+│   └── index.ts         # 应用入口
+├── test/                # 测试文件
+├── Dockerfile           # Docker 配置
+├── docker-compose.yml
 └── package.json
 ```
 
 ## API 模块
 
-项目覆盖 **9 个核心业务模块**，提供 **50+ RESTful API 端点**：
-
-| 模块 | 端点数 | 描述 |
-|------|--------|------|
-| **Auth** | 5 | 用户认证（登录、注册、刷新 Token、获取当前用户、登出） |
-| **Users** | 7 | 用户管理（CRUD、分页、搜索、状态更新、批量删除） |
-| **Roles** | 5 | 角色管理（CRUD + 权限分配） |
-| **Permissions** | 4 | 权限管理 |
-| **Teams** | 6 | 团队管理（CRUD、成员管理） |
-| **Documents** | 5 | 文档管理（CRUD） |
-| **Notifications** | 5 | 通知管理（列表、未读统计、标记已读） |
-| **Dashboard** | 9 | 仪表盘统计（总览、趋势、图表数据） |
-
 ### 认证相关端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
-| POST | `/api/auth/login` | 用户登录 | Public |
-| POST | `/api/auth/register` | 用户注册 | Public |
-| POST | `/api/auth/refresh` | 刷新令牌 | Public |
-| GET | `/api/auth/me` | 获取当前用户 | JWT Required |
-| POST | `/api/auth/logout` | 用户登出 | JWT Required |
+| POST | `/api/auth/login` | 用户登录 | 公开 |
+| POST | `/api/auth/register` | 用户注册 | 公开 |
+| POST | `/api/auth/refresh` | 刷新令牌 | 公开 |
+| POST | `/api/auth/logout` | 退出登录 | 需认证 |
+| POST | `/api/auth/forgot-password` | 忘记密码 | 公开 |
+| POST | `/api/auth/reset-password` | 重置密码 | 公开 |
 
 ### 用户管理端点
 
 | 方法 | 路径 | 描述 | 权限 |
 |------|------|------|------|
-| GET | `/api/users` | 获取用户列表（分页、搜索、状态筛选） | JWT Required |
-| GET | `/api/users/:id` | 获取用户详情 | JWT Required |
-| POST | `/api/users` | 创建用户 | JWT Required |
-| PATCH | `/api/users/:id` | 更新用户 | JWT Required |
-| PATCH | `/api/users/:id/status` | 更新用户状态 | JWT Required |
-| POST | `/api/users/batch-delete` | 批量删除用户 | JWT Required |
-| DELETE | `/api/users/:id` | 删除用户 | JWT Required |
+| GET | `/api/users` | 获取用户列表 | `users:view` |
+| GET | `/api/users/:id` | 获取用户详情 | `users:view` |
+| POST | `/api/users` | 创建用户 | `users:create` |
+| PUT | `/api/users/:id` | 更新用户 | `users:update` |
+| DELETE | `/api/users/:id` | 删除用户 | `users:delete` |
+| GET | `/api/users/me` | 获取当前用户 | 需认证 |
 
-### 角色管理端点
+### 完整端点清单
 
-| 方法 | 路径 | 描述 | 权限 |
-|------|------|------|------|
-| GET | `/api/roles` | 获取角色列表 | JWT Required |
-| GET | `/api/roles/:id` | 获取角色详情 | JWT Required |
-| POST | `/api/roles` | 创建角色 | JWT Required |
-| PATCH | `/api/roles/:id` | 更新角色 | JWT Required |
-| DELETE | `/api/roles/:id` | 删除角色 | JWT Required |
+#### 文档管理 (Documents) - 5 个端点
 
-### 团队管理端点
+| 方法 | 路径 | 描述 |
+|------|------|------|
+| GET | `/api/documents` | 获取文档列表 |
+| GET | `/api/documents/:id` | 获取文档详情 |
+| POST | `/api/documents` | 创建文档 |
+| PUT | `/api/documents/:id` | 更新文档 |
+| DELETE | `/api/documents/:id` | 删除文档 |
 
-| 方法 | 路径 | 描述 | 权限 |
-|------|------|------|------|
-| GET | `/api/teams` | 获取团队列表 | JWT Required |
-| GET | `/api/teams/:id` | 获取团队详情 | JWT Required |
-| POST | `/api/teams` | 创建团队 | JWT Required |
-| PATCH | `/api/teams/:id` | 更新团队 | JWT Required |
-| DELETE | `/api/teams/:id` | 删除团队 | JWT Required |
-| POST | `/api/teams/:id/members` | 添加团队成员 | JWT Required |
+#### 文件管理 (Files) - 5 个端点
 
-### 仪表盘端点
+| 方法 | 路径 | 描述 |
+|------|------|------|
+| GET | `/api/files` | 获取文件列表 |
+| GET | `/api/files/:id` | 获取文件详情 |
+| POST | `/api/files/upload` | 上传文件 |
+| PUT | `/api/files/:id` | 更新文件信息 |
+| DELETE | `/api/files/:id` | 删除文件 |
 
-| 方法 | 路径 | 描述 | 权限 |
-|------|------|------|------|
-| GET | `/api/dashboard/stats` | 获取统计数据 | JWT Required |
-| GET | `/api/dashboard/visits` | 获取访问趋势 | JWT Required |
-| GET | `/api/dashboard/sales` | 获取销售趋势 | JWT Required |
-| GET | `/api/dashboard/products` | 获取产品统计 | JWT Required |
-| GET | `/api/dashboard/orders` | 获取订单统计 | JWT Required |
-| GET | `/api/dashboard/activities` | 获取活动记录 | JWT Required |
-| GET | `/api/dashboard/system` | 获取系统概览 | JWT Required |
-| GET | `/api/dashboard/pie` | 获取饼图数据 | JWT Required |
-| GET | `/api/dashboard/tasks` | 获取待办任务 | JWT Required |
+#### 消息管理 (Messages) - 5 个端点
 
-## 数据库模型
+| 方法 | 路径 | 描述 |
+|------|------|------|
+| GET | `/api/messages` | 获取消息列表 |
+| GET | `/api/messages/:id` | 获取消息详情 |
+| POST | `/api/messages` | 发送消息 |
+| PUT | `/api/messages/:id/read` | 标记已读 |
+| DELETE | `/api/messages/:id` | 删除消息 |
 
-使用 Drizzle ORM 定义的 17 个核心实体：
+#### 通知管理 (Notifications) - 4 个端点
 
-- **用户认证**：`users`，`refresh_tokens`
-- **RBAC 权限**：`roles`，`permissions`，`role_permissions`，`user_roles`
-- **团队协作**：`teams`，`team_members`
-- **文档管理**：`documents`，`document_shares`，`document_tags`，`tags`
-- **文件系统**：`files`，`folders`
-- **日历功能**：`calendar_events`，`event_attendees`，`event_reminders`
-- **消息系统**：`conversations`，`conversation_participants`，`messages`
-- **通知系统**：`notifications`
-- **审计日志**：`activity_logs`
+| 方法 | 路径 | 描述 |
+|------|------|------|
+| GET | `/api/notifications` | 获取通知列表 |
+| PUT | `/api/notifications/:id/read` | 标记已读 |
+| PUT | `/api/notifications/read-all` | 全部已读 |
+| DELETE | `/api/notifications/:id` | 删除通知 |
+
+#### 日历管理 (Calendar) - 5 个端点
+
+| 方法 | 路径 | 描述 |
+|------|------|------|
+| GET | `/api/calendar/events` | 获取日程列表 |
+| GET | `/api/calendar/events/:id` | 获取日程详情 |
+| POST | `/api/calendar/events` | 创建日程 |
+| PUT | `/api/calendar/events/:id` | 更新日程 |
+| DELETE | `/api/calendar/events/:id` | 删除日程 |
+
+#### 仪表盘 (Dashboard) - 6 个端点
+
+| 方法 | 路径 | 描述 |
+|------|------|------|
+| GET | `/api/dashboard/stats` | 统计数据 |
+| GET | `/api/dashboard/visits` | 访问趋势 |
+| GET | `/api/dashboard/sales` | 销售数据 |
+| GET | `/api/dashboard/pie` | 饼图数据 |
+| GET | `/api/dashboard/tasks` | 待办任务 |
+| GET | `/api/dashboard/calendar` | 今日日程 |
 
 ## 认证机制
 
-### JWT 双令牌策略
+### JWT 双令牌
 
 ```
-┌─────────────┐     Login      ┌─────────────┐
-│   Client    │ ─────────────> │   Server    │
-└─────────────┘                └─────────────┘
-      │                              │
-      │  <── AccessToken (15m) ───   │
-      │  <── RefreshToken (7d) ───   │
-      │                              │
-      │  ─── API Request ──────────> │
-      │  ─── Authorization: Bearer   │
-      │                              │
+Access Token:  15 分钟有效期，用于 API 请求
+Refresh Token: 7 天有效期，用于刷新 Access Token
 ```
 
-- **AccessToken**：短期令牌 (15分钟)，用于 API 请求认证
-- **RefreshToken**：长期令牌 (7天)，用于刷新 AccessToken，支持 Token Rotation
+### 请求头
 
-### 响应格式
-
-成功响应：
-```json
-{
-  "success": true,
-  "data": {
-    "user": {
-      "id": "xxx",
-      "email": "admin@example.com",
-      "name": "系统管理员",
-      "status": "ACTIVE",
-      "roles": ["admin"],
-      "permissions": ["*:*"]
-    },
-    "accessToken": "eyJ...",
-    "refreshToken": "eyJ..."
-  }
-}
+```http
+Authorization: Bearer <access_token>
 ```
 
-错误响应：
+### 刷新流程
+
+```typescript
+// 刷新令牌示例
+const response = await fetch('/api/auth/refresh', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    refreshToken: 'your_refresh_token'
+  })
+});
+
+const { accessToken, refreshToken } = await response.json();
+```
+
+## 权限系统
+
+### 角色定义
+
+| 角色 | 说明 | 权限 |
+|------|------|------|
+| `super_admin` | 超级管理员 | `*` (所有权限) |
+| `admin` | 管理员 | `users:*`, `documents:*`, ... |
+| `user` | 普通用户 | `documents:view`, `files:view`, ... |
+| `guest` | 访客 | `dashboard:view` |
+
+### 权限格式
+
+```
+{resource}:{action}
+
+示例：
+- users:view      # 查看用户
+- users:create    # 创建用户
+- users:*         # 用户所有操作
+- *               # 所有权限
+```
+
+## 错误处理
+
+### 错误响应格式
+
 ```json
 {
   "success": false,
   "error": {
-    "code": "UNAUTHORIZED",
-    "message": "Invalid credentials"
+    "code": "VALIDATION_ERROR",
+    "message": "请求参数验证失败",
+    "details": [
+      { "field": "email", "message": "邮箱格式不正确" }
+    ]
   }
 }
 ```
+
+### 错误码
+
+| 状态码 | 错误码 | 说明 |
+|--------|--------|------|
+| 400 | `VALIDATION_ERROR` | 参数验证失败 |
+| 401 | `UNAUTHORIZED` | 未授权 |
+| 403 | `FORBIDDEN` | 无权限 |
+| 404 | `NOT_FOUND` | 资源不存在 |
+| 409 | `CONFLICT` | 资源冲突 |
+| 500 | `INTERNAL_ERROR` | 服务器错误 |
 
 ## 常用命令
 
 ```bash
 # 开发
-bun run dev                 # 启动开发服务器（热重载）
+bun run dev                 # 启动开发服务器
 bun run build               # 生产构建
-bun run start               # 运行生产构建
+bun run start               # 运行生产版本
+
+# 构建
+bun run build               # 构建生产版本
+
+# 测试
+bun test                    # 运行单元测试
+bun test --coverage         # 生成覆盖率报告
+
+# 数据库
+bun run db:push             # 推送 Schema 到数据库
+bun run db:generate         # 生成迁移文件
+bun run db:migrate          # 运行数据库迁移
+bun run db:seed             # 填充测试数据
+bun run db:studio           # 打开 Drizzle Studio
 
 # 代码质量
 bun run lint                # ESLint 检查
 bun run lint:fix            # ESLint 自动修复
 bun run type-check          # TypeScript 类型检查
-bun run format              # Prettier 格式化
-
-# 测试
-bun test                    # 运行单元测试
-bun test --watch            # 监视模式
-bun test --coverage         # 生成覆盖率报告
-
-# 数据库
-bun run db:generate         # 生成 Drizzle 迁移文件
-bun run db:migrate          # 运行数据库迁移
-bun run db:push             # 推送 Schema 到数据库
-bun run db:studio           # 打开 Drizzle Studio
-bun run db:seed             # 填充测试数据
 ```
 
-## Bun 特性使用
+## 部署
 
-利用 Bun 内置 API 提升性能：
+### Docker
 
-```typescript
-// 密码哈希（比 bcrypt 包更快）
-const hash = await Bun.password.hash(password, { algorithm: 'bcrypt', cost: 10 });
-const isValid = await Bun.password.verify(password, hash, 'bcrypt');
-
-// 文件操作
-const file = Bun.file('./path/to/file');
-const content = await file.text();
-
-// 快速哈希
-const hash = Bun.hash(data);
+```bash
+docker build -t halolight-api-bun .
+docker run -p 3002:3002 halolight-api-bun
 ```
 
-## 与前端集成
+### Docker Compose
 
-配置前端 API 地址：
+```bash
+docker-compose up -d
+```
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: halolight
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```
+
+### 生产环境配置
 
 ```env
-# Next.js
-NEXT_PUBLIC_API_URL=http://localhost:3002/api
-
-# Vue/Vite
-VITE_API_URL=http://localhost:3002/api
-
-# Angular
-API_URL=http://localhost:3002/api
+NODE_ENV=production
+DATABASE_URL=postgresql://user:pass@host:5432/db
+JWT_SECRET=your-production-secret
 ```
 
-## 访问地址
+## 测试
 
-- **API**: http://localhost:3002/api
-- **Swagger UI**: http://localhost:3002/swagger
-- **首页**：http://localhost:3002
-- **API 信息**：http://localhost:3002/info
+### 运行测试
+
+```bash
+bun test                    # 运行所有测试
+bun test --coverage         # 生成覆盖率报告
+```
+
+### 测试示例
+
+```typescript
+// 认证测试示例
+import { describe, test, expect } from 'bun:test';
+
+describe('Auth API', () => {
+  test('should login successfully', async () => {
+    const response = await fetch('http://localhost:3002/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'admin@example.com',
+        password: 'admin123'
+      })
+    });
+
+    const data = await response.json();
+    expect(data.success).toBe(true);
+    expect(data.data.accessToken).toBeDefined();
+  });
+});
+```
+
+## 性能指标
+
+### 基准测试
+
+| 指标 | 数值 | 说明 |
+|------|------|------|
+| 请求吞吐量 | ~50,000 req/s | 单核，简单路由 |
+| 平均响应时间 | <5ms | 本地数据库 |
+| 内存占用 | ~30MB | 冷启动 |
+| CPU 使用率 | <10% | 空闲状态 |
+
+## 可观测性
+
+### 日志系统
+
+```typescript
+// 日志配置示例
+import { logger } from './utils/logger';
+
+logger.info('User logged in', { userId: user.id });
+logger.error('Database error', { error: err.message });
+```
+
+### 健康检查
+
+```typescript
+// GET /health
+app.get('/health', (c) => {
+  return c.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+```
+
+### 监控指标
+
+```typescript
+// Prometheus metrics 端点
+app.get('/metrics', async (c) => {
+  return c.text(await register.metrics());
+});
+```
+
+## 常见问题
+
+### Q：如何配置数据库连接？
+
+A：在 `.env` 文件中设置 `DATABASE_URL`：
+
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/halolight
+```
+
+### Q：如何使用 Bun 内置密码哈希？
+
+A：使用 `Bun.password` API：
+
+```typescript
+// 哈希密码
+const hash = await Bun.password.hash(password, {
+  algorithm: 'bcrypt',
+  cost: 10
+});
+
+// 验证密码
+const isValid = await Bun.password.verify(password, hash, 'bcrypt');
+```
+
+## 开发工具
+
+### 推荐插件/工具
+
+- **Drizzle Studio** - 可视化数据库管理工具
+- **Hoppscotch/Postman** - API 测试工具
+- **ESLint + Prettier** - 代码格式化
+- **Bun VSCode Extension** - Bun 语法支持
+
+## 与其他后端对比
+
+| 特性 | Bun + Hono | NestJS | FastAPI | Spring Boot |
+|------|-----------|--------|---------|-------------|
+| 语言 | TypeScript | TypeScript | Python | Java |
+| ORM | Drizzle | Prisma | SQLAlchemy | JPA |
+| 性能 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| 学习曲线 | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
 
 ## 相关链接
 
+- [API 文档](https://halolight-api-bun.h7ml.cn/docs)
 - [GitHub 仓库](https://github.com/halolight/halolight-api-bun)
 - [Bun 官方文档](https://bun.sh/docs)
 - [Hono 官方文档](https://hono.dev/docs)
 - [Drizzle ORM 文档](https://orm.drizzle.team/docs/overview)
+- [HaloLight 文档](https://docs.halolight.h7ml.cn)

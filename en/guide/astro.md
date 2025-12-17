@@ -1,10 +1,23 @@
 # Astro Version
 
-HaloLight Astro version is built on Astro 5, featuring Islands architecture with zero JS initial load and ultimate performance.
+HaloLight Astro version is built on Astro 5, featuring Islands architecture with zero JS initial load and ultimate performance, supporting multi-framework component integration.
 
 **Live Preview**: [https://halolight-astro.h7ml.cn/](https://halolight-astro.h7ml.cn/)
 
 **GitHub**: [https://github.com/halolight/halolight-astro](https://github.com/halolight/halolight-astro)
+
+## Features
+
+- 🏝️ **Islands Architecture** - Zero JS by default, hydrate interactive components on demand
+- ⚡ **Ultimate Performance** - Zero JavaScript on initial load, Lighthouse 100 score
+- 🔀 **Multi-framework Integration** - Support React, Vue, Svelte, Solid components in one project
+- 📄 **Content-first** - Native Markdown/MDX support, content collections
+- 🔄 **View Transitions** - Native View Transitions API support
+- 🚀 **SSR/SSG/Hybrid** - Flexible rendering modes
+- 📦 **API Endpoints** - Native REST API endpoint support
+- 🎨 **Theme System** - Light/dark theme switching
+- 🔐 **Authentication** - Complete login/register/forgot password flow
+- 📊 **Dashboard** - Data visualization and business management
 
 ## Tech Stack
 
@@ -19,12 +32,12 @@ HaloLight Astro version is built on Astro 5, featuring Islands architecture with
 
 ## Core Features
 
-- **Islands Architecture**: Zero JS by default, hydrate interactive components on demand
-- **Multi-framework Support**: Use React, Vue, Svelte components in the same project
-- **Content-first**: Static-first, ultimate initial load performance
-- **SSR Support**: Server-side rendering via @astrojs/node adapter
-- **File-based Routing**: Automatic routing based on file system
-- **API Endpoints**: Native support for REST API endpoints
+- **Islands Architecture** - Zero JS by default, hydrate interactive components on demand
+- **Multi-framework Support** - Use React, Vue, Svelte components in the same project
+- **Content-first** - Static-first, ultimate initial load performance
+- **SSR Support** - Server-side rendering via @astrojs/node adapter
+- **File-based Routing** - Automatic routing based on file system
+- **API Endpoints** - Native support for REST API endpoints
 
 ## Directory Structure
 
@@ -80,6 +93,11 @@ halolight-astro/
 
 ## Quick Start
 
+### Environment Requirements
+
+- Node.js >= 18.0.0
+- pnpm >= 9.x
+
 ### Installation
 
 ```bash
@@ -120,7 +138,14 @@ pnpm build
 pnpm preview
 ```
 
-## Core Features
+## Demo Account
+
+| Role | Email | Password |
+|------|------|------|
+| Admin | admin@halolight.h7ml.cn | 123456 |
+| User | user@halolight.h7ml.cn | 123456 |
+
+## Core Functionality
 
 ### Islands Architecture
 
@@ -147,7 +172,7 @@ import Counter from '../components/Counter.tsx';
 <Counter client:idle />
 ```
 
-### Client Directives
+**Client Directives**:
 
 | Directive | Behavior | Use Case |
 |------|------|----------|
@@ -234,26 +259,129 @@ export const POST: APIRoute = async ({ request }) => {
 
 ## Page Routes
 
-| Path | Page | Description |
+| Path | Page | Permission |
 |------|------|------|
-| `/` | Home | Landing page |
-| `/auth/login` | Login | User login |
-| `/auth/register` | Register | User registration |
-| `/auth/forgot-password` | Forgot Password | Password recovery |
-| `/auth/reset-password` | Reset Password | Set new password |
-| `/dashboard` | Dashboard | Data overview |
-| `/dashboard/analytics` | Analytics | Chart statistics |
-| `/dashboard/users` | User Management | User list |
-| `/dashboard/accounts` | Account Management | Account list |
-| `/dashboard/documents` | Document Management | Document list |
-| `/dashboard/files` | File Management | File list |
-| `/dashboard/messages` | Message Center | Message list |
-| `/dashboard/notifications` | Notifications | Notification list |
-| `/dashboard/calendar` | Calendar | Schedule management |
-| `/dashboard/profile` | Profile | Personal information |
-| `/dashboard/settings` | Settings | System settings |
-| `/privacy` | Privacy Policy | Legal page |
-| `/terms` | Terms of Service | Legal page |
+| `/` | Home | Public |
+| `/auth/login` | Login | Public |
+| `/auth/register` | Register | Public |
+| `/auth/forgot-password` | Forgot Password | Public |
+| `/auth/reset-password` | Reset Password | Public |
+| `/dashboard` | Dashboard | `dashboard:view` |
+| `/dashboard/analytics` | Analytics | `analytics:view` |
+| `/dashboard/users` | User Management | `users:view` |
+| `/dashboard/accounts` | Account Management | `accounts:view` |
+| `/dashboard/documents` | Document Management | `documents:view` |
+| `/dashboard/files` | File Management | `files:view` |
+| `/dashboard/messages` | Message Center | `messages:view` |
+| `/dashboard/notifications` | Notification Center | `notifications:view` |
+| `/dashboard/calendar` | Calendar | `calendar:view` |
+| `/dashboard/profile` | Profile | `settings:view` |
+| `/dashboard/settings` | Settings | `settings:view` |
+| `/privacy` | Privacy Policy | Public |
+| `/terms` | Terms of Service | Public |
+
+## Environment Variables
+
+### Configuration
+
+```bash
+# .env
+PUBLIC_API_URL=/api
+PUBLIC_MOCK=true
+PUBLIC_DEMO_EMAIL=admin@halolight.h7ml.cn
+PUBLIC_DEMO_PASSWORD=123456
+PUBLIC_SHOW_DEMO_HINT=true
+PUBLIC_APP_TITLE=Admin Pro
+PUBLIC_BRAND_NAME=Halolight
+```
+
+### Variable Reference
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PUBLIC_API_URL` | API base URL | `/api` |
+| `PUBLIC_MOCK` | Enable mock data | `true` |
+| `PUBLIC_APP_TITLE` | App title | `Admin Pro` |
+| `PUBLIC_BRAND_NAME` | Brand name | `Halolight` |
+| `PUBLIC_DEMO_EMAIL` | Demo account email | - |
+| `PUBLIC_DEMO_PASSWORD` | Demo account password | - |
+| `PUBLIC_SHOW_DEMO_HINT` | Show demo hint | `false` |
+
+### Usage
+
+```astro
+---
+// In .astro files
+const apiUrl = import.meta.env.PUBLIC_API_URL;
+const isMock = import.meta.env.PUBLIC_MOCK === 'true';
+---
+```
+
+```typescript
+// In .ts files
+const apiUrl = import.meta.env.PUBLIC_API_URL;
+```
+
+## Common Commands
+
+```bash
+# Development
+pnpm dev              # Start dev server (default port 4321)
+pnpm dev --port 3000  # Specify port
+
+# Build
+pnpm build            # Production build
+pnpm preview          # Preview production build
+
+# Checks
+pnpm astro check      # Type check
+pnpm lint             # ESLint check
+pnpm lint:fix         # ESLint autofix
+
+# Tests
+pnpm test             # Run tests
+pnpm test:run         # Single run
+pnpm test:coverage    # Coverage report
+
+# Astro CLI
+pnpm astro add react     # Add React integration
+pnpm astro add vue       # Add Vue integration
+pnpm astro add tailwind  # Add Tailwind
+pnpm astro add mdx       # Add MDX support
+```
+
+## Testing
+
+```bash
+# Run tests
+pnpm test
+
+# Generate coverage report
+pnpm test --coverage
+```
+
+### Testing Examples
+
+```typescript
+// tests/components/Counter.test.tsx
+import { describe, it, expect } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import Counter from '../../src/components/Counter';
+
+describe('Counter', () => {
+  it('renders with initial count', () => {
+    render(<Counter />);
+    expect(screen.getByText('0')).toBeInTheDocument();
+  });
+
+  it('increments count on button click', () => {
+    render(<Counter />);
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
+    expect(screen.getByText('1')).toBeInTheDocument();
+  });
+});
+```
 
 ## Configuration
 
@@ -288,70 +416,459 @@ export default defineConfig({
 
 ## Deployment
 
-### Node.js Server
+### Vercel (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/halolight/halolight-astro)
 
 ```bash
-pnpm build
-node ./dist/server/entry.mjs
-```
-
-### Docker
-
-```dockerfile
-FROM node:20-alpine
-WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
-COPY . .
-RUN pnpm build
-EXPOSE 4321
-CMD ["node", "./dist/server/entry.mjs"]
-```
-
-### Vercel
-
-```bash
-# Install Vercel adapter
+# Install adapter
 pnpm add @astrojs/vercel
 
 # astro.config.mjs
 import vercel from '@astrojs/vercel/serverless';
 
 export default defineConfig({
+  output: 'server',
   adapter: vercel(),
 });
 ```
 
-### Cloudflare Pages
+### Docker
+
+```dockerfile
+FROM node:20-alpine AS builder
+
+RUN npm install -g pnpm
+
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+COPY . .
+RUN pnpm build
+
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
+
+ENV HOST=0.0.0.0
+ENV PORT=4321
+
+EXPOSE 4321
+
+CMD ["node", "./dist/server/entry.mjs"]
+```
+
+### Other Platforms
+
+- [Cloudflare Pages](/guide/cloudflare)
+- [Netlify](/guide/netlify)
+- [AWS Amplify](/guide/aws)
+- [Azure Static Web Apps](/guide/azure)
+
+## CI/CD
+
+Complete GitHub Actions CI workflow configuration:
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm astro check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:coverage
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm audit --audit-level=high
+```
+
+## Advanced Features
+
+### Content Collections
+
+Astro's built-in content management system with type-safe Markdown/MDX content.
+
+```typescript
+// src/content/config.ts
+import { defineCollection, z } from 'astro:content';
+
+const blogCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.date(),
+    author: z.string(),
+    tags: z.array(z.string()).optional(),
+    image: z.string().optional(),
+  }),
+});
+
+export const collections = {
+  blog: blogCollection,
+};
+```
+
+```astro
+---
+// src/pages/blog/[...slug].astro
+import { getCollection } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BlogLayout title={post.data.title}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <time>{post.data.pubDate.toLocaleDateString()}</time>
+    <Content />
+  </article>
+</BlogLayout>
+```
+
+### View Transitions
+
+Native View Transitions API support for smooth page animations.
+
+```astro
+---
+// src/layouts/Layout.astro
+import { ViewTransitions } from 'astro:transitions';
+---
+
+<html>
+  <head>
+    <ViewTransitions />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+```
+
+```astro
+---
+// Custom transition animations
+---
+<div transition:name="hero">
+  <h1 transition:animate="slide">Welcome</h1>
+</div>
+
+<style>
+  /* Custom animations */
+  @keyframes slide-in {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  ::view-transition-old(hero) {
+    animation: slide-out 0.3s ease-out;
+  }
+
+  ::view-transition-new(hero) {
+    animation: slide-in 0.3s ease-out;
+  }
+</style>
+```
+
+### Middleware
+
+Request interception and processing.
+
+```typescript
+// src/middleware.ts
+import { defineMiddleware, sequence } from 'astro:middleware';
+
+// Authentication middleware
+const auth = defineMiddleware(async (context, next) => {
+  const token = context.cookies.get('token')?.value;
+
+  // Protected routes
+  const protectedPaths = ['/dashboard', '/profile', '/settings'];
+  const isProtected = protectedPaths.some(path =>
+    context.url.pathname.startsWith(path)
+  );
+
+  if (isProtected && !token) {
+    return context.redirect('/auth/login');
+  }
+
+  // Pass user info to pages
+  if (token) {
+    context.locals.user = await verifyToken(token);
+  }
+
+  return next();
+});
+
+// Logger middleware
+const logger = defineMiddleware(async (context, next) => {
+  const start = Date.now();
+  const response = await next();
+  const duration = Date.now() - start;
+
+  console.log(`${context.request.method} ${context.url.pathname} - ${duration}ms`);
+
+  return response;
+});
+
+// Compose middleware
+export const onRequest = sequence(logger, auth);
+```
+
+## Performance Optimization
+
+### Image Optimization
+
+```astro
+---
+import { Image } from 'astro:assets';
+import myImage from '../assets/hero.png';
+---
+
+<!-- Auto-optimized images -->
+<Image src={myImage} alt="Hero" width={800} height={600} />
+
+<!-- Remote images -->
+<Image
+  src="https://example.com/image.jpg"
+  alt="Remote"
+  width={400}
+  height={300}
+  inferSize
+/>
+```
+
+### Lazy Loading Components
+
+```astro
+---
+// Use client:visible for lazy loading
+import HeavyComponent from '../components/HeavyComponent';
+---
+
+<!-- Load only when element is visible -->
+<HeavyComponent client:visible />
+```
+
+### Preload
+
+```astro
+---
+// Preload critical resources
+---
+<head>
+  <link rel="preload" href="/fonts/inter.woff2" as="font" crossorigin />
+  <link rel="preconnect" href="https://api.example.com" />
+  <link rel="dns-prefetch" href="https://cdn.example.com" />
+</head>
+```
+
+### Code Splitting
+
+```astro
+---
+// Dynamically import heavy components
+const Chart = await import('../components/Chart.tsx');
+---
+
+<Chart.default client:visible data={data} />
+```
+
+## FAQ
+
+### Q: How do I share state between Islands?
+
+A: Use nanostores or Zustand:
 
 ```bash
-# Install Cloudflare adapter
-pnpm add @astrojs/cloudflare
+pnpm add nanostores @nanostores/react
+```
 
-# astro.config.mjs
-import cloudflare from '@astrojs/cloudflare';
+```typescript
+// src/stores/counter.ts
+import { atom } from 'nanostores';
 
-export default defineConfig({
-  adapter: cloudflare(),
+export const $counter = atom(0);
+
+export function increment() {
+  $counter.set($counter.get() + 1);
+}
+```
+
+```tsx
+// React component
+import { useStore } from '@nanostores/react';
+import { $counter, increment } from '../stores/counter';
+
+export function Counter() {
+  const count = useStore($counter);
+  return <button onClick={increment}>{count}</button>;
+}
+```
+
+### Q: How do I handle form submissions?
+
+A: Use API endpoints:
+
+```astro
+---
+// src/pages/contact.astro
+---
+<form method="POST" action="/api/contact">
+  <input name="email" type="email" required />
+  <textarea name="message" required></textarea>
+  <button type="submit">Submit</button>
+</form>
+```
+
+```typescript
+// src/pages/api/contact.ts
+import type { APIRoute } from 'astro';
+
+export const POST: APIRoute = async ({ request }) => {
+  const data = await request.formData();
+  const email = data.get('email');
+  const message = data.get('message');
+
+  // Handle form data
+  await sendEmail({ email, message });
+
+  return new Response(JSON.stringify({ success: true }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+};
+```
+
+### Q: How do I implement authentication?
+
+A: Use middleware + Cookies:
+
+```typescript
+// src/middleware.ts
+export const onRequest = defineMiddleware(async (context, next) => {
+  const token = context.cookies.get('auth-token')?.value;
+
+  if (context.url.pathname.startsWith('/dashboard') && !token) {
+    return context.redirect('/auth/login');
+  }
+
+  if (token) {
+    try {
+      const user = await verifyToken(token);
+      context.locals.user = user;
+    } catch {
+      context.cookies.delete('auth-token');
+      return context.redirect('/auth/login');
+    }
+  }
+
+  return next();
 });
 ```
 
-## Testing
+### Q: What if the bundle size is too large?
+
+A: Optimization suggestions:
+1. Check `client:` directive usage, prefer `client:visible` or `client:idle`
+2. Use dynamic imports
+3. Remove unused integrations
+4. Use `@playform/compress` to compress output
 
 ```bash
-# Run tests
-pnpm test
-
-# Generate coverage report
-pnpm test --coverage
+pnpm add @playform/compress
 ```
 
-## Comparison with Other Frameworks
+```javascript
+// astro.config.mjs
+import compress from '@playform/compress';
 
-| Feature | Astro | Next.js | Nuxt |
-|------|-------|---------|------|
+export default defineConfig({
+  integrations: [compress()],
+});
+```
+
+## Comparison with Other Versions
+
+| Feature | Astro | Next.js | Vue |
+|------|-------|---------|-----|
 | Default JS Size | 0 KB | ~80 KB | ~70 KB |
-| Islands Architecture | Native support | Not supported | Not supported |
+| Islands Architecture | Native support | Not supported | Not supported (Nuxt) |
 | Multi-framework Components | Supported | Not supported | Not supported |
-| SSG/SSR | Supported | Supported | Supported |
+| SSG/SSR | Supported | Supported | Supported (Nuxt) |
 | Learning Curve | Low | Medium | Medium |
+
+## Related Links
+
+- [Live Preview](https://halolight-astro.h7ml.cn)
+- [GitHub Repository](https://github.com/halolight/halolight-astro)
+- [Astro Docs](https://docs.astro.build)
+- [Astro Integrations](https://astro.build/integrations)
+- [Astro Themes](https://astro.build/themes)
+- [HaloLight Docs](https://docs.halolight.h7ml.cn)

@@ -1,10 +1,21 @@
 # Lit Version
 
-HaloLight Lit version is built on Lit 3, using Web Components standards + TypeScript to deliver a cross-framework reusable admin dashboard.
+HaloLight Lit version is built on Lit 3 with Web Components standards + TypeScript, providing cross-framework reusable Web Components library.
 
-**Live Preview**: [https://halolight-lit.h7ml.cn/](https://halolight-lit.h7ml.cn/)
+**Live Preview**: [https://halolight-lit.h7ml.cn](https://halolight-lit.h7ml.cn)
 
 **GitHub**: [https://github.com/halolight/halolight-lit](https://github.com/halolight/halolight-lit)
+
+## Features
+
+- 🎯 **Web Components Standard** - Native browser support, no framework lock-in
+- ⚡ **Cross-framework Reusable** - Components work in React/Vue/Angular
+- 🎨 **Theme System** - 11 skins, light/dark mode, View Transitions
+- 🔐 **Authentication** - Complete login/register/password recovery flow
+- 📊 **Dashboard** - Data visualization and business management
+- 🛡️ **Permission Control** - RBAC fine-grained permission management
+- 🪶 **Lightweight** - Core library ~5KB gzip
+- 🌓 **Shadow DOM** - Style isolation, avoid conflicts
 
 ## Tech Stack
 
@@ -13,22 +24,22 @@ HaloLight Lit version is built on Lit 3, using Web Components standards + TypeSc
 | Lit | 3.x | Web Components framework |
 | TypeScript | 5.x | Type safety |
 | Tailwind CSS | 4.x | Atomic CSS |
-| Vite | 6.x | Build tool |
 | @lit-labs/router | 0.1.x | Client-side routing |
 | @lit-labs/context | 1.x | Context state |
 | Shoelace | 2.x | Web Components UI library |
 | Zod | 3.x | Data validation |
 | ECharts | 5.x | Chart visualization |
+| Vite | 6.x | Build tool |
 | Mock.js | 1.x | Data mocking |
 
 ## Core Features
 
-- **Web Components Standard**: Native browser support, no framework lock-in
-- **Cross-framework Reusable**: Components can be used in React/Vue/Angular
-- **Shadow DOM**: Style isolation, avoid conflicts
-- **Reactive Properties**: @property decorator for reactivity
-- **Lightweight & Efficient**: Core library ~5KB gzip
-- **SSR Support**: Server-side rendering support
+- **Configurable Dashboard** - 9 widgets, drag & drop layout, responsive design
+- **Permission System** - RBAC permission control, route guards, permission components
+- **Theme System** - 11 skins, light/dark mode, View Transitions
+- **Reactive Properties** - @property decorator for reactivity
+- **Shadow DOM Isolation** - Style encapsulation, avoid global conflicts
+- **Native Support** - Based on Web standards, compatible with all modern browsers
 
 ## Directory Structure
 
@@ -56,8 +67,7 @@ halolight-lit/
 │   │   │   ├── hl-button.ts
 │   │   │   ├── hl-input.ts
 │   │   │   ├── hl-card.ts
-│   │   │   ├── hl-dialog.ts
-│   │   │   └── ...
+│   │   │   └── hl-dialog.ts
 │   │   ├── layout/               # Layout components
 │   │   │   ├── hl-admin-layout.ts
 │   │   │   ├── hl-auth-layout.ts
@@ -77,6 +87,7 @@ halolight-lit/
 │   │   ├── api.ts
 │   │   ├── permission.ts
 │   │   └── styles.ts
+│   ├── mock/                     # Mock data
 │   ├── types/                    # Type definitions
 │   ├── hl-app.ts                 # Root component
 │   ├── router.ts                 # Route config
@@ -88,6 +99,11 @@ halolight-lit/
 ```
 
 ## Quick Start
+
+### Requirements
+
+- Node.js >= 18.0.0
+- pnpm >= 9.x
 
 ### Installation
 
@@ -104,12 +120,12 @@ cp .env.example .env
 ```
 
 ```env
-# .env example
+# .env
 VITE_API_URL=/api
 VITE_USE_MOCK=true
 VITE_DEMO_EMAIL=admin@halolight.h7ml.cn
 VITE_DEMO_PASSWORD=123456
-VITE_SHOW_DEMO_HINT=true
+VITE_SHOW_DEMO_HINT=false
 VITE_APP_TITLE=Admin Pro
 VITE_BRAND_NAME=Halolight
 ```
@@ -376,7 +392,7 @@ export function createRouter(host: HTMLElement) {
 }
 ```
 
-### Permission Component
+### Permission Control
 
 ```ts
 // components/shared/hl-permission-guard.ts
@@ -404,128 +420,114 @@ export class HlPermissionGuard extends LitElement {
 }
 ```
 
+**Usage Example:**
+
 ```html
-<!-- Usage -->
 <hl-permission-guard permission="users:delete">
   <hl-button variant="destructive">Delete</hl-button>
   <span slot="fallback" class="text-muted-foreground">No permission</span>
 </hl-permission-guard>
 ```
 
-### Page Component
+### Draggable Dashboard
 
 ```ts
-// pages/auth/hl-login.ts
+// components/dashboard/hl-dashboard-grid.ts
 import { LitElement, html, css } from 'lit'
 import { customElement, state } from 'lit/decorators.js'
-import { consume } from '@lit-labs/context'
-import { authContext, type AuthState } from '../../stores/auth-context'
+import Sortable from 'sortablejs'
 
-@customElement('hl-login')
-export class HlLogin extends LitElement {
+@customElement('hl-dashboard-grid')
+export class HlDashboardGrid extends LitElement {
   static styles = css`
-    :host {
-      display: block;
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1rem;
     }
 
-    .error {
-      color: var(--destructive);
+    .widget {
+      background: var(--card);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      cursor: move;
     }
   `
 
-  @consume({ context: authContext, subscribe: true })
-  authState!: AuthState
+  @state() private widgets = [
+    { id: 'stats', type: 'stats' },
+    { id: 'chart', type: 'chart' },
+    { id: 'table', type: 'table' },
+  ]
 
-  @state() private email = ''
-  @state() private password = ''
-  @state() private error = ''
-
-  private async handleSubmit(e: Event) {
-    e.preventDefault()
-    this.error = ''
-
-    try {
-      await this.authState.login({
-        email: this.email,
-        password: this.password,
+  firstUpdated() {
+    const grid = this.shadowRoot?.querySelector('.grid')
+    if (grid) {
+      new Sortable(grid as HTMLElement, {
+        animation: 150,
+        onEnd: (evt) => {
+          const { oldIndex, newIndex } = evt
+          if (oldIndex !== undefined && newIndex !== undefined) {
+            const item = this.widgets.splice(oldIndex, 1)[0]
+            this.widgets.splice(newIndex, 0, item)
+            this.requestUpdate()
+          }
+        },
       })
-
-      const params = new URLSearchParams(location.search)
-      const redirect = params.get('redirect') || '/dashboard'
-      window.location.href = redirect
-    } catch (e) {
-      this.error = 'Invalid email or password'
     }
   }
 
   render() {
     return html`
-      <form @submit=${this.handleSubmit}>
-        <h1>Login</h1>
-
-        ${this.error ? html`<div class="error">${this.error}</div>` : ''}
-
-        <hl-input
-          type="email"
-          label="Email"
-          .value=${this.email}
-          @input=${(e: Event) => this.email = (e.target as HTMLInputElement).value}
-        ></hl-input>
-
-        <hl-input
-          type="password"
-          label="Password"
-          .value=${this.password}
-          @input=${(e: Event) => this.password = (e.target as HTMLInputElement).value}
-        ></hl-input>
-
-        <hl-button type="submit" ?disabled=${this.authState?.loading}>
-          ${this.authState?.loading ? 'Logging in...' : 'Login'}
-        </hl-button>
-      </form>
+      <div class="grid">
+        ${this.widgets.map(widget => html`
+          <div class="widget" data-id=${widget.id}>
+            <hl-widget-wrapper type=${widget.type}></hl-widget-wrapper>
+          </div>
+        `)}
+      </div>
     `
   }
 }
 ```
 
-### Root App Component
+## Theme System
 
-```ts
-// hl-app.ts
-import { LitElement, html, css } from 'lit'
-import { customElement } from 'lit/decorators.js'
-import { createRouter } from './router'
+### Skin Presets
 
-import './stores/auth-context'
-import './components/layout/hl-admin-layout'
+Supports 11 preset skins, switch via quick settings panel:
 
-@customElement('hl-app')
-export class HlApp extends LitElement {
-  static styles = css`
-    :host {
-      display: block;
-      min-height: 100vh;
-    }
-  `
+| Skin | Primary Color | CSS Variable |
+|------|--------|----------|
+| Default | Purple | `--primary: 51.1% 0.262 276.97` |
+| Blue | Blue | `--primary: 54.8% 0.243 264.05` |
+| Emerald | Emerald | `--primary: 64.6% 0.178 142.49` |
+| Rose | Rose | `--primary: 58.5% 0.217 12.53` |
+| Orange | Orange | `--primary: 68.4% 0.197 41.73` |
 
-  private router = createRouter(this)
+### CSS Variables (OKLch)
 
-  render() {
-    return html`
-      <hl-auth-provider>
-        ${this.router.outlet()}
-      </hl-auth-provider>
-    `
-  }
+```css
+/* Theme variable definition */
+:root {
+  --background: 100% 0 0;
+  --foreground: 14.9% 0.017 285.75;
+  --primary: 51.1% 0.262 276.97;
+  --primary-foreground: 98% 0 0;
+  --card: 100% 0 0;
+  --card-foreground: 14.9% 0.017 285.75;
+  --border: 93.3% 0.011 285.88;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 14.9% 0.017 285.75;
+  --foreground: 98% 0 0;
+  --primary: 51.1% 0.262 276.97;
+  --primary-foreground: 98% 0 0;
+  --card: 14.9% 0.017 285.75;
+  --card-foreground: 98% 0 0;
+  --border: 25.1% 0.025 285.82;
 }
 ```
 
@@ -539,13 +541,13 @@ export class HlApp extends LitElement {
 | `/forgot-password` | Forgot Password | Public |
 | `/reset-password` | Reset Password | Public |
 | `/dashboard` | Dashboard | `dashboard:view` |
-| `/users` | User List | `users:list` |
+| `/users` | User Management | `users:view` |
 | `/users/create` | Create User | `users:create` |
 | `/users/:id` | User Detail | `users:view` |
-| `/roles` | Role Management | `roles:list` |
-| `/permissions` | Permission Management | `permissions:list` |
+| `/roles` | Role Management | `roles:view` |
+| `/permissions` | Permission Management | `permissions:view` |
 | `/settings` | System Settings | `settings:view` |
-| `/profile` | Profile | Logged in |
+| `/profile` | Profile | `settings:view` |
 
 ## Using in Other Frameworks
 
@@ -600,35 +602,24 @@ export class AppModule {}
 </hl-button>
 ```
 
-## Configuration
+## Common Commands
 
-### Vite Configuration
-
-```ts
-// vite.config.ts
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  build: {
-    lib: {
-      entry: 'src/main.ts',
-      formats: ['es'],
-    },
-    rollupOptions: {
-      external: /^lit/,
-    },
-  },
-})
+```bash
+pnpm dev            # Start dev server
+pnpm build          # Production build
+pnpm preview        # Preview production build
+pnpm lint           # Code linting
+pnpm lint:fix       # Auto fix
+pnpm type-check     # Type checking
+pnpm test           # Run tests
+pnpm test:coverage  # Test coverage
 ```
 
 ## Deployment
 
-### Static Hosting
+### Vercel (Recommended)
 
-```bash
-pnpm build
-# Deploy dist directory to any static hosting service
-```
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/halolight/halolight-lit)
 
 ### Docker
 
@@ -647,31 +638,406 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-### Vercel
+### Other Platforms
 
-```bash
-npx vercel
-```
+- [Cloudflare Pages](/en/guide/cloudflare)
+- [Netlify](/en/guide/netlify)
+- [AWS Amplify](/en/guide/aws)
+- [Azure Static Web Apps](/en/guide/azure)
+
+## Demo Accounts
+
+| Role | Email | Password |
+|------|------|------|
+| Admin | admin@halolight.h7ml.cn | 123456 |
+| User | user@halolight.h7ml.cn | 123456 |
 
 ## Testing
 
 ```bash
-# Run tests
-pnpm test
+pnpm test           # Run tests (watch mode)
+pnpm test:run       # Single run
+pnpm test:coverage  # Coverage report
+pnpm test:ui        # Vitest UI
+```
 
-# Use Web Test Runner
-pnpm test:wtr
+### Test Example
+
+```ts
+// __tests__/hl-button.test.ts
+import { expect, fixture, html } from '@open-wc/testing'
+import '../src/components/ui/hl-button'
+
+describe('hl-button', () => {
+  it('renders with default variant', async () => {
+    const el = await fixture(html`<hl-button>Click me</hl-button>`)
+    const button = el.shadowRoot?.querySelector('button')
+    expect(button).to.exist
+    expect(button?.textContent?.trim()).to.equal('Click me')
+  })
+
+  it('applies variant classes', async () => {
+    const el = await fixture(html`<hl-button variant="destructive">Delete</hl-button>`)
+    const button = el.shadowRoot?.querySelector('button')
+    expect(button?.classList.contains('destructive')).to.be.true
+  })
+
+  it('handles disabled state', async () => {
+    const el = await fixture(html`<hl-button disabled>Disabled</hl-button>`)
+    const button = el.shadowRoot?.querySelector('button')
+    expect(button?.disabled).to.be.true
+  })
+})
+```
+
+## Configuration
+
+### Vite Configuration
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    lib: {
+      entry: 'src/main.ts',
+      formats: ['es'],
+    },
+    rollupOptions: {
+      external: /^lit/,
+    },
+  },
+  server: {
+    port: 5173,
+  },
+})
+```
+
+### Tailwind Configuration
+
+```ts
+// tailwind.config.ts
+import type { Config } from 'tailwindcss'
+
+export default {
+  content: ['./index.html', './src/**/*.{ts,js}'],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        border: 'oklch(var(--border))',
+        background: 'oklch(var(--background))',
+        foreground: 'oklch(var(--foreground))',
+        primary: {
+          DEFAULT: 'oklch(var(--primary))',
+          foreground: 'oklch(var(--primary-foreground))',
+        },
+      },
+    },
+  },
+} satisfies Config
+```
+
+## CI/CD
+
+Complete GitHub Actions CI workflow configured:
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm type-check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:coverage
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm audit --audit-level=high
+```
+
+## Advanced Features
+
+### Lifecycle Hooks
+
+```ts
+// Component lifecycle
+@customElement('my-component')
+export class MyComponent extends LitElement {
+  // First connected to DOM
+  connectedCallback() {
+    super.connectedCallback()
+    console.log('Component connected')
+  }
+
+  // First update complete
+  firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties)
+    console.log('First render complete')
+  }
+
+  // Each update complete
+  updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties)
+    if (changedProperties.has('value')) {
+      console.log('Value changed:', this.value)
+    }
+  }
+
+  // Removed from DOM
+  disconnectedCallback() {
+    super.disconnectedCallback()
+    console.log('Component disconnected')
+  }
+}
+```
+
+### Custom Directives
+
+```ts
+// lib/directives/tooltip.ts
+import { directive, Directive } from 'lit/directive.js'
+import { AsyncDirective } from 'lit/async-directive.js'
+
+class TooltipDirective extends AsyncDirective {
+  render(text: string) {
+    return text
+  }
+
+  update(part: any, [text]: [string]) {
+    const element = part.element
+    element.setAttribute('title', text)
+    element.style.cursor = 'help'
+    return this.render(text)
+  }
+}
+
+export const tooltip = directive(TooltipDirective)
+```
+
+```ts
+// Usage
+import { tooltip } from './lib/directives/tooltip'
+
+render() {
+  return html`
+    <span ${tooltip('Tooltip message')}>Hover to see tooltip</span>
+  `
+}
+```
+
+## Performance Optimization
+
+### Virtual Scrolling
+
+```ts
+// components/ui/hl-virtual-list.ts
+import { LitElement, html } from 'lit'
+import { customElement, property, state } from 'lit/decorators.js'
+import { repeat } from 'lit/directives/repeat.js'
+
+@customElement('hl-virtual-list')
+export class HlVirtualList extends LitElement {
+  @property({ type: Array }) items: any[] = []
+  @property({ type: Number }) itemHeight = 50
+  @state() private visibleStart = 0
+  @state() private visibleEnd = 20
+
+  private handleScroll(e: Event) {
+    const target = e.target as HTMLElement
+    const scrollTop = target.scrollTop
+    this.visibleStart = Math.floor(scrollTop / this.itemHeight)
+    this.visibleEnd = this.visibleStart + 20
+  }
+
+  render() {
+    const visibleItems = this.items.slice(this.visibleStart, this.visibleEnd)
+
+    return html`
+      <div class="container" @scroll=${this.handleScroll}>
+        <div style="height: ${this.items.length * this.itemHeight}px">
+          <div style="transform: translateY(${this.visibleStart * this.itemHeight}px)">
+            ${repeat(
+              visibleItems,
+              item => item.id,
+              item => html`<div class="item">${item.name}</div>`
+            )}
+          </div>
+        </div>
+      </div>
+    `
+  }
+}
+```
+
+### Lazy Loading Components
+
+```ts
+// Route lazy loading
+{
+  path: '/dashboard',
+  enter: async () => {
+    await import('./pages/dashboard/hl-dashboard.js')
+    return true
+  },
+}
+
+// Dynamic import
+async loadWidget(type: string) {
+  const module = await import(`./widgets/hl-${type}-widget.js`)
+  return module.default
+}
+```
+
+### Preloading
+
+```ts
+// Preload critical routes
+const preloadRoutes = ['/dashboard', '/users']
+
+preloadRoutes.forEach(async (route) => {
+  const link = document.createElement('link')
+  link.rel = 'modulepreload'
+  link.href = `./pages${route}.js`
+  document.head.appendChild(link)
+})
+```
+
+## FAQ
+
+### Q: How to use global styles in Shadow DOM?
+
+A: Use CSS custom properties or `@import` global styles:
+
+```ts
+static styles = css`
+  @import url('/global.css');
+
+  :host {
+    color: var(--foreground);
+    background: var(--background);
+  }
+`
+```
+
+### Q: How to handle form data two-way binding?
+
+A: Use `@input` event and `@state` decorator:
+
+```ts
+@customElement('hl-form')
+export class HlForm extends LitElement {
+  @state() private formData = { name: '', email: '' }
+
+  private handleInput(field: string, value: string) {
+    this.formData = { ...this.formData, [field]: value }
+  }
+
+  render() {
+    return html`
+      <input
+        .value=${this.formData.name}
+        @input=${(e: Event) =>
+          this.handleInput('name', (e.target as HTMLInputElement).value)}
+      />
+    `
+  }
+}
+```
+
+### Q: How to communicate between components?
+
+A: Use custom events or Context API:
+
+```ts
+// Dispatch event
+this.dispatchEvent(new CustomEvent('data-changed', {
+  detail: { data: this.data },
+  bubbles: true,
+  composed: true, // Penetrate Shadow DOM
+}))
+
+// Listen event
+@customElement('parent-component')
+export class ParentComponent extends LitElement {
+  render() {
+    return html`
+      <child-component @data-changed=${this.handleDataChanged}></child-component>
+    `
+  }
+
+  private handleDataChanged(e: CustomEvent) {
+    console.log('Data:', e.detail.data)
+  }
+}
 ```
 
 ## Comparison with Other Versions
 
-| Feature | Lit Version | Vue Version | Next.js Version |
-|------|---------|----------|--------------|
-| State Management | @lit-labs/context | Pinia | Zustand |
-| Data Fetching | fetch | TanStack Query | TanStack Query |
-| Form Validation | Custom + Zod | VeeValidate + Zod | React Hook Form + Zod |
-| Server-side | None (SPA) | Separate Backend | API Routes |
-| Component Library | Shoelace | shadcn-vue | shadcn/ui |
-| Routing | @lit-labs/router | Vue Router | App Router |
+| Feature | Lit Version | Next.js Version | Vue Version |
+|------|---------|--------------|----------|
+| SSR/SSG | ✅ (Experimental) | ✅ | ✅ (Nuxt) |
+| State Management | @lit-labs/context | Zustand | Pinia |
+| Routing | @lit-labs/router | App Router | Vue Router |
+| Build Tool | Vite | Next.js | Vite |
 | Cross-framework Reusable | ✅ Native Support | ❌ | ❌ |
 | Shadow DOM | ✅ | ❌ | ❌ |
+| Bundle Size | 5KB (gzip) | ~90KB | ~60KB |
+
+## Related Links
+
+- [Live Preview](https://halolight-lit.h7ml.cn)
+- [GitHub Repository](https://github.com/halolight/halolight-lit)
+- [Lit Official Docs](https://lit.dev)
+- [Web Components Standards](https://www.webcomponents.org)
+- [HaloLight Documentation](https://docs.halolight.h7ml.cn)

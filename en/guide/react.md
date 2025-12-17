@@ -6,6 +6,17 @@ HaloLight React version is built on React 19 + Vite 6, a pure Client-Side Render
 
 **GitHub**: [https://github.com/halolight/halolight-react](https://github.com/halolight/halolight-react)
 
+## Features
+
+- 🏗️ **React 19** - Latest React features and performance optimizations
+- ⚡ **Vite 6** - Lightning-fast cold start and HMR
+- 🎨 **Theme System** - 11 skins, dark mode, View Transitions
+- 🔐 **Authentication** - Complete login/register/password recovery flow
+- 📊 **Dashboard** - Data visualization and business management
+- 🛡️ **Permission Control** - RBAC fine-grained permission management
+- 📑 **Multi-tab** - Browser-style tab management
+- ⌘ **Command Palette** - Keyboard shortcuts navigation (⌘K)
+
 ## Tech Stack
 
 | Technology | Version | Description |
@@ -24,6 +35,16 @@ HaloLight React version is built on React 19 + Vite 6, a pure Client-Side Render
 | Recharts | 3.x | Chart visualization |
 | Framer Motion | 12.x | Animation effects |
 | Mock.js | 1.x | Data mocking |
+
+## Core Features
+
+- **Configurable Dashboard** - 9 widgets, drag-and-drop layout, responsive design
+- **Multi-tab Navigation** - Browser-style tabs, context menu, state caching
+- **Permission System** - RBAC permission control, route guards, permission components
+- **Theme System** - 11 skins, dark mode, View Transitions
+- **Multi-account Switching** - Quick account switching, remember login state
+- **Command Palette** - Keyboard shortcuts (⌘K), global search
+- **Real-time Notifications** - WebSocket push, notification center
 
 ## Directory Structure
 
@@ -86,6 +107,11 @@ halolight-react/
 
 ## Quick Start
 
+### Environment Requirements
+
+- Node.js >= 18.0.0
+- pnpm >= 9.x
+
 ### Installation
 
 ```bash
@@ -126,7 +152,14 @@ pnpm build
 pnpm preview
 ```
 
-## Core Features
+## Demo Account
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@halolight.h7ml.cn | 123456 |
+| User | user@halolight.h7ml.cn | 123456 |
+
+## Core Functionality
 
 ### State Management (Zustand)
 
@@ -217,40 +250,7 @@ function UsersPage() {
 }
 ```
 
-### Route Configuration (React Router)
-
-```tsx
-// routes/index.tsx
-import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { DashboardLayout } from '@/layouts/dashboard-layout'
-import { AuthLayout } from '@/layouts/auth-layout'
-
-export const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Navigate to="/dashboard" replace />,
-  },
-  {
-    path: '/login',
-    element: <AuthLayout />,
-    children: [
-      { index: true, element: <LoginPage /> },
-    ],
-  },
-  {
-    path: '/',
-    element: <DashboardLayout />,
-    children: [
-      { path: 'dashboard', element: <HomePage /> },
-      { path: 'users', element: <UsersPage /> },
-      { path: 'settings', element: <SettingsPage /> },
-      // More routes...
-    ],
-  },
-])
-```
-
-### Permission Hook
+### Permission Control
 
 ```tsx
 // hooks/use-permission.ts
@@ -277,8 +277,6 @@ function DeleteButton() {
   return <Button variant="destructive">Delete</Button>
 }
 ```
-
-### Permission Component
 
 ```tsx
 // components/permission-guard.tsx
@@ -340,33 +338,55 @@ export function ConfigurableDashboard() {
 }
 ```
 
-### Theme Toggle
+## Theme System
 
-```tsx
-// hooks/use-theme.ts
-import { useEffect, useState } from 'react'
+### Skin Presets
 
-type Theme = 'light' | 'dark' | 'system'
+Supports 11 preset skins, switchable via quick settings panel:
 
-export function useTheme() {
-  const [theme, setTheme] = useState<Theme>('system')
+| Skin | Main Color | CSS Variable |
+|------|------------|--------------|
+| Default | Purple | `--primary: 51.1% 0.262 276.97` |
+| Blue | Blue | `--primary: 54.8% 0.243 264.05` |
+| Emerald | Emerald | `--primary: 64.6% 0.178 142.49` |
+| Orange | Orange | `--primary: 65.7% 0.198 45.13` |
+| Rose | Rose | `--primary: 58.9% 0.238 11.26` |
+| Cyan | Cyan | `--primary: 75.6% 0.146 191.68` |
+| Yellow | Yellow | `--primary: 85.1% 0.184 98.08` |
+| Violet | Violet | `--primary: 55.3% 0.264 293.49` |
+| Slate | Slate | `--primary: 47.9% 0.017 256.71` |
+| Zinc | Zinc | `--primary: 48.3% 0 0` |
+| Neutral | Neutral | `--primary: 48.5% 0 0` |
 
-  const actualTheme = theme === 'system'
-    ? window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light'
-    : theme
+### CSS Variables (OKLch)
 
-  useEffect(() => {
-    document.documentElement.classList.remove('light', 'dark')
-    document.documentElement.classList.add(actualTheme)
-  }, [actualTheme])
+```css
+/* Example variable definitions */
+:root {
+  --background: 100% 0 0;
+  --foreground: 14.9% 0.017 285.75;
+  --primary: 51.1% 0.262 276.97;
+  --primary-foreground: 100% 0 0;
+  --secondary: 96.1% 0.004 286.41;
+  --secondary-foreground: 14.9% 0.017 285.75;
+  --muted: 96.1% 0.004 286.41;
+  --muted-foreground: 45.8% 0.009 285.77;
+  --accent: 96.1% 0.004 286.41;
+  --accent-foreground: 14.9% 0.017 285.75;
+  --destructive: 59.3% 0.246 27.33;
+  --destructive-foreground: 100% 0 0;
+  --border: 89.8% 0.006 286.32;
+  --input: 89.8% 0.006 286.32;
+  --ring: 51.1% 0.262 276.97;
+  --radius: 0.5rem;
+}
 
-  const toggleTheme = () => {
-    setTheme(actualTheme === 'dark' ? 'light' : 'dark')
-  }
-
-  return { theme, actualTheme, setTheme, toggleTheme }
+.dark {
+  --background: 0% 0 0;
+  --foreground: 98.3% 0 0;
+  --primary: 51.1% 0.262 276.97;
+  --primary-foreground: 100% 0 0;
+  /* ... */
 }
 ```
 
@@ -388,6 +408,312 @@ export function useTheme() {
 | `/permissions` | Permission management | `permissions:list` |
 | `/settings` | System settings | `settings:view` |
 | `/profile` | User profile | Authenticated |
+
+## Environment Variables
+
+### Configuration Example
+
+```bash
+cp .env.example .env.development
+```
+
+```env
+# .env.development example
+VITE_API_URL=/api
+VITE_MOCK=true
+VITE_APP_TITLE=Admin Pro
+VITE_BRAND_NAME=Halolight
+VITE_DEMO_EMAIL=admin@halolight.h7ml.cn
+VITE_DEMO_PASSWORD=123456
+VITE_SHOW_DEMO_HINT=true
+```
+
+### Variable Descriptions
+
+| Variable Name | Description | Default Value |
+|---------------|-------------|---------------|
+| VITE_API_URL | API base path | /api |
+| VITE_MOCK | Enable Mock data | true |
+| VITE_APP_TITLE | Application title | Admin Pro |
+| VITE_BRAND_NAME | Brand name | Halolight |
+| VITE_DEMO_EMAIL | Demo account email | admin@halolight.h7ml.cn |
+| VITE_DEMO_PASSWORD | Demo account password | 123456 |
+| VITE_SHOW_DEMO_HINT | Show demo hint | true |
+
+### Usage
+
+```tsx
+// Access environment variables in code
+const apiUrl = import.meta.env.VITE_API_URL
+const isMock = import.meta.env.VITE_MOCK === 'true'
+```
+
+## Common Commands
+
+```bash
+pnpm dev            # Start development server
+pnpm build          # Production build
+pnpm preview        # Preview production build
+pnpm lint           # Code linting
+pnpm lint:fix       # Auto fix
+pnpm type-check     # Type checking
+pnpm test           # Run tests
+pnpm test:coverage  # Test coverage
+```
+
+## Testing
+
+```bash
+pnpm test           # Run tests (watch mode)
+pnpm test:run       # Single run
+pnpm test:coverage  # Coverage report
+pnpm test:ui        # Vitest UI interface
+```
+
+### Test Examples
+
+```tsx
+// __tests__/components/Button.test.tsx
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Button } from '@/components/ui/button'
+
+describe('Button', () => {
+  it('renders button with text', () => {
+    render(<Button>Click me</Button>)
+    expect(screen.getByRole('button')).toHaveTextContent('Click me')
+  })
+
+  it('handles click events', async () => {
+    const handleClick = vi.fn()
+    render(<Button onClick={handleClick}>Click me</Button>)
+
+    await userEvent.click(screen.getByRole('button'))
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('disables button when disabled prop is true', () => {
+    render(<Button disabled>Click me</Button>)
+    expect(screen.getByRole('button')).toBeDisabled()
+  })
+})
+```
+
+## Configuration
+
+### Vite Configuration
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+          'chart-vendor': ['recharts'],
+        },
+      },
+    },
+  },
+})
+```
+
+## Deployment
+
+### Vercel (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/halolight/halolight-react)
+
+```bash
+vercel
+```
+
+### Docker
+
+```dockerfile
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
+COPY . .
+RUN pnpm build
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+```bash
+docker build -t halolight-react .
+docker run -p 3000:80 halolight-react
+```
+
+### Other Platforms
+
+- [Cloudflare Pages](/guide/cloudflare)
+- [Netlify](/guide/netlify)
+- [AWS Amplify](/guide/aws)
+- [Azure Static Web Apps](/guide/azure)
+
+## CI/CD
+
+Complete GitHub Actions CI workflow configuration:
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm type-check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:coverage
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm audit --audit-level=high
+```
+
+## Advanced Features
+
+### PWA Support
+
+Built-in PWA support including:
+
+- Service Worker registration
+- Offline caching
+- App manifest (manifest.json)
+- Multiple icon sizes
+
+```json
+// public/manifest.json
+{
+  "name": "Admin Pro",
+  "short_name": "Admin",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+```
+
+### React Router Configuration
+
+```tsx
+// routes/index.tsx
+import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { DashboardLayout } from '@/layouts/dashboard-layout'
+import { AuthLayout } from '@/layouts/auth-layout'
+
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Navigate to="/dashboard" replace />,
+  },
+  {
+    path: '/login',
+    element: <AuthLayout />,
+    children: [
+      { index: true, element: <LoginPage /> },
+    ],
+  },
+  {
+    path: '/',
+    element: <DashboardLayout />,
+    children: [
+      { path: 'dashboard', element: <HomePage /> },
+      { path: 'users', element: <UsersPage /> },
+      { path: 'settings', element: <SettingsPage /> },
+      // More routes...
+    ],
+  },
+])
+```
 
 ### Route Guards
 
@@ -417,149 +743,141 @@ export function AuthGuard({ children, permission }: AuthGuardProps) {
 }
 ```
 
-## UI Components
+## Performance Optimization
 
-Based on shadcn/ui, 20+ components integrated:
-
-- **Forms**: Button, Input, Textarea, Select, Checkbox, RadioGroup, Switch, Slider, DatePicker
-- **Data Display**: Table, Card, Badge, Avatar, Progress, Skeleton
-- **Feedback**: Dialog, Sheet, AlertDialog, Toast, Tooltip, Popover
-- **Navigation**: Tabs, Breadcrumb, Pagination, DropdownMenu, Command
-- **Layout**: Accordion, Collapsible, ScrollArea, Separator
-
-## Recharts Integration
+### Image Optimization
 
 ```tsx
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+// Lazy load images
+import { useState } from 'react'
 
-const data = [
-  { name: 'Jan', value: 400 },
-  { name: 'Feb', value: 300 },
-  { name: 'Mar', value: 600 },
-  // ...
-]
+function LazyImage({ src, alt }: { src: string; alt: string }) {
+  const [loaded, setLoaded] = useState(false)
 
-function Chart() {
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Line type="monotone" dataKey="value" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
+    <div className="relative">
+      {!loaded && <div className="skeleton" />}
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        className={loaded ? 'opacity-100' : 'opacity-0'}
+      />
+    </div>
   )
 }
 ```
 
-## PWA Support
+### Lazy Loading Components
 
-Built-in PWA support including:
+```tsx
+// Route-level code splitting
+import { lazy, Suspense } from 'react'
 
-- Service Worker registration
-- Offline caching
-- App manifest (manifest.json)
-- Multiple icon sizes
+const Dashboard = lazy(() => import('@/pages/dashboard'))
+const Users = lazy(() => import('@/pages/users'))
 
-```json
-// public/manifest.json
+function App() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/users" element={<Users />} />
+      </Routes>
+    </Suspense>
+  )
+}
+```
+
+### Preloading
+
+```tsx
+// Preload component on hover
+import { lazy } from 'react'
+
+const UserDetails = lazy(() => import('@/pages/user-details'))
+
+function UserList() {
+  const preloadUserDetails = () => {
+    // Trigger preload
+    import('@/pages/user-details')
+  }
+
+  return (
+    <Link
+      to="/users/1"
+      onMouseEnter={preloadUserDetails}
+    >
+      View Details
+    </Link>
+  )
+}
+```
+
+### Memo Optimization
+
+```tsx
+import { memo } from 'react'
+
+// Prevent unnecessary re-renders
+const ExpensiveComponent = memo(({ data }: { data: any }) => {
+  return <div>{/* Complex rendering logic */}</div>
+})
+```
+
+## Frequently Asked Questions
+
+### Q: How to add a new route?
+
+A: Add route configuration in `src/routes/index.tsx`:
+
+```tsx
 {
-  "name": "Admin Pro",
-  "short_name": "Admin",
-  "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "icons": [
-    {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ]
+  path: '/new-page',
+  element: <NewPage />,
 }
 ```
 
-## Deployment
+### Q: How to customize theme colors?
 
-### Vercel
+A: Modify CSS variables or use theme switching feature:
 
-```bash
-vercel
-```
-
-### Netlify
-
-```bash
-netlify deploy --prod
-```
-
-### Nginx
-
-```nginx
-server {
-    listen 80;
-    server_name example.com;
-    root /var/www/halolight-react/dist;
-    index index.html;
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-
-    location /api {
-        proxy_pass http://backend:3000;
-    }
+```css
+:root {
+  --primary: 51.1% 0.262 276.97; /* Modify primary color */
 }
 ```
 
-### Docker
+### Q: How to integrate real API?
 
-```dockerfile
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
-COPY . .
-RUN pnpm build
+A: Set `VITE_MOCK` to `false` and configure `VITE_API_URL`:
 
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+```env
+VITE_MOCK=false
+VITE_API_URL=https://api.example.com
 ```
 
-## Comparison with Next.js Version
+### Q: How to add new permissions?
 
-| Feature | React Version | Next.js Version |
-|---------|---------------|-----------------|
-| Rendering | CSR (Client-Side) | SSR/SSG/ISR |
-| State Management | Zustand | Zustand |
-| Data Fetching | TanStack Query | TanStack Query |
-| Form Validation | React Hook Form + Zod | React Hook Form + Zod |
-| Drag-and-Drop | react-grid-layout | react-grid-layout |
-| UI Components | shadcn/ui | shadcn/ui |
-| Routing | React Router | Next.js App Router |
-| Charts | Recharts | Recharts |
-| SSR | None | Built-in |
-| SEO | react-helmet-async | Built-in |
-| Deployment | Static hosting / CDN | Vercel / Any platform |
+A: Add permission string to user's `permissions` array and use `usePermission` Hook:
 
-### When to Choose React Version?
+```tsx
+const canEdit = usePermission('users:edit')
+```
 
-- Pure frontend app with separate backend API
-- No SSR/SEO optimization needed
-- Already have a backend service, just need frontend admin interface
-- Want a lighter tech stack
-- Deploying to pure static hosting services
+## Comparison with Other Versions
 
-### When to Choose Next.js Version?
+| Feature | React Version | Next.js | Vue |
+|---------|---------------|---------|-----|
+| SSR/SSG | ❌ | ✅ | ✅ (Nuxt) |
+| State Management | Zustand | Zustand | Pinia |
+| Routing | React Router | App Router | Vue Router |
+| Build Tool | Vite | Next.js | Vite |
 
-- Need SEO optimization
-- Need SSR/SSG for better initial load performance
-- Want frontend-backend integration
-- Need API Routes / Server Actions
-- Deploying to full-stack platforms like Vercel
+## Related Links
+
+- [Live Preview](https://halolight-react.h7ml.cn)
+- [GitHub Repository](https://github.com/halolight/halolight-react)
+- [React Official Documentation](https://react.dev)
+- [HaloLight Documentation](https://docs.halolight.h7ml.cn)

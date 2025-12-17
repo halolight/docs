@@ -33,7 +33,7 @@ HaloLight 采用 “一套设计规范，多框架实现” 的理念，为开�
 - 高度可定制
 
 ### 前后端任意组合
-- **88 种组合方案**：11 个前端框架 × 8 个后端 API，根据团队技术栈或业务场景自由选择
+- **98 种组合方案**：14 个前端框架 × 7 个后端 API，根据团队技术栈或业务场景自由选择
 - **BFF/网关解耦**：可选 tRPC、GraphQL Gateway 做聚合、鉴权与降噪
 - **升级不锁栈**：更换任意前端或后端实现时，遵守接口契约即可无痛切换
 - **独立演进**：前端可选 SSR/SSG/SPA，后端可选单体/微服务/Serverless
@@ -48,6 +48,7 @@ HaloLight 采用 “一套设计规范，多框架实现” 的理念，为开�
 | 框架 | 状态 | 预览 | 仓库 |
 |------|------|------|------|
 | Next.js 14 | ✅ 已部署 | [预览](https://halolight.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight) |
+| React (Vite) | ✅ 已部署 | [预览](https://halolight-react.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-react) |
 | Vue 3.5 | ✅ 已部署 | [预览](https://halolight-vue.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-vue) |
 | Angular 21 | ✅ 已部署 | [预览](https://halolight-angular.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-angular) |
 | Nuxt 4 | ✅ 已部署 | [预览](https://halolight-nuxt.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-nuxt) |
@@ -59,8 +60,9 @@ HaloLight 采用 “一套设计规范，多框架实现” 的理念，为开�
 | Preact | ✅ 已部署 | [预览](https://halolight-preact.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-preact) |
 | Lit | ✅ 已部署 | [预览](https://halolight-lit.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-lit) |
 | Fresh (Deno) | ✅ 已部署 | [预览](https://halolight-fresh.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-fresh) |
+| Deno | ✅ 已部署 | [预览](https://halolight-deno.h7ml.cn/) | [GitHub](https://github.com/halolight/halolight-deno) |
 
-> 💡 **灵活组合**：前端主线支持 11 个框架，任意前端均可与 8 个后端 API 组合，形成 88+ 种搭配方案。
+> 💡 **灵活组合**：前端主线支持 14 个框架，任意前端均可与 7 个后端 API 组合，形成 98+ 种搭配方案。
 
 ## 后端 API 实现
 
@@ -73,7 +75,13 @@ HaloLight 采用 “一套设计规范，多框架实现” 的理念，为开�
 | Node.js Express | ✅ 已部署 | - | [GitHub](https://github.com/halolight/halolight-api-node) |
 | PHP Laravel | ✅ 已部署 | - | [GitHub](https://github.com/halolight/halolight-api-php) |
 | Bun + Hono | ✅ 已部署 | - | [GitHub](https://github.com/halolight/halolight-api-bun) |
-| tRPC BFF | ✅ 已部署 | - | [GitHub](https://github.com/halolight/halolight-bff) |
+
+## 中间层 / 全栈
+
+| 项目 | 状态 | 说明 | 仓库 |
+|------|------|------|------|
+| tRPC BFF | ✅ 已部署 | 类型安全网关 | [GitHub](https://github.com/halolight/halolight-bff) |
+| Next.js Action | ✅ 已部署 | Server Actions 全栈方案 | [GitHub](https://github.com/halolight/halolight-action) |
 
 ## 技术栈
 

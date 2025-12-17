@@ -171,7 +171,7 @@ const enDevelopmentSidebar: DefaultTheme.SidebarItem[] = [
     collapsed: false,
     items: [
       { text: '📋 Overview', link: '/en/development/' },
-      { text: '🌐 Ecosystem', link: '/development/ecosystem' },
+      { text: '🌐 Ecosystem', link: '/en/development/ecosystem' },
       { text: '🏗️ Architecture', link: '/en/development/architecture' },
       { text: '🧩 Components', link: '/en/development/components' },
       { text: '📦 State Management', link: '/en/development/state-management' },
