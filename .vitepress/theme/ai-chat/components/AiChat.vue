@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted, nextTick } from 'vue'
 import { useData, useRoute } from 'vitepress'
-import { marked } from 'marked'
+import MarkdownRender, { getMarkdown, parseMarkdownToStructure } from 'markstream-vue'
+import 'markstream-vue/index.css'
 import type { Message, Session, Settings, UIState, ProviderId, PageContext } from '../types'
 import { PROVIDERS } from '../types'
 import { encrypt, decrypt, getEncryptionSecret } from '../services/crypto'
@@ -16,17 +17,14 @@ import {
 import { chat } from '../services/ai-provider'
 import { getMessages } from '../locales'
 
-// Configure marked for safe rendering
-marked.setOptions({
-  gfm: true,
-  breaks: true,
-})
-
 const { lang, page, frontmatter } = useData()
 const route = useRoute()
 
 // i18n - auto switch based on VitePress locale
 const t = computed(() => getMessages(lang.value))
+
+// Initialize markdown parser for streaming
+const markdownParser = getMarkdown()
 
 // Get current page context for AI
 function getPageContext(): PageContext {
@@ -219,6 +217,8 @@ async function sendMessage() {
     role: 'user',
     content: inputMessage.value.trim(),
     createdAt: Date.now(),
+    // Parse user message to nodes immediately
+    nodes: parseMarkdownToStructure(inputMessage.value.trim(), markdownParser),
   }
 
   session.messages.push(userMessage)
@@ -269,6 +269,8 @@ async function sendMessage() {
       }
 
       assistantMessage.content += chunk.content
+      // Real-time parse content to nodes for streaming rendering
+      assistantMessage.nodes = parseMarkdownToStructure(assistantMessage.content, markdownParser)
       scrollToBottom()
 
       if (chunk.done) {
@@ -313,15 +315,6 @@ function deleteMessage(messageId: string) {
   if (!activeSession.value) return
   activeSession.value.messages = activeSession.value.messages.filter(m => m.id !== messageId)
   saveSessions(sessions.value)
-}
-
-function renderMarkdown(content: string): string {
-  if (!content) return ''
-  try {
-    return marked.parse(content) as string
-  } catch {
-    return content
-  }
 }
 
 // ============ Lifecycle ============
@@ -590,7 +583,13 @@ watch(() => settings.provider, (newProvider) => {
                 <div v-else-if="message.error" class="error-message">
                   {{ message.error }}
                 </div>
-                <div v-else class="message-text markdown-body" v-html="renderMarkdown(message.content)"></div>
+                <MarkdownRender
+                  v-else
+                  class="message-text"
+                  :nodes="(message.nodes || parseMarkdownToStructure(message.content, markdownParser)) as any"
+                  :max-live-nodes="0"
+                  custom-id="ai-chat"
+                />
                 <button
                   v-if="!message.loading"
                   class="delete-message-btn"
@@ -1215,99 +1214,10 @@ watch(() => settings.provider, (newProvider) => {
   color: var(--vp-c-danger-1);
 }
 
-/* Markdown content styles */
-.markdown-body {
-  word-wrap: break-word;
-}
-
-.markdown-body :deep(p) {
-  margin: 0 0 8px;
-}
-
-.markdown-body :deep(p:last-child) {
-  margin-bottom: 0;
-}
-
-.markdown-body :deep(pre) {
-  background: var(--vp-c-bg-mute);
-  padding: 12px;
-  border-radius: 6px;
-  overflow-x: auto;
-  margin: 8px 0;
-}
-
-.markdown-body :deep(code) {
-  background: var(--vp-c-bg-mute);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-family: var(--vp-font-family-mono);
-}
-
-.markdown-body :deep(pre code) {
-  background: transparent;
-  padding: 0;
-}
-
-.markdown-body :deep(ul),
-.markdown-body :deep(ol) {
-  padding-left: 20px;
-  margin: 8px 0;
-}
-
-.markdown-body :deep(li) {
-  margin: 4px 0;
-}
-
-.markdown-body :deep(blockquote) {
-  border-left: 3px solid var(--vp-c-brand-1);
-  padding-left: 12px;
-  margin: 8px 0;
-  color: var(--vp-c-text-2);
-}
-
-.markdown-body :deep(h1),
-.markdown-body :deep(h2),
-.markdown-body :deep(h3),
-.markdown-body :deep(h4) {
-  margin: 12px 0 8px;
-  font-weight: 600;
-}
-
-.markdown-body :deep(h1) { font-size: 1.4em; }
-.markdown-body :deep(h2) { font-size: 1.2em; }
-.markdown-body :deep(h3) { font-size: 1.1em; }
-
-.markdown-body :deep(a) {
-  color: var(--vp-c-brand-1);
-  text-decoration: none;
-}
-
-.markdown-body :deep(a:hover) {
-  text-decoration: underline;
-}
-
-.markdown-body :deep(table) {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 8px 0;
-}
-
-.markdown-body :deep(th),
-.markdown-body :deep(td) {
-  border: 1px solid var(--vp-c-divider);
-  padding: 8px;
-  text-align: left;
-}
-
-.markdown-body :deep(th) {
-  background: var(--vp-c-bg-soft);
-}
-
-.markdown-body :deep(hr) {
-  border: none;
-  border-top: 1px solid var(--vp-c-divider);
-  margin: 12px 0;
+/* Override markstream-vue styles for chat context */
+.message-text :deep(.markstream-vue) {
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {

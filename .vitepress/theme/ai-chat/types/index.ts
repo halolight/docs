@@ -2,6 +2,8 @@
  * AI Chat Type Definitions
  */
 
+import type { ParsedNode } from 'markstream-vue'
+
 /** Message role types */
 export type Role = 'user' | 'assistant' | 'system'
 
@@ -18,6 +20,8 @@ export interface Message {
   loading?: boolean
   /** Error message if failed */
   error?: string
+  /** Parsed markdown nodes for streaming rendering */
+  nodes?: ParsedNode[]
 }
 
 /** Chat session */

@@ -85,7 +85,7 @@
     "@giscus/vue": "^3.1.1",
     "@vite-pwa/vitepress": "^1.1.0",
     "feed": "^5.1.0",
-    "marked": "^17.0.1",
+    "markstream-vue": "0.0.3-beta.6",
     "pagefind": "^1.4.0",
     "sitemap": "^9.0.0",
     "vite-plugin-pwa": "^1.2.0",
