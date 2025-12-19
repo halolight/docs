@@ -9,7 +9,7 @@ import NotFound from './NotFound.vue'
 import Footer from './Footer.vue'
 import Comment from './Comment.vue'
 import BackToTop from './BackToTop.vue'
-import SeoMeta from '../components/SeoMeta.vue'
+// import SeoMeta from '../components/SeoMeta.vue'
 // import Announcement from './Announcement.vue'
 import { AiChat } from './ai-chat'
 import './custom.css'
@@ -23,7 +23,7 @@ export default {
       'layout-bottom': () => [h(Footer), h(AiChat)],
       'doc-after': () => h(Comment),
       'aside-outline-after': () => h(BackToTop),
-      'doc-before': () => h(SeoMeta), // SEO Meta 标签
+      // 'doc-before': () => h(SeoMeta), // SEO Meta 标签
     })
   },
   enhanceApp({ app }) {
